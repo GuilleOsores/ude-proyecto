@@ -1,5 +1,8 @@
 package logica;
 
+import logica.colecciones.Armas;
+import logica.colecciones.VehiculosAuxiliares;
+
 public class PatrullaPesada extends Patrulla {
 	
 	private VehiculosAuxiliares vehiculos;

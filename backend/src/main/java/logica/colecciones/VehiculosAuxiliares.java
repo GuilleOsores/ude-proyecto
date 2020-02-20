@@ -1,6 +1,8 @@
-package logica;
+package logica.colecciones;
 
 import java.util.HashMap;
+
+import logica.VehiculoAuxiliar;
 
 public class VehiculosAuxiliares {
 

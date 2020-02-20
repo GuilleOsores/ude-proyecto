@@ -1,6 +1,8 @@
-package logica;
+package logica.colecciones;
 
 import java.util.List;
+
+import logica.Arma;
 
 public class Armas {
 	
