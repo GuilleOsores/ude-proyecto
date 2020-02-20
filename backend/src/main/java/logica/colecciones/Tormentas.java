@@ -2,7 +2,7 @@ package logica.colecciones;
 
 import java.util.List;
 
-import logica.Tormenta;
+import logica.entidades.Tormenta;
 
 public class Tormentas {
 

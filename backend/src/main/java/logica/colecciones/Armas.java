@@ -2,7 +2,7 @@ package logica.colecciones;
 
 import java.util.List;
 
-import logica.Arma;
+import logica.entidades.Arma;
 
 public class Armas {
 	

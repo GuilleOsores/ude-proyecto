@@ -1,4 +1,4 @@
-package logica;
+package logica.entidades;
 
 import logica.colecciones.Armas;
 import logica.colecciones.VehiculosAuxiliares;

@@ -2,7 +2,7 @@ package logica.colecciones;
 
 import java.util.HashMap;
 
-import logica.Vehiculo;
+import logica.entidades.Vehiculo;
 
 public class Vehiculos {
 	

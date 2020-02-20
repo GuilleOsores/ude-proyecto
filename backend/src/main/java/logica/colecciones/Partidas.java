@@ -2,7 +2,7 @@ package logica.colecciones;
 
 import java.util.HashMap;
 
-import logica.Partida;
+import logica.entidades.Partida;
 
 public class Partidas {
 

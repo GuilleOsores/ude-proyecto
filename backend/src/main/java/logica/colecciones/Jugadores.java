@@ -2,7 +2,7 @@ package logica.colecciones;
 
 import java.util.HashMap;
 
-import logica.Jugador;
+import logica.entidades.Jugador;
 
 public class Jugadores {
 	
