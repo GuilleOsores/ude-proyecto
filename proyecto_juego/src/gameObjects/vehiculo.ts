@@ -4,7 +4,7 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
   initialRotationSet = false;
 
   constructor(world: Phaser.Physics.Matter.World, vehicle: VehicleConfiguration, data: any) {
-    super(world, vehicle.x, vehicle.y, vehicle.type);
+    super(world, vehicle.x, vehicle.y, vehicle.sprite);
 
     this.setDataEnabled();
     Object.keys(data).forEach((k) => this.setData(k, data[k]));
