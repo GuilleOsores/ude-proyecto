@@ -16,9 +16,9 @@ export class Load extends Phaser.Scene {
       frameHeight: 32,
     });
 
-    this.load.spritesheet('barco1', './assets/images/barco1.png', {
+    this.load.spritesheet('barco1', './assets/images/police01.png', {
       frameWidth: 208,
-      frameHeight: 192,
+      frameHeight: 88,
       margin: 0,
       spacing: 0,
     });
