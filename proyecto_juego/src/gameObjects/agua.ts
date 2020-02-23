@@ -1,13 +1,6 @@
 import { am } from '../main';
 
-export const loadWater = (scene: Phaser.Scene) => {
-  scene.load.spritesheet('water', './assets/images/Ocean_SpriteSheet.png', {
-    frameWidth: 32,
-    frameHeight: 32,
-  });
-};
-
-export const addWater = (scene: Phaser.Scene) => {
+export const agregarAgua = (scene: Phaser.Scene) => {
   scene.anims.create({
     key: 'water',
     frames: am.generateFrameNumbers('water', {

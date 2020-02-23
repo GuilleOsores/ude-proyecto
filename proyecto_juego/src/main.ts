@@ -1,5 +1,7 @@
 import * as Phaser from 'phaser';
-import { Primer } from './scenes/primer';
+
+import { Load } from './scenes/load';
+import { Game } from './scenes/game';
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Sample',
@@ -9,9 +11,11 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     height: window.innerHeight,
   },
   physics: {
-    default: 'arcade',
-    arcade: {
+    default: 'matter',
+    matter: {
       debug: true,
+      setBounds: true,
+      gravity: false,
     },
   },
   input: {
@@ -19,9 +23,10 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   },
   parent: 'game',
   backgroundColor: '#FFFFFF',
+  scene: [Load, Game],
 };
 
 const game = new Phaser.Game(gameConfig);
+game.scene.start('Load');
 
-game.scene.add('primer', Primer, true);
 export const am = game.anims;
