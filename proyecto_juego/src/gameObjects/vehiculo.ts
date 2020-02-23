@@ -6,7 +6,7 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
   initialRotationSet = false;
 
   constructor(world: Phaser.Physics.Matter.World, vehicle: VehicleConfiguration, data: any) {
-    super(world, vehicle.x, vehicle.y, vehicle.type);
+    super(world, vehicle.x, vehicle.y, vehicle.sprite);
 
     this.setDataEnabled();
     Object.keys(data).forEach((k) => this.setData(k, data[k]));
@@ -59,11 +59,11 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
     //   this.setRotation(rotation);
     // }
     if (cursorKeys.right.isDown || cursorKeys.left.isDown) {
-      this.setAngularVelocity()
+      this.setAngularVelocity(1/60)
     if (cursorKeys.up.isDown) {
       this.thrust(this.getData('velocity'));
     } else if (cursorKeys.down.isDown) {
       this.thrustBack(this.getData('velocity'));
     }
   }
-}
+}}
