@@ -1,7 +1,5 @@
 import * as Phaser from 'phaser';
 
-import { getRotation } from '../common/movement';
-
 export class Vehicle extends Phaser.Physics.Matter.Sprite {
   initialRotationSet = false;
 
@@ -53,13 +51,12 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
     const cursorKeys = this.scene.input.keyboard.createCursorKeys();
     const angularVelocity = this.getData('angularVelocity') * (timeLastUpdate / 1000);
 
-    // if (cursorKeys.right.isDown || cursorKeys.left.isDown) {
-    //   const rotation = getRotation(cursorKeys.up.isDown
-    //     || !cursorKeys.down.isDown, cursorKeys.left.isDown, this.rotation, angularVelocity);
-    //   this.setRotation(rotation);
-    // }
-    if (cursorKeys.right.isDown || cursorKeys.left.isDown) {
-      this.setAngularVelocity()
+    if (cursorKeys.right.isDown) {
+      this.setRotation(this.rotation + angularVelocity);
+    } else if (cursorKeys.left.isDown) {
+      this.setRotation(this.rotation - angularVelocity);
+    }
+
     if (cursorKeys.up.isDown) {
       this.thrust(this.getData('velocity'));
     } else if (cursorKeys.down.isDown) {
