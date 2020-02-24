@@ -13,8 +13,6 @@ export class Game extends Phaser.Scene {
   }
 
   public preload() {
-    console.log('preload');
-
     this.anims.create({
       key: 'barcoDown',
       frames: this.anims.generateFrameNumbers('barco1', {
@@ -64,16 +62,11 @@ export class Game extends Phaser.Scene {
               armas: v.armas,
             };
 
-            // eslint-disable-next-line no-unused-vars
-            const ve = new Vehicle(this.matter.world, v, data);
+            // eslint-disable-next-line no-new
+            new Vehicle(this.matter.world, v, data);
           },
         );
       },
     );
-
-    this.matter.world.on('collisionstart', (event: Phaser.Physics.Matter.Events.CollisionStartEvent, a: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject) => {
-      // a.destroy();
-      // b.destroy();
-    });
   }
 }

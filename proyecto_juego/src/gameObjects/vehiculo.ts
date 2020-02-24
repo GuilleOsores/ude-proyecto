@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 import * as moment from 'moment';
 
-import { Bala } from '../gameObjects/bala'
+import { Bala } from './bala';
 
 export class Vehicle extends Phaser.Physics.Matter.Sprite {
   initialRotationSet = false;
@@ -9,12 +9,13 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
   ultimoDisparo: moment.Moment[] = [];
 
   constructor(world: Phaser.Physics.Matter.World, vehicle: VehicleConfiguration, data: any) {
-    super(world, vehicle.x, vehicle.y, vehicle.type);
+    super(world, vehicle.x, vehicle.y, vehicle.sprite);
 
     this.setDataEnabled();
     Object.keys(data).forEach((k) => this.setData(k, data[k]));
     world.scene.sys.displayList.add(this);
     world.scene.sys.updateList.add(this);
+    if (vehicle.sprite === 'policia1') this.setScale(0.6);
 
     if (data.canBeSelected) {
       this.setInteractive();
@@ -85,6 +86,11 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
   }
 
   disparo() {
-    new Bala(this.world, this.x-100, this.y+120, 'bala', this.rotation - this.getData('initialRotation'));
+    const radianes = (Math.abs(this.rotation) + Math.PI / 2) % (Math.PI * 2);
+    const posRelativaX = (this.width / 2 + 30) * Math.sin(radianes);
+    const posRelativaY = (this.height / 2 + 30) * Math.cos(radianes);
+
+    // eslint-disable-next-line no-new
+    new Bala(this.world, this.x + posRelativaX, this.y + posRelativaY, 'bala', this.rotation);
   }
 }

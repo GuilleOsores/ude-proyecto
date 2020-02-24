@@ -8,7 +8,30 @@
     {
       "nick": "player1",
       "vehicles": [
-        
+        {
+          "id": 1,
+          "sprite": "pesquero1",
+          "x": 150,
+          "y": 150,
+          "initialRotation": 90,
+          "velocity": 0.01,
+          "angularVelocity": 1,
+          "normalSprite": "./assets/images/pesquero01.png",
+          "normalAnimation": "barcoDown",
+          "horaPesca":"19:30",
+          "cantPesca":0
+        },
+        {
+          "id": 2,
+          "sprite": "pesquero1",
+          "x": 350,
+          "y": 150,
+          "initialRotation": 90,
+          "velocity": 0.01,
+          "angularVelocity": 1,
+          "normalSprite": "./assets/images/pesquero01.png",
+          "normalAnimation": "barcoDown"
+        }
       ]
     },
     {
@@ -16,13 +39,13 @@
       "vehicles": [
         {
           "id": 1,
-          "type": "barco1",
+          "sprite": "policia1",
           "x": 150,
           "y": 450,
-          "initialRotation": 180,
+          "initialRotation": -90,
           "velocity": 0.01,
           "angularVelocity": 1,
-          "normalSprite": "./assets/images/barco1.png",
+          "normalSprite": "./assets/images/police01.png",
           "normalAnimation": "barcoUp",
           "armas": [
             {
@@ -32,6 +55,28 @@
               "cadencia": 2
             }
           ]
+        },
+        {
+          "id": 2,
+          "sprite": "policia1",
+          "x": 550,
+          "y": 450,
+          "initialRotation": -90,
+          "velocity": 0.01,
+          "angularVelocity": 1,
+          "normalSprite": "./assets/images/police01.png",
+          "normalAnimation": "barcoUp"
+        },
+        {
+          "id": 3,
+          "sprite": "policia1",
+          "x": 950,
+          "y": 450,
+          "initialRotation": -90,
+          "velocity": 0.01,
+          "angularVelocity": 1,
+          "normalSprite": "./assets/images/police01.png",
+          "normalAnimation": "barcoUp"
         }
       ]
     }

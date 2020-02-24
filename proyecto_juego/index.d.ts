@@ -14,7 +14,7 @@ declare interface Player {
 
 declare interface VehicleConfiguration {
   id: number,
-  type: string,
+  sprite: string,
   x: number,
   y: number,
   initialRotation: number,
