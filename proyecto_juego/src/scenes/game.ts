@@ -61,6 +61,8 @@ export class Game extends Phaser.Scene {
               velocity: v.velocity,
               angularVelocity: v.angularVelocity,
               normalAnimation: v.normalAnimation,
+              millaLimite: v.millaLimite,
+              tiempoPesca: v.tiempoPesca,
             };
 
             // eslint-disable-next-line no-unused-vars

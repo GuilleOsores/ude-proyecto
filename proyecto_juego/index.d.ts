@@ -22,4 +22,6 @@ declare interface VehicleConfiguration {
   angularVelocity: number,
   normalSprite: string,
   normalAnimation: string,
+  millaLimite: number,
+  tiempoPesca: number
 }

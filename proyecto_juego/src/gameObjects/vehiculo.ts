@@ -1,7 +1,12 @@
 import * as Phaser from 'phaser';
+import * as moment from 'moment';
+import { am } from '../main';
 
 export class Vehicle extends Phaser.Physics.Matter.Sprite {
   initialRotationSet = false;
+  txtPesco: Phaser.GameObjects.Text;
+  txtResto: Phaser.GameObjects.Text;
+  cantPesca: number=0;
 
   constructor(world: Phaser.Physics.Matter.World, vehicle: VehicleConfiguration, data: any) {
     super(world, vehicle.x, vehicle.y, vehicle.sprite);
@@ -42,6 +47,8 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
   }
 
   public preUpdate(timeElapsed: number, timeLastUpdate: number) {
+    
+    
     if (!this.initialRotationSet) {
       this.initialRotationSet = true;
       this.setRotation(Phaser.Math.DegToRad(this.getData('initialRotation')));
@@ -62,5 +69,26 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
     } else if (cursorKeys.down.isDown) {
       this.thrustBack(this.getData('velocity'));
     }
+
+    if(this.x>=this.getData('millaLimite') && 
+    !(cursorKeys.right.isDown || cursorKeys.left.isDown || cursorKeys.up.isDown || cursorKeys.down.isDown)){
+      if(!this.getData('horaPesca') || moment().add(this.getData('tiempoPesca'),"seconds").isAfter(this.getData("horaPesca"))){
+        this.cantPesca=this.cantPesca+1;
+        var millasDiv=Math.trunc(this.x/100);
+        this.cantPesca=this.cantPesca*millasDiv;
+        this.setData('horaPesca',  moment());
+        var pescado='pescado:'+this.cantPesca;
+      
+        if(this.txtPesco!=null && this.txtResto!=null){
+          this.txtPesco.destroy();
+          this.txtResto.destroy();
+        }
+        this.txtPesco = this.scene.add.text(16, 16, pescado, { fontSize: '32px', fill: '#FFF' });
+        this.txtResto = this.scene.add.text(250, 16, 'restantes: 0', { fontSize: '32px', fill: '#FFF' });
+      }
+    }
+    
+    
   }
+  
 }

@@ -19,7 +19,9 @@
           "normalSprite": "./assets/images/barco1.png",
           "normalAnimation": "barcoDown",
           "horaPesca":"19:30",
-          "cantPesca":0
+          "cantPesca":0,
+          "millaLimite":5,
+          "tiempoPesca":-2
         },
         {
           "id": 2,
@@ -30,7 +32,11 @@
           "velocity": 0.01,
           "angularVelocity": 1,
           "normalSprite": "./assets/images/barco1.png",
-          "normalAnimation": "barcoDown"
+          "normalAnimation": "barcoDown",
+          "horaPesca":"19:30",
+          "cantPesca":0,
+          "millaLimite":5,
+          "tiempoPesca":-2
         }
       ]
     },
@@ -46,7 +52,11 @@
           "velocity": 0.01,
           "angularVelocity": 1,
           "normalSprite": "./assets/images/barco1.png",
-          "normalAnimation": "barcoUp"
+          "normalAnimation": "barcoUp",
+          "horaPesca":"19:30",
+          "cantPesca":0,
+          "millaLimite":5,
+          "tiempoPesca":-2
         },
         {
           "id": 2,
@@ -57,7 +67,11 @@
           "velocity": 0.01,
           "angularVelocity": 1,
           "normalSprite": "./assets/images/barco1.png",
-          "normalAnimation": "barcoUp"
+          "normalAnimation": "barcoUp",
+          "horaPesca":"19:30",
+          "cantPesca":0,
+          "millaLimite":5,
+          "tiempoPesca":-2
         },
         {
           "id": 3,
@@ -68,7 +82,11 @@
           "velocity": 0.01,
           "angularVelocity": 1,
           "normalSprite": "./assets/images/barco1.png",
-          "normalAnimation": "barcoUp"
+          "normalAnimation": "barcoUp",
+          "horaPesca":"19:30",
+          "cantPesca":0,
+          "millaLimite":5,
+          "tiempoPesca":-2
         }
       ]
     }
