@@ -24,4 +24,14 @@ declare interface VehicleConfiguration {
   normalAnimation: string,
   millaLimite: number,
   tiempoPesca: number
+  armas: Armas[],
+  tipo: string,
+  restoPesca:number
+}
+
+declare interface Armas {
+  id: number,
+  type: string,
+  danio: number,
+  cadencia: number,
 }

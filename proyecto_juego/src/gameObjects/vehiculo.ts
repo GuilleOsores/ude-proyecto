@@ -1,12 +1,17 @@
 import * as Phaser from 'phaser';
 import * as moment from 'moment';
-import { am } from '../main';
+
+import { Bala } from './bala';
 
 export class Vehicle extends Phaser.Physics.Matter.Sprite {
   initialRotationSet = false;
   txtPesco: Phaser.GameObjects.Text;
   txtResto: Phaser.GameObjects.Text;
   cantPesca: number=0;
+  cantResto: number=0;
+  tipo: String;
+
+  ultimoDisparo: moment.Moment[] = [];
 
   constructor(world: Phaser.Physics.Matter.World, vehicle: VehicleConfiguration, data: any) {
     super(world, vehicle.x, vehicle.y, vehicle.sprite);
@@ -15,6 +20,7 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
     Object.keys(data).forEach((k) => this.setData(k, data[k]));
     world.scene.sys.displayList.add(this);
     world.scene.sys.updateList.add(this);
+    if (vehicle.sprite === 'policia1') this.setScale(0.6);
 
     if (data.canBeSelected) {
       this.setInteractive();
@@ -28,6 +34,13 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
         }
       });
     }
+
+    if (vehicle.armas && vehicle.armas.length) {
+      this.scene.input.on(Phaser.Input.Events.POINTER_DOWN, this.dispararHandle);
+    }
+
+    this.cantResto=vehicle.restoPesca;
+    this.tipo=vehicle.tipo;
   }
 
 
@@ -44,6 +57,7 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
       });
     }
     this.setRotation(Phaser.Math.DegToRad(this.getData('initialRotation')));
+    
   }
 
   public preUpdate(timeElapsed: number, timeLastUpdate: number) {
@@ -70,12 +84,12 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
       this.thrustBack(this.getData('velocity'));
     }
 
-    if(this.x>=this.getData('millaLimite') && 
+    if(this.tipo=="pesquero" && this.x>=this.getData('millaLimite') && 
     !(cursorKeys.right.isDown || cursorKeys.left.isDown || cursorKeys.up.isDown || cursorKeys.down.isDown)){
       if(!this.getData('horaPesca') || moment().add(this.getData('tiempoPesca'),"seconds").isAfter(this.getData("horaPesca"))){
         this.cantPesca=this.cantPesca+1;
         var millasDiv=Math.trunc(this.x/100);
-        this.cantPesca=this.cantPesca*millasDiv;
+        this.cantPesca=this.cantPesca+millasDiv;
         this.setData('horaPesca',  moment());
         var pescado='pescado:'+this.cantPesca;
       
@@ -84,11 +98,34 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
           this.txtResto.destroy();
         }
         this.txtPesco = this.scene.add.text(16, 16, pescado, { fontSize: '32px', fill: '#FFF' });
-        this.txtResto = this.scene.add.text(250, 16, 'restantes: 0', { fontSize: '32px', fill: '#FFF' });
+
+        this.cantResto=this.cantResto-this.cantPesca;
+        var restantes='restantes:'+this.cantResto;
+        this.txtResto = this.scene.add.text(450, 16, restantes, { fontSize: '32px', fill: '#FFF' });
+        
       }
     }
     
     
   }
-  
+
+  dispararHandle = () => {
+    if (this.getData('selected')) {
+      const armas = <Armas[]> this.getData('armas');
+      const arma = armas[0];
+      if (!this.ultimoDisparo[0] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[0]))) {
+        this.disparo();
+        this.ultimoDisparo[0] = moment();
+      }
+    }
+  }
+
+  disparo() {
+    const radianes = (Math.abs(this.rotation) + Math.PI / 2) % (Math.PI * 2);
+    const posRelativaX = (this.width / 2 + 30) * Math.sin(radianes);
+    const posRelativaY = (this.height / 2 + 30) * Math.cos(radianes);
+
+    // eslint-disable-next-line no-new
+    new Bala(this.world, this.x + posRelativaX, this.y + posRelativaY, 'bala', this.rotation);
+  }
 }

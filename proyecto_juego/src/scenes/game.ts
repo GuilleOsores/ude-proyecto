@@ -5,7 +5,7 @@ import { agregarAgua } from '../gameObjects/agua';
 
 const sceneConfig: SceneConfiguration = require('../../mock/scene.json');
 
-const nick = 'player2';
+const nick = 'player1';
 
 export class Game extends Phaser.Scene {
   constructor() {
@@ -13,8 +13,6 @@ export class Game extends Phaser.Scene {
   }
 
   public preload() {
-    console.log('preload');
-
     this.anims.create({
       key: 'barcoDown',
       frames: this.anims.generateFrameNumbers('barco1', {
@@ -63,10 +61,13 @@ export class Game extends Phaser.Scene {
               normalAnimation: v.normalAnimation,
               millaLimite: v.millaLimite,
               tiempoPesca: v.tiempoPesca,
+              armas: v.armas,
+              tipo: v.tipo,
+              restoPesca: v.restoPesca
             };
 
-            // eslint-disable-next-line no-unused-vars
-            const ve = new Vehicle(this.matter.world, v, data);
+            // eslint-disable-next-line no-new
+            new Vehicle(this.matter.world, v, data);
           },
         );
       },
