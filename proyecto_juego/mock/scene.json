@@ -46,7 +46,15 @@
           "velocity": 0.01,
           "angularVelocity": 1,
           "normalSprite": "./assets/images/police01.png",
-          "normalAnimation": "barcoUp"
+          "normalAnimation": "barcoUp",
+          "armas": [
+            {
+              "id": 0,
+              "type": "canion",
+              "danio": 50,
+              "cadencia": 2
+            }
+          ]
         },
         {
           "id": 2,

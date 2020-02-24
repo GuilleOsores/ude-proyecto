@@ -29,5 +29,7 @@ export class Load extends Phaser.Scene {
       margin: 0,
       spacing: 0,
     });
+
+    this.load.image('bala', './assets/images/bullet7.png');
   }
 }
