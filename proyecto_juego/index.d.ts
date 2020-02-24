@@ -22,4 +22,12 @@ declare interface VehicleConfiguration {
   angularVelocity: number,
   normalSprite: string,
   normalAnimation: string,
+  armas: Armas[],
+}
+
+declare interface Armas {
+  id: number,
+  type: string,
+  danio: number,
+  cadencia: number,
 }

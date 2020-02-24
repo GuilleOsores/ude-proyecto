@@ -1,7 +1,12 @@
 import * as Phaser from 'phaser';
+import * as moment from 'moment';
+
+import { Bala } from '../gameObjects/bala'
 
 export class Vehicle extends Phaser.Physics.Matter.Sprite {
   initialRotationSet = false;
+
+  ultimoDisparo: moment.Moment[] = [];
 
   constructor(world: Phaser.Physics.Matter.World, vehicle: VehicleConfiguration, data: any) {
     super(world, vehicle.x, vehicle.y, vehicle.type);
@@ -22,6 +27,10 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
           this.setVelocity(0, 0);
         }
       });
+    }
+
+    if (vehicle.armas && vehicle.armas.length) {
+      this.scene.input.on(Phaser.Input.Events.POINTER_DOWN, this.dispararHandle);
     }
   }
 
@@ -62,5 +71,20 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
     } else if (cursorKeys.down.isDown) {
       this.thrustBack(this.getData('velocity'));
     }
+  }
+
+  dispararHandle = () => {
+    if (this.getData('selected')) {
+      const armas = <Armas[]> this.getData('armas');
+      const arma = armas[0];
+      if (!this.ultimoDisparo[0] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[0]))) {
+        this.disparo();
+        this.ultimoDisparo[0] = moment();
+      }
+    }
+  }
+
+  disparo() {
+    new Bala(this.world, this.x-100, this.y+120, 'bala', this.rotation - this.getData('initialRotation'));
   }
 }

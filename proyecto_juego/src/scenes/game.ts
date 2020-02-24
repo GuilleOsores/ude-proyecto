@@ -61,6 +61,7 @@ export class Game extends Phaser.Scene {
               velocity: v.velocity,
               angularVelocity: v.angularVelocity,
               normalAnimation: v.normalAnimation,
+              armas: v.armas,
             };
 
             // eslint-disable-next-line no-unused-vars
@@ -69,5 +70,10 @@ export class Game extends Phaser.Scene {
         );
       },
     );
+
+    this.matter.world.on('collisionstart', (event: Phaser.Physics.Matter.Events.CollisionStartEvent, a: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject) => {
+      // a.destroy();
+      // b.destroy();
+    });
   }
 }
