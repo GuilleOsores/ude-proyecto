@@ -10,6 +10,8 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
     Object.keys(data).forEach((k) => this.setData(k, data[k]));
     world.scene.sys.displayList.add(this);
     world.scene.sys.updateList.add(this);
+    if (vehicle.sprite === 'policia1')
+      this.setScale(0.6);
 
     if (data.canBeSelected) {
       this.setInteractive();
