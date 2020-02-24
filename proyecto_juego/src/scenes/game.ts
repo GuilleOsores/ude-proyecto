@@ -63,7 +63,7 @@ export class Game extends Phaser.Scene {
               tiempoPesca: v.tiempoPesca,
               armas: v.armas,
               tipo: v.tipo,
-              restoPesca: v.restoPesca
+              restoPesca: v.restoPesca,
             };
 
             // eslint-disable-next-line no-new
