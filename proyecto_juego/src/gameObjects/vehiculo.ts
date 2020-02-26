@@ -3,7 +3,7 @@ import * as moment from 'moment';
 
 import { Disparo } from './disparo';
 
-export class Vehicle extends Phaser.Physics.Matter.Sprite {
+export class Vehicle extends Phaser.GameObjects.Sprite {
   initialRotationSet = false;
 
   txtPesco: Phaser.GameObjects.Text;
@@ -20,13 +20,16 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
 
   armaSeleccionada = 0;
 
-  constructor(world: Phaser.Physics.Matter.World, vehicle: VehicleConfiguration, data: any) {
-    super(world, vehicle.x, vehicle.y, vehicle.sprite);
+  constructor(scene: Phaser.Scene, vehicle: VehicleConfiguration, data: any) {
+    super(scene, vehicle.x, vehicle.y, vehicle.sprite);
+    // agrega las funcionalidades de matter al sprite comun de phaser
+    const f = new Phaser.Physics.Matter.Factory(scene.matter.world);
+    f.gameObject(this, {}, true);
+    scene.add.existing(this);
 
     this.setDataEnabled();
     Object.keys(data).forEach((k) => this.setData(k, data[k]));
-    world.scene.sys.displayList.add(this);
-    world.scene.sys.updateList.add(this);
+
     if (vehicle.sprite === 'policia1') this.setScale(0.6);
 
     if (data.canBeSelected) {
@@ -37,7 +40,7 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
           this.setData('selected', true);
         } else {
           this.setData('selected', false);
-          this.setVelocity(0, 0);
+          this.getMatterSprite().setVelocity(0, 0);
         }
       });
     }
@@ -52,6 +55,9 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
     this.scene.input.keyboard.on('keydown', this.keyboardHandler);
   }
 
+  getMatterSprite() {
+    return (<Phaser.Physics.Matter.Sprite> (<any> this));
+  }
 
   public create() {
     if (this.getData('canBeSelected')) {
@@ -61,7 +67,7 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
           this.setData('selected', true);
         } else {
           this.setData('selected', false);
-          this.setVelocity(0, 0);
+          this.getMatterSprite().setVelocity(0, 0);
         }
       });
     }
@@ -70,8 +76,7 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
 
   public preUpdate(timeElapsed: number, timeLastUpdate: number) {
     if (this.getData('tipo') === 'pesquero' && this.getData('vida') <= 0) {
-      (<Phaser.GameObjects.GameObject> this.body).destroy();
-      this.world.scene.sys.displayList.remove(this);
+      this.destroy();
       return;
     }
     if (!this.initialRotationSet) {
@@ -90,9 +95,9 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
     }
 
     if (cursorKeys.up.isDown) {
-      this.thrust(this.getData('velocity'));
+      this.getMatterSprite().thrust(this.getData('velocity'));
     } else if (cursorKeys.down.isDown) {
-      this.thrustBack(this.getData('velocity'));
+      this.getMatterSprite().thrustBack(this.getData('velocity'));
     }
 
     if (this.tipo === 'pesquero' && this.x >= this.getData('millaLimite')
@@ -146,7 +151,13 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
     const posRelativaY = (this.height / 2 + 30) * Math.cos(radianes);
 
     // eslint-disable-next-line no-new
-    new Disparo(this.world, this.x + posRelativaX, this.y + posRelativaY, arma, this.rotation);
+    new Disparo(
+      this.getMatterSprite().world,
+      this.x + posRelativaX,
+      this.y + posRelativaY,
+      arma,
+      this.rotation,
+    );
     this.scene.sound.play(arma.sonido);
   }
 }

@@ -58,7 +58,7 @@ export class Game extends Phaser.Scene {
             };
 
             // eslint-disable-next-line no-new
-            new Vehicle(this.matter.world, v, data);
+            new Vehicle(this, v, data);
           },
         );
       },

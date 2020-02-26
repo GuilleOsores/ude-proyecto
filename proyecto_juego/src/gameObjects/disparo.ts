@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 
+// hacer el mismo refactor que en vehiculo
 export class Disparo extends Phaser.Physics.Matter.Sprite {
   initialRotationSet = false;
 
