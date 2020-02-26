@@ -145,11 +145,19 @@ export class Vehicle extends Phaser.GameObjects.Sprite {
     }
   }
 
+  // trigonometria no es la mejor opcion pero fue la que se me ocurrio
   disparo(arma: Arma) {
-    const radianes = (Math.abs(this.rotation) + Math.PI / 2) % (Math.PI * 2);
+    const rotacionAntihoraria = (this.rotation - (Math.PI / 2)) * -1;
+    const rotacionPositiva = rotacionAntihoraria >= 0
+      ? rotacionAntihoraria % (Math.PI * 2) : (Math.PI * 2) + (rotacionAntihoraria % (Math.PI * 2));
+    const radianes = (rotacionPositiva) % (Math.PI * 2);
     const posRelativaX = (this.width / 2 + 30) * Math.sin(radianes);
     const posRelativaY = (this.height / 2 + 30) * Math.cos(radianes);
-    // arreglar rotacion del disparo
+
+    // console.log(`Rotation: ${rotacionAntihoraria}`);
+    // console.log(`Rotacion: ${rotacionPositiva}`);
+    // console.log(`radianes calculados: ${radianes}`);
+    // console.log(`posRelativaX: ${posRelativaX} || posRelativaY: ${posRelativaY}`);
     // eslint-disable-next-line no-new
     new Disparo(
       this.scene,
