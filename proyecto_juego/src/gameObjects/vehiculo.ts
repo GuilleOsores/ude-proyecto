@@ -53,6 +53,7 @@ export class Vehicle extends Phaser.GameObjects.Sprite {
     this.tipo = vehicle.tipo;
 
     this.scene.input.keyboard.on('keydown', this.keyboardHandler);
+    this.setData('horaPesca', moment().add(this.getData('tiempoPesca'), 'seconds'));
   }
 
   getMatterSprite() {
@@ -107,7 +108,7 @@ export class Vehicle extends Phaser.GameObjects.Sprite {
       || cursorKeys.up.isDown
       || cursorKeys.down.isDown
     )) {
-      if (!this.getData('horaPesca') || moment().add(this.getData('tiempoPesca'), 'seconds').isAfter(this.getData('horaPesca'))) {
+      if (moment().add(this.getData('tiempoPesca'), 'seconds').isAfter(this.getData('horaPesca'))) {
         this.cantPesca += 1;
         const millasDiv = Math.trunc(this.x / 100);
         this.cantPesca += millasDiv;
