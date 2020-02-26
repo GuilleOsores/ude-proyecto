@@ -149,10 +149,10 @@ export class Vehicle extends Phaser.GameObjects.Sprite {
     const radianes = (Math.abs(this.rotation) + Math.PI / 2) % (Math.PI * 2);
     const posRelativaX = (this.width / 2 + 30) * Math.sin(radianes);
     const posRelativaY = (this.height / 2 + 30) * Math.cos(radianes);
-
+    // arreglar rotacion del disparo
     // eslint-disable-next-line no-new
     new Disparo(
-      this.getMatterSprite().world,
+      this.scene,
       this.x + posRelativaX,
       this.y + posRelativaY,
       arma,
