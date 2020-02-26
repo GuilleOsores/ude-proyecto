@@ -5,7 +5,7 @@ import { agregarAgua } from '../gameObjects/agua';
 
 const sceneConfig: SceneConfiguration = require('../../mock/scene.json');
 
-const nick = 'player1';
+const nick = 'player2';
 
 export class Game extends Phaser.Scene {
   constructor() {
@@ -52,18 +52,9 @@ export class Game extends Phaser.Scene {
         p.vehicles.forEach(
           (v, i) => {
             const data = {
-              id: v.id,
+              ...v,
               canBeSelected: p.nick === nick,
               selected: i === 0 && p.nick === nick,
-              initialRotation: v.initialRotation,
-              velocity: v.velocity,
-              angularVelocity: v.angularVelocity,
-              normalAnimation: v.normalAnimation,
-              millaLimite: v.millaLimite,
-              tiempoPesca: v.tiempoPesca,
-              armas: v.armas,
-              tipo: v.tipo,
-              restoPesca: v.restoPesca,
             };
 
             // eslint-disable-next-line no-new

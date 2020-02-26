@@ -34,23 +34,24 @@ export class Disparo extends Phaser.Physics.Matter.Sprite {
     bodyB: Phaser.GameObjects.GameObject,
   ) => {
     if (bodyA === this.body || bodyB === this.body) {
-      let a; let b;
+      const objetos: Phaser.GameObjects.GameObject[] = [];
+
       this.world.scene.sys.displayList.each((go) => {
-        if (go.body === bodyA) {
-          a = go;
-        } else if (go.body === bodyB) {
-          b = go;
+        if (go.body === bodyA || go.body === bodyB) {
+          objetos.push(go);
         }
       });
-      this.emit('destroy');
-      if (a) {
-        bodyA.destroy();
-        this.world.scene.sys.displayList.remove(a);
-      }
-      if (b) {
-        bodyB.destroy();
-        this.world.scene.sys.displayList.remove(b);
-      }
+
+      objetos.forEach(
+        (o) => {
+          if (o.getData('tipo') === 'pesquero') {
+            o.setData('vida', o.getData('vida') - this.arma.danio);
+          } else if (o === this) {
+            (<Phaser.GameObjects.GameObject>o.body).destroy();
+            this.world.scene.sys.displayList.remove(o);
+          }
+        },
+      );
     }
   }
 }

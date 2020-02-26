@@ -65,6 +65,11 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
   }
 
   public preUpdate(timeElapsed: number, timeLastUpdate: number) {
+    if (this.getData('tipo') === 'pesquero' && this.getData('vida') <= 0) {
+      (<Phaser.GameObjects.GameObject> this.body).destroy();
+      this.world.scene.sys.displayList.remove(this);
+      return;
+    }
     if (!this.initialRotationSet) {
       this.initialRotationSet = true;
       this.setRotation(Phaser.Math.DegToRad(this.getData('initialRotation')));
