@@ -70,7 +70,17 @@
               "danio": 50,
               "cadencia": 2,
               "sprite": "bala",
-              "velocidad": 0.01
+              "velocidad": 0.01,
+              "sonido": "canion"
+            },
+            {
+              "id": 1,
+              "type": "canion",
+              "danio": 25,
+              "cadencia": 1,
+              "sprite": "bala",
+              "velocidad": 0.03,
+              "sonido": "ametralladora"
             }
           ]
         },

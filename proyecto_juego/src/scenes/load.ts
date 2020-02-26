@@ -23,7 +23,6 @@ export class Load extends Phaser.Scene {
       spacing: 0,
     });
 
-    
     this.load.spritesheet('pesquero1', './assets/images/pesquero01.png', {
       frameWidth: 208,
       frameHeight: 88,
@@ -32,5 +31,8 @@ export class Load extends Phaser.Scene {
     });
 
     this.load.image('bala', './assets/images/bullet7.png');
+
+    this.load.audio('canion', '../assets/sonidos/canion.m4a');
+    this.load.audio('ametralladora', '../assets/sonidos/ametralladora.m4a');
   }
 }

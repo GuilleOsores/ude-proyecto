@@ -18,6 +18,8 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
 
   ultimoDisparo: moment.Moment[] = [];
 
+  armaSeleccionada = 0;
+
   constructor(world: Phaser.Physics.Matter.World, vehicle: VehicleConfiguration, data: any) {
     super(world, vehicle.x, vehicle.y, vehicle.sprite);
 
@@ -46,6 +48,8 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
 
     this.cantResto = vehicle.restoPesca;
     this.tipo = vehicle.tipo;
+
+    this.scene.input.keyboard.on('keydown', this.keyboardHandler);
   }
 
 
@@ -118,13 +122,20 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
     }
   }
 
+  keyboardHandler = (event: KeyboardEvent) => {
+    if (this.getData('armas')) {
+      const armas = this.getData('armas');
+      if (armas[event.keyCode - 49]) this.armaSeleccionada = event.keyCode - 49;
+    }
+  }
+
   dispararHandle = () => {
     if (this.getData('selected')) {
       const armas = <Arma[]> this.getData('armas');
-      const arma = armas[0];
-      if (!this.ultimoDisparo[0] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[0]))) {
+      const arma = armas[this.armaSeleccionada];
+      if (!this.ultimoDisparo[this.armaSeleccionada] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[0]))) {
         this.disparo(arma);
-        this.ultimoDisparo[0] = moment();
+        this.ultimoDisparo[this.armaSeleccionada] = moment();
       }
     }
   }
@@ -136,5 +147,6 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
 
     // eslint-disable-next-line no-new
     new Disparo(this.world, this.x + posRelativaX, this.y + posRelativaY, arma, this.rotation);
+    this.scene.sound.play(arma.sonido);
   }
 }

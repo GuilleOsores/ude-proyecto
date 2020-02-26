@@ -35,5 +35,6 @@ declare interface Arma {
   danio: number,
   cadencia: number,
   sprite: string,
-  velocidad: number
+  velocidad: number,
+  sonido: string
 }
