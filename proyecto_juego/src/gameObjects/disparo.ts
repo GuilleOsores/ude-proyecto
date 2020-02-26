@@ -1,12 +1,15 @@
 import * as Phaser from 'phaser';
 
-export class Bala extends Phaser.Physics.Matter.Sprite {
+export class Disparo extends Phaser.Physics.Matter.Sprite {
   initialRotationSet = false;
 
+  arma: Arma;
+
   constructor(
-    world: Phaser.Physics.Matter.World, x: number, y: number, texture: string, rotacion: number,
+    world: Phaser.Physics.Matter.World, x: number, y: number, arma: Arma, rotacion: number,
   ) {
-    super(world, x, y, texture);
+    super(world, x, y, arma.sprite);
+    this.arma = arma;
     this.setBody('circle');
     this.setRotation(rotacion);
     this.setScale(2);
@@ -22,9 +25,7 @@ export class Bala extends Phaser.Physics.Matter.Sprite {
   }
 
   public preUpdate(_timeElapsed: number, timeLastUpdate: number) {
-    // console.log('timeLastUpdate: ', timeLastUpdate);
-    this.thrust(0.01 * (timeLastUpdate / 1000));
-    // this.thrust(0.01 / 60);
+    this.thrust(this.arma.velocidad * (timeLastUpdate / 1000));
   }
 
   collisionHandler = (

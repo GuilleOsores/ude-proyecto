@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 import * as moment from 'moment';
 
-import { Bala } from './bala';
+import { Disparo } from './disparo';
 
 export class Vehicle extends Phaser.Physics.Matter.Sprite {
   initialRotationSet = false;
@@ -115,21 +115,21 @@ export class Vehicle extends Phaser.Physics.Matter.Sprite {
 
   dispararHandle = () => {
     if (this.getData('selected')) {
-      const armas = <Armas[]> this.getData('armas');
+      const armas = <Arma[]> this.getData('armas');
       const arma = armas[0];
       if (!this.ultimoDisparo[0] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[0]))) {
-        this.disparo();
+        this.disparo(arma);
         this.ultimoDisparo[0] = moment();
       }
     }
   }
 
-  disparo() {
+  disparo(arma: Arma) {
     const radianes = (Math.abs(this.rotation) + Math.PI / 2) % (Math.PI * 2);
     const posRelativaX = (this.width / 2 + 30) * Math.sin(radianes);
     const posRelativaY = (this.height / 2 + 30) * Math.cos(radianes);
 
     // eslint-disable-next-line no-new
-    new Bala(this.world, this.x + posRelativaX, this.y + posRelativaY, 'bala', this.rotation);
+    new Disparo(this.world, this.x + posRelativaX, this.y + posRelativaY, arma, this.rotation);
   }
 }

@@ -18,12 +18,13 @@
           "angularVelocity": 1,
           "normalSprite": "./assets/images/pesquero01.png",
           "normalAnimation": "barcoDown",
-          "horaPesca":"19:30",
-          "cantPesca":0,
-          "millaLimite":5,
-          "tiempoPesca":-2,
-          "tipo":"pesquero",
-          "restoPesca":1000
+          "horaPesca": "19:30",
+          "cantPesca": 0,
+          "millaLimite": 5,
+          "tiempoPesca": -2,
+          "tipo": "pesquero",
+          "restoPesca": 1000,
+          "vida": 100
         },
         {
           "id": 2,
@@ -39,8 +40,9 @@
           "tiempoPesca":-2,
           "normalSprite": "./assets/images/pesquero01.png",
           "normalAnimation": "barcoDown",
-          "tipo":"pesquero",
-          "restoPesca":1000
+          "tipo": "pesquero",
+          "restoPesca": 1000,
+          "vida": 100
         }
       ]
     },
@@ -66,7 +68,9 @@
               "id": 0,
               "type": "canion",
               "danio": 50,
-              "cadencia": 2
+              "cadencia": 2,
+              "sprite": "bala",
+              "velocidad": 0.01
             }
           ]
         },
