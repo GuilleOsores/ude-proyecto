@@ -5,7 +5,7 @@ import { agregarAgua } from '../gameObjects/agua';
 
 const sceneConfig: SceneConfiguration = require('../../mock/scene.json');
 
-const nick = 'player2';
+const nick = 'player1';
 
 export class Game extends Phaser.Scene {
   constructor() {
