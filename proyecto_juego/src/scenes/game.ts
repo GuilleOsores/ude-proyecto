@@ -37,6 +37,9 @@ export class Game extends Phaser.Scene {
   }
 
   public create() {
+    this.matter.world.setBounds(0, 0, sceneConfig.width, sceneConfig.height);
+    this.cameras.main.setBounds(0, 0, sceneConfig.width, sceneConfig.height);
+
     this.input.on('gameobjectdown', (pointer, gameObject: Phaser.GameObjects.GameObject) => {
       console.log(gameObject.getData('id'));
       this.events.emit('changeBoat: ', gameObject.getData('id'));
@@ -45,7 +48,7 @@ export class Game extends Phaser.Scene {
     this.events.on('changeBoat', () => {
       console.log('changeBoat create scende');
     });
-    agregarAgua(this);
+    agregarAgua(this, sceneConfig.width, sceneConfig.height);
 
     sceneConfig.players.forEach(
       (p) => {
@@ -58,7 +61,10 @@ export class Game extends Phaser.Scene {
             };
 
             // eslint-disable-next-line no-new
-            new Vehicle(this, v, data);
+            const ve = new Vehicle(this, v, data);
+            if (data.selected) {
+              this.cameras.main.startFollow(ve);
+            }
           },
         );
       },

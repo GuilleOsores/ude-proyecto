@@ -28,5 +28,3 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 
 const game = new Phaser.Game(gameConfig);
 game.scene.start('Load');
-
-export const am = game.anims;

@@ -1,9 +1,7 @@
-import { am } from '../main';
-
-export const agregarAgua = (scene: Phaser.Scene) => {
+export const agregarAgua = (scene: Phaser.Scene, width: number, height: number) => {
   scene.anims.create({
     key: 'water',
-    frames: am.generateFrameNumbers('water', {
+    frames: scene.anims.generateFrameNumbers('water', {
       start: 0,
       end: 15,
     }),
@@ -13,10 +11,10 @@ export const agregarAgua = (scene: Phaser.Scene) => {
   });
 
   const config: Phaser.Types.GameObjects.Group.GroupCreateConfig[] = [];
-  for (let i = 0; i < Math.ceil(scene.sys.game.canvas.height / 32); i += 1) {
+  for (let i = 0; i < Math.ceil(height / 32); i += 1) {
     config.push({
       key: 'water',
-      repeat: (scene.sys.game.canvas.width / 32) - 1,
+      repeat: Math.ceil(width / 32),
       setXY: {
         x: 0,
         y: i * 32,
