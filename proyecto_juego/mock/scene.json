@@ -1,13 +1,13 @@
 {
   "width": 3200,
   "height": 3200,
-  "fishingMile": 200,
+  "millaLimite": 500,
   "time": 600,
   "fishFished": 0,
-  "players": [
+  "jugadores": [
     {
       "nick": "player1",
-      "vehicles": [
+      "vehiculos": [
         {
           "id": 1,
           "sprite": "pesquero1",
@@ -20,7 +20,6 @@
           "normalAnimation": "barcoDown",
           "horaPesca": "19:30",
           "cantPesca": 0,
-          "millaLimite": 5,
           "tiempoPesca": -2,
           "tipo": "pesquero",
           "restoPesca": 1000,
@@ -36,7 +35,6 @@
           "angularVelocity": 1,
           "horaPesca":"19:30",
           "cantPesca":0,
-          "millaLimite":5,
           "tiempoPesca":-2,
           "normalSprite": "./assets/images/pesquero01.png",
           "normalAnimation": "barcoDown",
@@ -48,7 +46,7 @@
     },
     {
       "nick": "player2",
-      "vehicles": [
+      "vehiculos": [
         {
           "id": 1,
           "sprite": "policia1",
@@ -57,12 +55,9 @@
           "initialRotation": -90,
           "velocity": 0.01,
           "angularVelocity": 1,
-          "horaPesca":"19:30",
-          "cantPesca":0,
-          "millaLimite":5,
-          "tiempoPesca":-2,
           "normalSprite": "./assets/images/police01.png",
           "normalAnimation": "barcoUp",
+          "tipo": "patruya",          
           "armas": [
             {
               "id": 0,
@@ -92,14 +87,9 @@
           "initialRotation": -90,
           "velocity": 0.01,
           "angularVelocity": 1,
-          "horaPesca":"19:30",
-          "cantPesca":0,
-          "millaLimite":5,
-          "tiempoPesca":-2,
           "normalSprite": "./assets/images/police01.png",
           "normalAnimation": "barcoUp",
-          "tipo":"policia",
-          "restoPesca":1000
+          "tipo": "patruya"
         },
         {
           "id": 3,
@@ -109,14 +99,9 @@
           "initialRotation": -90,
           "velocity": 0.01,
           "angularVelocity": 1,
-          "horaPesca":"19:30",
-          "cantPesca":0,
-          "millaLimite":5,
-          "tiempoPesca":-2,
           "normalSprite": "./assets/images/police01.png",
           "normalAnimation": "barcoUp",
-          "tipo":"policia",
-          "restoPesca":1000
+          "tipo":"patruya"
         }
       ]
     }

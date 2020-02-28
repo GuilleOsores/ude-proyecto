@@ -1,18 +1,18 @@
 declare interface SceneConfiguration {
   width: number,
   height: number,
-  fishingMile: number,
+  millaLimite: number,
   time: number,
   fishFished: number,
-  players: Player[],
+  jugadores: Jugador[],
 }
 
-declare interface Player {
+declare interface Jugador {
   nick: string,
-  vehicles: VehicleConfiguration[],
+  vehiculos: Pesquero[] | Patrulla[],
 }
 
-declare interface VehicleConfiguration {
+declare interface Vehiculo {
   id: number,
   sprite: string,
   x: number,
@@ -22,11 +22,16 @@ declare interface VehicleConfiguration {
   angularVelocity: number,
   normalSprite: string,
   normalAnimation: string,
-  millaLimite: number,
-  tiempoPesca: number
-  armas: Arma[],
   tipo: string,
-  restoPesca:number
+}
+
+declare interface Pesquero extends Vehiculo {
+  tiempoPesca: number,
+  restoPesca: number,
+}
+
+declare interface Patrulla extends Vehiculo {
+  armas: Arma[],
 }
 
 declare interface Arma {
