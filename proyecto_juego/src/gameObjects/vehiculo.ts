@@ -57,9 +57,9 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
     const angularVelocity = this.getData('angularVelocity') * (timeLastUpdate / 1000);
 
     if (cursorKeys.right.isDown) {
-      this.setRotation(this.rotation + angularVelocity);
+      this.setRotation(this.rotation + (cursorKeys.down.isDown ? -angularVelocity : angularVelocity));
     } else if (cursorKeys.left.isDown) {
-      this.setRotation(this.rotation - angularVelocity);
+      this.setRotation(this.rotation - (cursorKeys.down.isDown ? -angularVelocity : angularVelocity));
     }
 
     if (cursorKeys.up.isDown) {
