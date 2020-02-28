@@ -3,6 +3,7 @@ import * as moment from 'moment';
 
 import { GOVehiculo } from './vehiculo';
 import { Disparo } from './disparo';
+import { Dron } from './dron';
 
 export class GOPatrulla extends GOVehiculo {
   ultimoDisparo: moment.Moment[] = [];
@@ -27,19 +28,19 @@ export class GOPatrulla extends GOVehiculo {
     }
   }
 
-  dispararHandle = () => {
+  dispararHandle = (pointer: Phaser.Input.Pointer) => {
     if (this.getData('selected')) {
       const armas = <Arma[]> this.getData('armas');
       const arma = armas[this.armaSeleccionada];
       if (!this.ultimoDisparo[this.armaSeleccionada] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[0]))) {
-        this.disparo(arma);
+        this.disparo(arma, pointer);
         this.ultimoDisparo[this.armaSeleccionada] = moment();
       }
     }
   }
 
   // trigonometria no es la mejor opcion pero fue la que se me ocurrio
-  disparo(arma: Arma) {
+  disparo(arma: Arma, pointer: Phaser.Input.Pointer) {
     const rotacionAntihoraria = (this.rotation - (Math.PI / 2)) * -1;
     const rotacionPositiva = rotacionAntihoraria >= 0
       ? rotacionAntihoraria % (Math.PI * 2) : (Math.PI * 2) + (rotacionAntihoraria % (Math.PI * 2));
@@ -51,14 +52,27 @@ export class GOPatrulla extends GOVehiculo {
     // console.log(`Rotacion: ${rotacionPositiva}`);
     // console.log(`radianes calculados: ${radianes}`);
     // console.log(`posRelativaX: ${posRelativaX} || posRelativaY: ${posRelativaY}`);
-    // eslint-disable-next-line no-new
-    new Disparo(
-      this.scene,
-      this.x + posRelativaX,
-      this.y + posRelativaY,
-      arma,
-      this.rotation,
-    );
-    this.scene.sound.play(arma.sonido);
+    if (arma.tipo === 'disparo') {
+      // eslint-disable-next-line no-new
+      new Disparo(
+        this.scene,
+        this.x + posRelativaX,
+        this.y + posRelativaY,
+        arma,
+        this.rotation,
+      );
+      this.scene.sound.play(arma.sonido);
+    } else {
+      // eslint-disable-next-line no-new
+      new Dron(
+        this.scene,
+        this.x + posRelativaX,
+        this.y + posRelativaY,
+        pointer.x,
+        pointer.y,
+        arma,
+        this.rotation,
+      );
+    }
   }
 }

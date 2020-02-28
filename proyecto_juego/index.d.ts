@@ -36,7 +36,7 @@ declare interface Patrulla extends Vehiculo {
 
 declare interface Arma {
   id: number,
-  type: string,
+  tipo: string,
   danio: number,
   cadencia: number,
   sprite: string,

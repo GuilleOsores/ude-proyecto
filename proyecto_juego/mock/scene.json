@@ -61,7 +61,7 @@
           "armas": [
             {
               "id": 0,
-              "type": "canion",
+              "tipo": "disparo",
               "danio": 50,
               "cadencia": 2,
               "sprite": "bala",
@@ -70,10 +70,18 @@
             },
             {
               "id": 1,
-              "type": "canion",
+              "tipo": "disparo",
               "danio": 25,
               "cadencia": 1,
               "sprite": "bala",
+              "velocidad": 0.03,
+              "sonido": "ametralladora"
+            },
+            {
+              "id": 1,
+              "tipo": "dron",
+              "cadencia": 1,
+              "sprite": "policia1",
               "velocidad": 0.03,
               "sonido": "ametralladora"
             }
