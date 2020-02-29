@@ -12,7 +12,7 @@ export class Game extends Phaser.Scene {
   jugadorLocal: {
     nick: string,
     vehiculos: GOPesquero[] | GOPatrulla[],
-  } = { nick: 'player2', vehiculos: [] };
+  } = { nick: 'player1', vehiculos: [] };
 
   constructor() {
     super('Game');
@@ -78,6 +78,17 @@ export class Game extends Phaser.Scene {
     });
 
     this.input.keyboard.on('keydown', this.keyboardHandler);
+  }
+
+  public agregarTexto = (texto) =>{
+        var txt = null;
+        if(txt==null){
+          txt = this.add.text(16, 16, texto);
+        txt.setScrollFactor(0);
+      }else{
+        txt.setText=texto;
+      }
+
   }
 
   keyboardHandler = (event: KeyboardEvent) => {
