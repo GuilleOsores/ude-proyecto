@@ -49,13 +49,17 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
       this.initialRotationSet = true;
       this.setRotation(Phaser.Math.DegToRad(this.getData('initialRotation')));
     }
-    getWs().send(JSON.stringify({
-      event: EVENTOS.MUEVO_BARCO,
-      nick: this.nick,
-      id: this.id,
-      x: this.x,
-      y: this.y,
-    }));
+
+    if (this.getData('enviarInfo')) {
+      getWs().send(JSON.stringify({
+        event: EVENTOS.MUEVO_BARCO,
+        nick: this.nick,
+        id: this.id,
+        x: this.x,
+        y: this.y,
+      }));
+    }
+
     if (!this.getData('selected')) return;
 
     const cursorKeys = this.scene.input.keyboard.createCursorKeys();

@@ -65,6 +65,7 @@ export class Game extends Phaser.Scene {
               canBeSelected: p.nick === this.jugadorLocal.nick,
               selected: i === 0 && p.nick === this.jugadorLocal.nick,
               millaLimite: sceneConfig.millaLimite,
+              enviarInfo: p.nick === this.jugadorLocal.nick,
             };
 
             // eslint-disable-next-line no-new
@@ -74,6 +75,8 @@ export class Game extends Phaser.Scene {
             }
             if (p.nick === this.jugadorLocal.nick) {
               this.jugadorLocal.vehiculos.push(<any>ve);
+            } else {
+              this.jugadorRemoto.vehiculos.push(<any>ve);
             }
           },
         );
@@ -101,14 +104,15 @@ export class Game extends Phaser.Scene {
     );
   }
 
-  // wshandler = console.log
   wshandler = ({ data }) => {
     // console.log(data);
-    if (data.event === EVENTOS.MUEVO_BARCO) {
-      if (data.nick === this.jugadorRemoto.nick) {
-        const v = this.jugadorRemoto.vehiculos[data.id];
-        v.x = data.x;
-        v.y = data.y;
+    const info = JSON.parse(data);
+    if (info.event === EVENTOS.MUEVO_BARCO) {
+      if (info.nick === this.jugadorRemoto.nick) {
+        // console.log(`x: ${info.x}, y: ${info.y}`);
+        const v = this.jugadorRemoto.vehiculos[info.id - 1];
+        v.x = info.x;
+        v.y = info.y;
       }
     }
   }
