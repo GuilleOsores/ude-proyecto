@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<script>
+		var ws;
+		
+		ws.onopen = function(message){ 
+			console.log("Conexion: " + message);
+		};
+		ws.onmessage = function(message){ 
+			console.log("Mensaje: " + message);
+		};
+		
+		ws.onclose = function(message){ 
+			console.log("Cerrando: " + message);
+		};
+		
+		ws.onerror = function(message){ 
+			console.log("Error: " + message);
+		};
+		
+		function conectar(){
+			ws = new WebSocket("ws://192.168.18.106:8080/backend/endpoint");
+		}
+		
+		function enviar(){
+			ws.send("coso");		
+		}
+		
+		function cancelar(){
+			ws.close();
+		}
+		
+	</script>
+	<button onclick="conectar()">Conectar</button>
+	<button onclick="enviar()">Enviar</button>
+	<button onclick="cancelar()">Cancelar</button>
+
+</body>
+</html>
