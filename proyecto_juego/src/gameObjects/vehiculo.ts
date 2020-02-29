@@ -1,10 +1,13 @@
 import * as Phaser from 'phaser';
 
 export class GOVehiculo extends Phaser.GameObjects.Sprite {
-  initialRotationSet = false;
+  private id;
+
+  private initialRotationSet = false;
 
   constructor(scene: Phaser.Scene, vehicle: Pesquero | Patrulla, data: any) {
     super(scene, vehicle.x, vehicle.y, vehicle.sprite);
+    this.id = vehicle.id;
     // agrega las funcionalidades de matter al sprite comun de phaser
     const f = new Phaser.Physics.Matter.Factory(scene.matter.world);
     f.gameObject(this, {}, true);
@@ -15,15 +18,6 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
 
     if (data.canBeSelected) {
       this.setInteractive();
-      this.scene.events.on('changeBoat', (id) => {
-        console.log(this);
-        if (data.id === id) {
-          this.setData('selected', true);
-        } else {
-          this.setData('selected', false);
-          this.getMatterSprite().setVelocity(0, 0);
-        }
-      });
     }
   }
 
@@ -70,4 +64,8 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
       this.getMatterSprite().thrustBack(this.getData('velocity'));
     }
   }
+
+  public getId = () => this.id;
+
+  public setSeleccionado = (estaSeleccionado) => this.setData('selected', estaSeleccionado);
 }

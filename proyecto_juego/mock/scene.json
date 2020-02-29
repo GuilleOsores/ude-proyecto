@@ -97,7 +97,35 @@
           "angularVelocity": 1,
           "normalSprite": "./assets/images/police01.png",
           "normalAnimation": "barcoUp",
-          "tipo": "patruya"
+          "tipo": "patruya",
+          "armas": [
+            {
+              "id": 0,
+              "tipo": "disparo",
+              "danio": 50,
+              "cadencia": 2,
+              "sprite": "bala",
+              "velocidad": 0.01,
+              "sonido": "canion"
+            },
+            {
+              "id": 1,
+              "tipo": "disparo",
+              "danio": 25,
+              "cadencia": 1,
+              "sprite": "bala",
+              "velocidad": 0.03,
+              "sonido": "ametralladora"
+            },
+            {
+              "id": 1,
+              "tipo": "dron",
+              "cadencia": 1,
+              "sprite": "policia1",
+              "velocidad": 0.03,
+              "sonido": "ametralladora"
+            }
+          ]
         },
         {
           "id": 3,
@@ -109,7 +137,35 @@
           "angularVelocity": 1,
           "normalSprite": "./assets/images/police01.png",
           "normalAnimation": "barcoUp",
-          "tipo":"patruya"
+          "tipo":"patruya",
+          "armas": [
+            {
+              "id": 0,
+              "tipo": "disparo",
+              "danio": 50,
+              "cadencia": 2,
+              "sprite": "bala",
+              "velocidad": 0.01,
+              "sonido": "canion"
+            },
+            {
+              "id": 1,
+              "tipo": "disparo",
+              "danio": 25,
+              "cadencia": 1,
+              "sprite": "bala",
+              "velocidad": 0.03,
+              "sonido": "ametralladora"
+            },
+            {
+              "id": 1,
+              "tipo": "dron",
+              "cadencia": 1,
+              "sprite": "policia1",
+              "velocidad": 0.03,
+              "sonido": "ametralladora"
+            }
+          ]
         }
       ]
     }

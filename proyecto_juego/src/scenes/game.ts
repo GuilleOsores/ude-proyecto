@@ -1,14 +1,19 @@
 import * as Phaser from 'phaser';
 
+// eslint-disable-next-line no-unused-vars
+import { GOVehiculo } from '../gameObjects/vehiculo';
 import { GOPesquero } from '../gameObjects/pesquero';
 import { GOPatrulla } from '../gameObjects/patrulla';
 import { agregarAgua } from '../gameObjects/agua';
 
 const sceneConfig: SceneConfiguration = require('../../mock/scene.json');
 
-const nick = 'player2';
-
 export class Game extends Phaser.Scene {
+  jugadorLocal: {
+    nick: string,
+    vehiculos: GOPesquero[] | GOPatrulla[],
+  } = { nick: 'player2', vehiculos: [] };
+
   constructor() {
     super('Game');
   }
@@ -41,14 +46,6 @@ export class Game extends Phaser.Scene {
     this.matter.world.setBounds(0, 0, sceneConfig.width, sceneConfig.height);
     this.cameras.main.setBounds(0, 0, sceneConfig.width, sceneConfig.height);
 
-    this.input.on('gameobjectdown', (pointer, gameObject: Phaser.GameObjects.GameObject) => {
-      console.log(gameObject.getData('id'));
-      this.events.emit('changeBoat: ', gameObject.getData('id'));
-    });
-
-    this.events.on('changeBoat', () => {
-      console.log('changeBoat create scende');
-    });
     agregarAgua(this, sceneConfig.width, sceneConfig.height);
 
     sceneConfig.jugadores.forEach(
@@ -57,8 +54,8 @@ export class Game extends Phaser.Scene {
           (v, i) => {
             const data = {
               ...v,
-              canBeSelected: p.nick === nick,
-              selected: i === 0 && p.nick === nick,
+              canBeSelected: p.nick === this.jugadorLocal.nick,
+              selected: i === 0 && p.nick === this.jugadorLocal.nick,
               millaLimite: sceneConfig.millaLimite,
             };
 
@@ -67,9 +64,20 @@ export class Game extends Phaser.Scene {
             if (data.selected) {
               this.cameras.main.startFollow(ve);
             }
+            if (p.nick === this.jugadorLocal.nick) {
+              this.jugadorLocal.vehiculos.push(<any>ve);
+            }
           },
         );
       },
     );
+
+    this.input.on('gameobjectdown', (pointer, gameObject: Phaser.GameObjects.GameObject) => {
+      const goSeleccionado = gameObject.getData('id');
+      (<GOVehiculo[]> this.jugadorLocal.vehiculos).forEach(
+        (v) => v.setSeleccionado(v.getId() === goSeleccionado)
+        ,
+      );
+    });
   }
 }

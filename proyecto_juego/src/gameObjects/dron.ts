@@ -8,7 +8,13 @@ export class Dron extends Phaser.GameObjects.Sprite {
   destino: {x: number, y: number};
 
   constructor(
-    scene: Phaser.Scene, x: number, y: number, toX: number, toY: number, arma: Arma, rotacion: number,
+    scene: Phaser.Scene,
+    x: number,
+    y: number,
+    toX: number,
+    toY: number,
+    arma: Arma,
+    rotacion: number,
   ) {
     super(scene, x, y, arma.sprite);
     // const f = new Phaser.Physics.Matter.Factory(scene.matter.world);
