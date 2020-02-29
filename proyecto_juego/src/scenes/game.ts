@@ -5,6 +5,7 @@ import { GOVehiculo } from '../gameObjects/vehiculo';
 import { GOPesquero } from '../gameObjects/pesquero';
 import { GOPatrulla } from '../gameObjects/patrulla';
 import { agregarAgua } from '../gameObjects/agua';
+import { getWs, EVENTOS } from '../ws';
 
 const sceneConfig: SceneConfiguration = require('../../mock/scene.json');
 
@@ -14,8 +15,14 @@ export class Game extends Phaser.Scene {
     vehiculos: GOPesquero[] | GOPatrulla[],
   } = { nick: 'player2', vehiculos: [] };
 
+  jugadorRemoto: {
+    nick: string,
+    vehiculos: GOPesquero[] | GOPatrulla[],
+  } = { nick: 'player1', vehiculos: [] };
+
   constructor() {
     super('Game');
+    getWs().onmessage = this.wshandler;
   }
 
   public preload() {
@@ -54,6 +61,7 @@ export class Game extends Phaser.Scene {
           (v, i) => {
             const data = {
               ...v,
+              nick: p.nick,
               canBeSelected: p.nick === this.jugadorLocal.nick,
               selected: i === 0 && p.nick === this.jugadorLocal.nick,
               millaLimite: sceneConfig.millaLimite,
@@ -91,5 +99,17 @@ export class Game extends Phaser.Scene {
       (v) => v.setSeleccionado(v.getId() === id)
       ,
     );
+  }
+
+  // wshandler = console.log
+  wshandler = ({ data }) => {
+    // console.log(data);
+    if (data.event === EVENTOS.MUEVO_BARCO) {
+      if (data.nick === this.jugadorRemoto.nick) {
+        const v = this.jugadorRemoto.vehiculos[data.id];
+        v.x = data.x;
+        v.y = data.y;
+      }
+    }
   }
 }

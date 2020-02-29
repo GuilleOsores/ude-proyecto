@@ -1,13 +1,17 @@
 import * as Phaser from 'phaser';
+import { getWs, EVENTOS } from '../ws';
 
 export class GOVehiculo extends Phaser.GameObjects.Sprite {
   private id;
+
+  nick: string;
 
   private initialRotationSet = false;
 
   constructor(scene: Phaser.Scene, vehicle: Pesquero | Patrulla, data: any) {
     super(scene, vehicle.x, vehicle.y, vehicle.sprite);
     this.id = vehicle.id;
+    this.nick = data.nick;
     // agrega las funcionalidades de matter al sprite comun de phaser
     const f = new Phaser.Physics.Matter.Factory(scene.matter.world);
     f.gameObject(this, {}, true);
@@ -45,6 +49,13 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
       this.initialRotationSet = true;
       this.setRotation(Phaser.Math.DegToRad(this.getData('initialRotation')));
     }
+    getWs().send(JSON.stringify({
+      event: EVENTOS.MUEVO_BARCO,
+      nick: this.nick,
+      id: this.id,
+      x: this.x,
+      y: this.y,
+    }));
     if (!this.getData('selected')) return;
 
     const cursorKeys = this.scene.input.keyboard.createCursorKeys();
