@@ -73,11 +73,23 @@ export class Game extends Phaser.Scene {
     );
 
     this.input.on('gameobjectdown', (pointer, gameObject: Phaser.GameObjects.GameObject) => {
-      const goSeleccionado = gameObject.getData('id');
-      (<GOVehiculo[]> this.jugadorLocal.vehiculos).forEach(
-        (v) => v.setSeleccionado(v.getId() === goSeleccionado)
-        ,
-      );
+      const id = gameObject.getData('id');
+      this.seleccionarBarco(id);
     });
+
+    this.input.keyboard.on('keydown', this.keyboardHandler);
+  }
+
+  keyboardHandler = (event: KeyboardEvent) => {
+    if (event.shiftKey && this.jugadorLocal.vehiculos[event.keyCode - 49]) {
+      this.seleccionarBarco(event.keyCode - 49 + 1);
+    }
+  }
+
+  seleccionarBarco = (id) => {
+    (<GOVehiculo[]> this.jugadorLocal.vehiculos).forEach(
+      (v) => v.setSeleccionado(v.getId() === id)
+      ,
+    );
   }
 }

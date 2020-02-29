@@ -24,7 +24,7 @@ export class GOPatrulla extends GOVehiculo {
   keyboardHandler = (event: KeyboardEvent) => {
     if (this.getData('armas')) {
       const armas = this.getData('armas');
-      if (armas[event.keyCode - 49]) this.armaSeleccionada = event.keyCode - 49;
+      if (!event.shiftKey && armas[event.keyCode - 49]) this.armaSeleccionada = event.keyCode - 49;
     }
   }
 

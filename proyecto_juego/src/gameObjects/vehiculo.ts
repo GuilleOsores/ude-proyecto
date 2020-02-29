@@ -67,5 +67,8 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
 
   public getId = () => this.id;
 
-  public setSeleccionado = (estaSeleccionado) => this.setData('selected', estaSeleccionado);
+  public setSeleccionado = (estaSeleccionado) => {
+    this.setData('selected', estaSeleccionado);
+    if (estaSeleccionado) this.scene.cameras.main.startFollow(this);
+  }
 }
