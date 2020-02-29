@@ -1,20 +1,22 @@
 import * as Phaser from 'phaser';
 
-export class Disparo extends Phaser.Physics.Matter.Sprite {
+export class Disparo extends Phaser.GameObjects.Sprite {
   initialRotationSet = false;
 
   arma: Arma;
 
   constructor(
-    world: Phaser.Physics.Matter.World, x: number, y: number, arma: Arma, rotacion: number,
+    scene: Phaser.Scene, x: number, y: number, arma: Arma, rotacion: number,
   ) {
-    super(world, x, y, arma.sprite);
+    super(scene, x, y, arma.sprite);
+    const f = new Phaser.Physics.Matter.Factory(scene.matter.world);
+    f.gameObject(this, {}, true);
+    scene.add.existing(this);
+
     this.arma = arma;
-    this.setBody('circle');
+    this.getMatterSprite().setBody('circle');
     this.setRotation(rotacion);
     this.setScale(2);
-    world.scene.sys.displayList.add(this);
-    world.scene.sys.updateList.add(this);
 
     this.scene.matter.world.on('collisionstart', this.collisionHandler);
 
@@ -24,34 +26,26 @@ export class Disparo extends Phaser.Physics.Matter.Sprite {
     });
   }
 
+  getMatterSprite() {
+    return (<Phaser.Physics.Matter.Sprite> (<any> this));
+  }
+
   public preUpdate(_timeElapsed: number, timeLastUpdate: number) {
-    this.thrust(this.arma.velocidad * (timeLastUpdate / 1000));
+    this.getMatterSprite().thrust(this.arma.velocidad * (timeLastUpdate / 1000));
   }
 
   collisionHandler = (
-    event: Phaser.Physics.Matter.Events.CollisionStartEvent,
-    bodyA: Phaser.GameObjects.GameObject,
-    bodyB: Phaser.GameObjects.GameObject,
+    _event: Phaser.Physics.Matter.Events.CollisionStartEvent,
+    ...bodys: any[]
   ) => {
-    if (bodyA === this.body || bodyB === this.body) {
-      const objetos: Phaser.GameObjects.GameObject[] = [];
-
-      this.world.scene.sys.displayList.each((go) => {
-        if (go.body === bodyA || go.body === bodyB) {
-          objetos.push(go);
+    bodys.forEach(
+      (o) => {
+        if (o.gameObject && o.gameObject.getData('tipo') === 'pesquero') {
+          o.gameObject.setData('vida', o.gameObject.getData('vida') - this.arma.danio);
+        } else if (o.gameObject === this) {
+          o.gameObject.destroy();
         }
-      });
-
-      objetos.forEach(
-        (o) => {
-          if (o.getData('tipo') === 'pesquero') {
-            o.setData('vida', o.getData('vida') - this.arma.danio);
-          } else if (o === this) {
-            (<Phaser.GameObjects.GameObject>o.body).destroy();
-            this.world.scene.sys.displayList.remove(o);
-          }
-        },
-      );
-    }
+      },
+    );
   }
 }
