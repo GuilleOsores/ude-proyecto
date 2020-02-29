@@ -64,18 +64,22 @@
               "tipo": "disparo",
               "danio": 50,
               "cadencia": 2,
-              "sprite": "bala",
+              "distancia": 800,
+              "sprite": "bala_canion",
               "velocidad": 0.01,
-              "sonido": "canion"
+              "sonido": "canion",
+              "escala": 1
             },
             {
               "id": 1,
               "tipo": "disparo",
               "danio": 25,
               "cadencia": 1,
+              "distancia": 400,
               "sprite": "bala",
               "velocidad": 0.03,
-              "sonido": "ametralladora"
+              "sonido": "ametralladora",
+              "escala": 0.4
             },
             {
               "id": 1,
@@ -104,18 +108,22 @@
               "tipo": "disparo",
               "danio": 50,
               "cadencia": 2,
-              "sprite": "bala",
+              "distancia": 800,
+              "sprite": "bala_canion",
               "velocidad": 0.01,
-              "sonido": "canion"
+              "sonido": "canion",
+              "escala": 1
             },
             {
               "id": 1,
               "tipo": "disparo",
               "danio": 25,
               "cadencia": 1,
+              "distancia": 400,
               "sprite": "bala",
               "velocidad": 0.03,
-              "sonido": "ametralladora"
+              "sonido": "ametralladora",
+              "escala": 0.4
             },
             {
               "id": 1,
@@ -144,23 +152,28 @@
               "tipo": "disparo",
               "danio": 50,
               "cadencia": 2,
-              "sprite": "bala",
+              "distancia": 800,
+              "sprite": "bala_canion",
               "velocidad": 0.01,
-              "sonido": "canion"
+              "sonido": "canion",
+              "escala": 1
             },
             {
               "id": 1,
               "tipo": "disparo",
               "danio": 25,
               "cadencia": 1,
+              "distancia": 400,
               "sprite": "bala",
               "velocidad": 0.03,
-              "sonido": "ametralladora"
+              "sonido": "ametralladora",
+              "escala": 0.4
             },
             {
               "id": 1,
               "tipo": "dron",
               "cadencia": 1,
+              "distancia": 400,
               "sprite": "policia1",
               "velocidad": 0.03,
               "sonido": "ametralladora"
