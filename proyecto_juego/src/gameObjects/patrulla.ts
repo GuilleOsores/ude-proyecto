@@ -32,7 +32,7 @@ export class GOPatrulla extends GOVehiculo {
     if (this.getData('selected')) {
       const armas = <Arma[]> this.getData('armas');
       const arma = armas[this.armaSeleccionada];
-      if (!this.ultimoDisparo[this.armaSeleccionada] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[0]))) {
+      if (!this.ultimoDisparo[this.armaSeleccionada] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[this.armaSeleccionada]))) {
         this.disparo(arma, pointer);
         this.ultimoDisparo[this.armaSeleccionada] = moment();
       }
