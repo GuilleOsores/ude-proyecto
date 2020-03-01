@@ -105,7 +105,7 @@ export class Game extends Phaser.Scene {
   }
 
   wshandler = ({ data }) => {
-    // console.log(data);
+    console.log(data);
     const info = JSON.parse(data);
     if (info.event === EVENTOS.MUEVO_BARCO) {
       if (info.nick === this.jugadorRemoto.nick) {
