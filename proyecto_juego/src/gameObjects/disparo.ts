@@ -4,6 +4,8 @@ export class Disparo extends Phaser.GameObjects.Sprite {
   initialRotationSet = false;
 
   arma: Arma;
+  initialPositionX: number;
+  initialPositionY: number;
 
   constructor(
     scene: Phaser.Scene, x: number, y: number, arma: Arma, rotacion: number,
@@ -14,9 +16,11 @@ export class Disparo extends Phaser.GameObjects.Sprite {
     scene.add.existing(this);
 
     this.arma = arma;
+    this.initialPositionX = x;
+    this.initialPositionY = y;
     this.getMatterSprite().setBody('circle');
     this.setRotation(rotacion);
-    this.setScale(2);
+    this.setScale(this.arma.escala);
 
     this.scene.matter.world.on('collisionstart', this.collisionHandler);
 
@@ -31,6 +35,12 @@ export class Disparo extends Phaser.GameObjects.Sprite {
   }
 
   public preUpdate(_timeElapsed: number, timeLastUpdate: number) {
+
+    if (Phaser.Math.Distance.Between(this.x, this.y, this.initialPositionX, this.initialPositionY) >= this.arma.distancia){
+      this.destroy();
+      return;
+    }  
+
     this.getMatterSprite().thrust(this.arma.velocidad * (timeLastUpdate / 1000));
   }
 

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Berga</title>
+</head>
+<body>
+	<script>
+	
+		function dalegas() {
+			
+			var datos = document.getElementById("coso").value;
+			var ws = new WebSocket("ws://" + document.location.host + "/websocket-test/endpoint");
+			ws.send(datos);
+		}
+	
+	</script>
+	<label>Tubieja: <input id="coso" type="text"/></label>
+	<button onclick="dalegas()">enviar</button>
+</body>
+</html>

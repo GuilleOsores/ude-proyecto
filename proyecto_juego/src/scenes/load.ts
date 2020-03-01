@@ -30,7 +30,8 @@ export class Load extends Phaser.Scene {
       spacing: 0,
     });
 
-    this.load.image('bala', './assets/images/bullet7.png');
+    this.load.image('bala', './assets/images/bullet6.png');
+    this.load.image('bala_canion', './assets/images/bullet8.png');
 
     this.load.audio('canion', '../assets/sonidos/canion.m4a');
     this.load.audio('ametralladora', '../assets/sonidos/ametralladora.m4a');
