@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 
 import { Load } from './scenes/load';
+import { Main } from './scenes/main';
 import { Game } from './scenes/game';
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
@@ -23,7 +24,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   },
   parent: 'game',
   backgroundColor: '#FFFFFF',
-  scene: [Load, Game],
+  scene: [Load, Main, Game],
 };
 
 const game = new Phaser.Game(gameConfig);
