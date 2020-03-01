@@ -57,7 +57,9 @@
           "angularVelocity": 1,
           "normalSprite": "./assets/images/police01.png",
           "normalAnimation": "barcoUp",
-          "tipo": "patruya",          
+          "tipo": "patruya",
+          "combustibleMaximo": 100,
+          "gastoCombustible": 1,
           "armas": [
             {
               "id": 0,
@@ -98,6 +100,8 @@
           "normalSprite": "./assets/images/police01.png",
           "normalAnimation": "barcoUp",
           "tipo": "patruya",
+          "combustibleMaximo": 100,
+          "gastoCombustible": 1,
           "armas": [
             {
               "id": 0,
@@ -138,6 +142,8 @@
           "normalSprite": "./assets/images/police01.png",
           "normalAnimation": "barcoUp",
           "tipo":"patruya",
+          "combustibleMaximo": 100,
+          "gastoCombustible": 1,
           "armas": [
             {
               "id": 0,

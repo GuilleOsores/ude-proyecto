@@ -10,8 +10,11 @@ export class GOPatrulla extends GOVehiculo {
 
   armaSeleccionada = 0;
 
+  yendoAlMuelle = false;
+
   constructor(scene: Phaser.Scene, vehicle: Patrulla, data: any) {
     super(scene, vehicle, data);
+    this.setData('combustibleActual', data.combustibleMaximo);
 
     if (vehicle.sprite === 'policia1') this.setScale(0.6);
 
@@ -19,6 +22,14 @@ export class GOPatrulla extends GOVehiculo {
       this.scene.input.on(Phaser.Input.Events.POINTER_DOWN, this.dispararHandle);
       this.scene.input.keyboard.on('keydown', this.keyboardHandler);
     }
+  }
+
+  preUpdate(timeElapsed: number, timeLastUpdate: number) {
+    if (this.getData('combustibleActual') <= 0) {
+      if (!this.yendoAlMuelle) this.irAlMuelle();
+      return;
+    }
+    super.preUpdate(timeElapsed, timeLastUpdate);
   }
 
   keyboardHandler = (event: KeyboardEvent) => {
@@ -74,5 +85,38 @@ export class GOPatrulla extends GOVehiculo {
         this.rotation,
       );
     }
+  }
+
+  recargarCombustible = (cantidad) => {
+    const combustibleActual = this.getData('combustibleActual');
+    if (this.getData('combustibleMaximo') > combustibleActual) {
+      this.setData('combustibleActual', combustibleActual + cantidad);
+    }
+  }
+
+  irAlMuelle = () => {
+    this.yendoAlMuelle = true;
+    const muelle = <Phaser.GameObjects.Sprite> this.getData('muelle');
+    const rotacion = Phaser.Math.Angle.Between(this.x, this.y, muelle.x, muelle.y);
+    const rotacionDuracion = Math.abs((this.rotation + rotacion) % (Math.PI * 2)) / (this.getData('angularVelocity') / 1000);
+    const distancia = Math.abs(Phaser.Math.Distance.Between(this.x, this.y, muelle.x, muelle.y));
+    const tiempoDistancia = distancia / 0.1;
+
+    this.scene.tweens.add({
+      targets: this,
+      props: {
+        rotation: rotacion,
+      },
+      duration: rotacionDuracion,
+      onComplete: () => this.scene.tweens.add({
+        targets: this,
+        props: {
+          x: muelle.x,
+          y: muelle.y,
+        },
+        duration: tiempoDistancia,
+        onComplete: () => { this.yendoAlMuelle = false; },
+      }),
+    });
   }
 }
