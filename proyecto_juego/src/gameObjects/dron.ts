@@ -83,7 +83,7 @@ export class Dron extends Phaser.GameObjects.Sprite {
       } else {
         this.getMatterSprite().thrust(this.arma.velocidad);
       }
-    } else if (this.siguiendo) {
+    } else if (this.siguiendo!=null) {
       this.tween.complete();
       const rotacion = Phaser.Math.Angle.Between(
         this.x, this.y, this.siguiendo.x, this.siguiendo.y,
@@ -141,6 +141,9 @@ export class Dron extends Phaser.GameObjects.Sprite {
     ) {
       const pesquero = <GOPesquero>(goA === this ? goB : goA);
       this.siguiendo = pesquero;
+      this.siguiendo.destroy();
+      this.siguiendo=null;
+      
     }
   }
 }

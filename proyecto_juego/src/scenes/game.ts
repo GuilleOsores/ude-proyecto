@@ -13,7 +13,7 @@ export class Game extends Phaser.Scene {
   jugadorLocal: {
     nick: string,
     vehiculos: GOPesquero[] | GOPatrulla[],
-  } = { nick: 'player1', vehiculos: [] };
+  } = { nick: 'player2', vehiculos: [] };
 
   constructor() {
     super('Game');
