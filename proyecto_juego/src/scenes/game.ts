@@ -49,7 +49,7 @@ export class Game extends Phaser.Scene {
 
     agregarAgua(this, sceneConfig.width, sceneConfig.height);
     // eslint-disable-next-line no-new
-    const muelle = new Muelle(this, 450, 500, '');
+    const muelle = new Muelle(this, sceneConfig.width / 2, sceneConfig.height, 'puerto');
 
     sceneConfig.jugadores.forEach(
       (p) => {

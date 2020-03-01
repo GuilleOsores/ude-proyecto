@@ -3,17 +3,15 @@ import * as Phaser from 'phaser';
 import { GOPatrulla } from './patrulla';
 
 export class Muelle extends Phaser.GameObjects.Sprite {
-  texto: Phaser.GameObjects.Text;
-
   sensor: Phaser.GameObjects.Ellipse;
 
   constructor(scene: Phaser.Scene, x: number, y: number, sprite: string) {
     super(scene, x, y, sprite);
+    this.setPosition(x - this.width / 2, y - this.height / 2);
     const f = new Phaser.Physics.Matter.Factory(scene.matter.world);
     f.gameObject(this, { isStatic: true }, true);
     scene.add.existing(this);
-
-    this.sensor = new Phaser.GameObjects.Ellipse(scene, x, y, 100, 100);
+    this.sensor = new Phaser.GameObjects.Ellipse(scene, x - this.width / 2, y - this.height / 2, this.width + 100, this.height + 100);
     f.gameObject(
       this.sensor,
       {
@@ -24,11 +22,6 @@ export class Muelle extends Phaser.GameObjects.Sprite {
       true,
     );
     scene.add.existing(this.sensor);
-
-    // borrar cuando se tenga el sprite
-    this.texto = new Phaser.GameObjects.Text(scene, x, y, 'muelle', {});
-    this.texto.setOrigin(0.5, 0.5);
-    scene.add.existing(this.texto);
   }
 
   onCollideActiveCallbackHandler = (pair: MatterJS.IPair) => {
