@@ -28,11 +28,12 @@ public class ServerWebSocket {
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
 		System.out.println(msg);
-		for(Map.Entry<String, Session> s : sesiones.entrySet()) {
+		session.getBasicRemote().sendText(msg);
+		/* for(Map.Entry<String, Session> s : sesiones.entrySet()) {
 			if(s.getKey() != session.getId()) {
 				s.getValue().getBasicRemote().sendText(msg);
 			}
-		}
+		} */
 	}
 
 	@OnClose
