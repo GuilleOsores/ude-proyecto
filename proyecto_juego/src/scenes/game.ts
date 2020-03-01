@@ -48,6 +48,10 @@ export class Game extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, sceneConfig.width, sceneConfig.height);
 
     agregarAgua(this, sceneConfig.width, sceneConfig.height);
+    // linea pesca
+    this.add.graphics({
+      fillStyle: { color: 0xFF0000 },
+    }).fillRect(0, sceneConfig.millaLimite, sceneConfig.width, 1);
     // eslint-disable-next-line no-new
     const muelle = new Muelle(this, sceneConfig.width / 2, sceneConfig.height, 'puerto');
 
@@ -84,15 +88,14 @@ export class Game extends Phaser.Scene {
     this.input.keyboard.on('keydown', this.keyboardHandler);
   }
 
-  public agregarTexto = (texto) =>{
-        var txt = null;
-        if(txt==null){
-          txt = this.add.text(16, 16, texto);
-        txt.setScrollFactor(0);
-      }else{
-        txt.setText=texto;
-      }
-
+  public agregarTexto = (texto) => {
+    let txt = null;
+    if (txt == null) {
+      txt = this.add.text(16, 16, texto);
+      txt.setScrollFactor(0);
+    } else {
+      txt.setText = texto;
+    }
   }
 
   keyboardHandler = (event: KeyboardEvent) => {
