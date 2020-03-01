@@ -4,7 +4,9 @@ export class Disparo extends Phaser.GameObjects.Sprite {
   initialRotationSet = false;
 
   arma: Arma;
+
   initialPositionX: number;
+
   initialPositionY: number;
 
   constructor(
@@ -35,11 +37,10 @@ export class Disparo extends Phaser.GameObjects.Sprite {
   }
 
   public preUpdate(_timeElapsed: number, timeLastUpdate: number) {
-
-    if (Phaser.Math.Distance.Between(this.x, this.y, this.initialPositionX, this.initialPositionY) >= this.arma.distancia){
+    if (Phaser.Math.Distance.Between(this.x, this.y, this.initialPositionX, this.initialPositionY) >= this.arma.distancia) {
       this.destroy();
       return;
-    }  
+    }
 
     this.getMatterSprite().thrust(this.arma.velocidad * (timeLastUpdate / 1000));
   }

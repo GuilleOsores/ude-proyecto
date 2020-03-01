@@ -33,9 +33,9 @@ export class Muelle extends Phaser.GameObjects.Sprite {
 
   onCollideActiveCallbackHandler = (pair: MatterJS.IPair) => {
     let go: GOPatrulla;
-    if ((<Phaser.GameObjects.GameObject>(<MatterJS.BodyType>pair.bodyA).gameObject).getData('tipo') === 'patruya') {
+    if ((<MatterJS.BodyType>pair.bodyA).gameObject && (<Phaser.GameObjects.GameObject>(<MatterJS.BodyType>pair.bodyA).gameObject).getData && (<Phaser.GameObjects.GameObject>(<MatterJS.BodyType>pair.bodyA).gameObject).getData('tipo') === 'patruya') {
       go = (<MatterJS.BodyType>pair.bodyA).gameObject;
-    } else if ((<Phaser.GameObjects.GameObject>(<MatterJS.BodyType>pair.bodyB).gameObject).getData('tipo') === 'patruya') {
+    } else if ((<MatterJS.BodyType>pair.bodyB).gameObject && (<Phaser.GameObjects.GameObject>(<MatterJS.BodyType>pair.bodyB).gameObject).getData && (<Phaser.GameObjects.GameObject>(<MatterJS.BodyType>pair.bodyB).gameObject).getData('tipo') === 'patruya') {
       go = (<MatterJS.BodyType>pair.bodyB).gameObject;
     }
 

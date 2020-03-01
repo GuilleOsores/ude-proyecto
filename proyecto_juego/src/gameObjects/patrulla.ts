@@ -83,6 +83,7 @@ export class GOPatrulla extends GOVehiculo {
         pointer.y,
         arma,
         this.rotation,
+        this,
       );
     }
   }

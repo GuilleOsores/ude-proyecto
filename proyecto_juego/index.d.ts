@@ -43,5 +43,7 @@ declare interface Arma {
   sprite: string,
   velocidad: number,
   sonido: string,
-  escala: number
+  escala: number,
+  ttl? : number,
+  velocidadAngular?: number,
 }

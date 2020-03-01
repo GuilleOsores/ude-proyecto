@@ -84,12 +84,14 @@
               "escala": 0.4
             },
             {
-              "id": 1,
+              "id": 2,
               "tipo": "dron",
               "cadencia": 1,
               "sprite": "policia1",
-              "velocidad": 0.03,
-              "sonido": "ametralladora"
+              "velocidad": 0.0005,
+              "sonido": "ametralladora",
+              "ttl": 5,
+              "velocidadAngular": 1.3
             }
           ]
         },
@@ -130,12 +132,14 @@
               "escala": 0.4
             },
             {
-              "id": 1,
+              "id": 2,
               "tipo": "dron",
               "cadencia": 1,
               "sprite": "policia1",
-              "velocidad": 0.03,
-              "sonido": "ametralladora"
+              "velocidad": 0.005,
+              "sonido": "ametralladora",
+              "ttl": 15,
+              "velocidadAngular": 1
             }
           ]
         },
@@ -176,13 +180,15 @@
               "escala": 0.4
             },
             {
-              "id": 1,
+              "id": 2,
               "tipo": "dron",
               "cadencia": 1,
               "distancia": 400,
               "sprite": "policia1",
-              "velocidad": 0.03,
-              "sonido": "ametralladora"
+              "velocidad": 0.005,
+              "sonido": "ametralladora",
+              "ttl": 15,
+              "velocidadAngular": 1
             }
           ]
         }
