@@ -2,6 +2,8 @@ import * as Phaser from 'phaser';
 import * as moment from 'moment';
 // eslint-disable-next-line no-unused-vars
 import { GOPatrulla } from './patrulla';
+// eslint-disable-next-line no-unused-vars
+import { GOPesquero } from './pesquero';
 
 export class Dron extends Phaser.GameObjects.Sprite {
   initialRotationSet = false;
@@ -18,6 +20,10 @@ export class Dron extends Phaser.GameObjects.Sprite {
 
   regresando: boolean;
 
+  siguiendo: GOPesquero;
+
+  tween: Phaser.Tweens.Tween;
+
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -30,12 +36,10 @@ export class Dron extends Phaser.GameObjects.Sprite {
   ) {
     super(scene, x, y, arma.sprite);
 
-    this.sensor = new Phaser.GameObjects.Arc(scene, x, y, 200);
+    this.sensor = new Phaser.GameObjects.Arc(scene, x, y); // , 150, 0, 360, false, 45);
     scene.add.existing(this.sensor);
     const f = new Phaser.Physics.Matter.Factory(scene.matter.world);
-    // f.gameObject(this, { isSensor: true, circleRadius: 400 }, true);
-    // this.body1 = this.body;
-    f.gameObject(this.sensor, { circleRadius: 200, isSensor: true });
+    f.gameObject(this.sensor, { circleRadius: 150, isSensor: true });
     f.gameObject(this, {}, true);
     this.setScale(0.3);
     scene.add.existing(this);
@@ -46,7 +50,7 @@ export class Dron extends Phaser.GameObjects.Sprite {
     this.setRotation(rotacion);
 
 
-    this.scene.tweens.add({
+    this.tween = this.scene.tweens.add({
       targets: this.getMatterSprite(),
       props: {
         x: toX,
@@ -54,6 +58,8 @@ export class Dron extends Phaser.GameObjects.Sprite {
       },
       duration: 3500,
     });
+
+    // tween.c
 
     this.fechaCreacion = moment();
     this.scene.matter.world.on('collisionstart', this.collisionHandler);
@@ -70,7 +76,25 @@ export class Dron extends Phaser.GameObjects.Sprite {
       const velocidadAngular = this.arma.velocidadAngular * (timeLastUpdate / 1000);
       // arreglar que rote para el lado que tenga que rotar menos
       if (Math.abs(Math.abs(rotacion) - Math.abs(this.rotation)) > velocidadAngular) {
-        this.setRotation(this.rotation > rotacion ? this.rotation - velocidadAngular : this.rotation + velocidadAngular);
+        this.setRotation(
+          this.rotation > rotacion
+            ? this.rotation - velocidadAngular : this.rotation + velocidadAngular,
+        );
+      } else {
+        this.getMatterSprite().thrust(this.arma.velocidad);
+      }
+    } else if (this.siguiendo) {
+      this.tween.complete();
+      const rotacion = Phaser.Math.Angle.Between(
+        this.x, this.y, this.siguiendo.x, this.siguiendo.y,
+      );
+      const velocidadAngular = this.arma.velocidadAngular * (timeLastUpdate / 1000);
+      // arreglar que rote para el lado que tenga que rotar menos
+      if (Math.abs(Math.abs(rotacion) - Math.abs(this.rotation)) > velocidadAngular) {
+        this.setRotation(
+          this.rotation > rotacion
+            ? this.rotation - velocidadAngular : this.rotation + velocidadAngular,
+        );
       } else {
         this.getMatterSprite().thrust(this.arma.velocidad);
       }
@@ -86,9 +110,15 @@ export class Dron extends Phaser.GameObjects.Sprite {
     bodyA: any,
     bodyB: any,
   ) => {
-    if (
-      this.regresando
-      && bodyA.gameObject && bodyB.gameObject
+    if (this.regresando) {
+      this.colisionConPatruya(bodyA, bodyB);
+    } else if (!this.siguiendo) {
+      this.colisionConPesquero(bodyA, bodyB);
+    }
+  }
+
+  colisionConPatruya = (bodyA: MatterJS.BodyType, bodyB: MatterJS.BodyType) => {
+    if (bodyA.gameObject && bodyB.gameObject
       && (bodyA.gameObject === this.patruya || bodyA.gameObject === this)
       && (bodyB.gameObject === this.patruya || bodyB.gameObject === this)
     ) {
@@ -98,6 +128,19 @@ export class Dron extends Phaser.GameObjects.Sprite {
       } else {
         bodyB.gameObject.destroy();
       }
+    }
+  }
+
+  colisionConPesquero = (bodyA: MatterJS.BodyType, bodyB: MatterJS.BodyType) => {
+    const goA = <Phaser.GameObjects.GameObject> bodyA.gameObject;
+    const goB = <Phaser.GameObjects.GameObject> bodyB.gameObject;
+
+    if (goA && goB
+      && ((goA.getData && goA.getData('tipo') === 'pesquero') || bodyA.gameObject === this.sensor)
+      && ((goB.getData && goB.getData('tipo') === 'pesquero') || bodyB.gameObject === this.sensor)
+    ) {
+      const pesquero = <GOPesquero>(goA === this ? goB : goA);
+      this.siguiendo = pesquero;
     }
   }
 }

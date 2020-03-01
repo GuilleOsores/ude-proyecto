@@ -37,7 +37,11 @@ export class Disparo extends Phaser.GameObjects.Sprite {
   }
 
   public preUpdate(_timeElapsed: number, timeLastUpdate: number) {
-    if (Phaser.Math.Distance.Between(this.x, this.y, this.initialPositionX, this.initialPositionY) >= this.arma.distancia) {
+    if (
+      Phaser.Math.Distance.Between(
+        this.x, this.y, this.initialPositionX, this.initialPositionY,
+      ) >= this.arma.distancia
+    ) {
       this.destroy();
       return;
     }
