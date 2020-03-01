@@ -114,6 +114,8 @@ export class Dron extends Phaser.GameObjects.Sprite {
       this.colisionConPatruya(bodyA, bodyB);
     } else if (!this.siguiendo) {
       this.colisionConPesquero(bodyA, bodyB);
+    } else if(this.siguiendo){
+      this.colisionSiguiendoPesquero(bodyA, bodyB);
     }
   }
 
@@ -141,6 +143,23 @@ export class Dron extends Phaser.GameObjects.Sprite {
     ) {
       const pesquero = <GOPesquero>(goA === this ? goB : goA);
       this.siguiendo = pesquero;
+    }
+  }
+
+  colisionSiguiendoPesquero = (bodyA: MatterJS.BodyType, bodyB: MatterJS.BodyType) => {
+    const goA = <Phaser.GameObjects.GameObject> bodyA.gameObject;
+    const goB = <Phaser.GameObjects.GameObject> bodyB.gameObject;
+
+    if (goA && goB
+      && ((goA.getData && goA.getData('tipo') === 'pesquero') || bodyA === this.body)
+      && ((goB.getData && goB.getData('tipo') === 'pesquero') || bodyB === this.body)
+    ) {
+
+      const pesquero = <GOPesquero>(goA === this ? goB : goA);
+      this.siguiendo = pesquero;
+      this.siguiendo.destroy();
+      this.siguiendo=null;
+      
     }
   }
 }
