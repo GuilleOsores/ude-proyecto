@@ -1,4 +1,4 @@
-const ws = new WebSocket('ws://192.168.18.106:8080/backend2/endpoint');
+const ws = new WebSocket('ws://localhost:8080/backend/endpoint');
 
 export const EVENTOS = {
   MUEVO_BARCO: 'muevo_barco',
