@@ -10,28 +10,34 @@ import javax.websocket.server.ServerEndpoint;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 
 @ServerEndpoint("/endpoint")
 public class ServerWebSocket {
 	
-	private HashMap<Integer, Session> sesiones = new HashMap<>();
-
+	private HashMap<String, Session> sesiones = new HashMap<>();
+	
 	@OnOpen
 	public void onOpen(Session session) throws IOException {
+		sesiones.put(session.getId(), session);
+		
 		System.out.println("Conexion abierta: " + session.getId());
-		session.getBasicRemote().sendText("Sesion: " + session.getId());
 	}
 
 	@OnMessage
-	public void onMessage(String txt, Session session) throws IOException {
-		System.out.println(txt);
-		session.getBasicRemote().sendText(txt);
+	public void onMessage(String msg, Session session) throws IOException {
+		System.out.println(msg);
+		for(Map.Entry<String, Session> s : sesiones.entrySet()) {
+			if(s.getKey() != session.getId()) {
+				s.getValue().getBasicRemote().sendText(msg);
+			}
+		}
 	}
 
 	@OnClose
 	public void onClose(CloseReason reason, Session session) {
-		System.out.println("Cerrando sesion: " + session.getId());
+		System.out.println("Cerrando sesion: " + session.getId());		
 	}
 
 	@OnError
