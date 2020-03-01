@@ -4,6 +4,7 @@ import * as Phaser from 'phaser';
 import { GOVehiculo } from '../gameObjects/vehiculo';
 import { GOPesquero } from '../gameObjects/pesquero';
 import { GOPatrulla } from '../gameObjects/patrulla';
+import { Muelle } from '../gameObjects/muelle';
 import { agregarAgua } from '../gameObjects/agua';
 
 const sceneConfig: SceneConfiguration = require('../../mock/scene.json');
@@ -47,6 +48,8 @@ export class Game extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, sceneConfig.width, sceneConfig.height);
 
     agregarAgua(this, sceneConfig.width, sceneConfig.height);
+    // eslint-disable-next-line no-new
+    const muelle = new Muelle(this, 450, 500, '');
 
     sceneConfig.jugadores.forEach(
       (p) => {
@@ -58,6 +61,7 @@ export class Game extends Phaser.Scene {
               selected: i === 0 && p.nick === this.jugadorLocal.nick,
               millaLimite: sceneConfig.millaLimite,
             };
+            if (v.tipo === 'patruya') data.muelle = muelle;
 
             // eslint-disable-next-line no-new
             const ve = v.tipo === 'pesquero' ? new GOPesquero(this, v, data) : new GOPatrulla(this, v, data);
