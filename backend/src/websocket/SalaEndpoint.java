@@ -11,21 +11,41 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 @ServerEndpoint("/sala/{nick}")
 public class SalaEndpoint {
 	
 	private static Session sessionCrearSala = null;
 	
-	
 	@OnOpen
-	public void onOpen(Session session, @PathParam("tipoJugador") String tipoJugador) throws IOException {
-		this.sessionCrearSala = session;
-	
+	public void onOpen(Session session, @PathParam("nick") String nick) throws IOException {
+		System.out.println(nick);
+		
+		if(sessionCrearSala == null) {
+			this.sessionCrearSala = session;
+			session.getBasicRemote().sendText("pesquero");
+		} else {
+			session.getBasicRemote().sendText("patrulla");
+		}
 	}
 	
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
+		System.out.println(msg);
 		
+		try {
+			JsonParser parser = new JsonParser();
+			JsonObject datos = parser.parse(msg).getAsJsonObject();
+			
+			String nick = datos.get("nick").toString();
+			System.out.println(nick);
+			String tipoConec = datos.get("tipoConec").toString();
+			System.out.println(tipoConec);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 

@@ -10,15 +10,21 @@ import { getWs, EVENTOS } from '../ws';
 const sceneConfig: SceneConfiguration = require('../../mock/scene.json');
 
 export class Game extends Phaser.Scene {
+  // eslint-disable-next-line no-new
+
+  ws;
+
   jugadorLocal: {
     nick: string,
+    bando: string,
     vehiculos: GOPesquero[] | GOPatrulla[],
-  } = { nick: 'player1', vehiculos: [] };
+  } = { nick: 'player1', bando: '', vehiculos: [] };
 
   jugadorRemoto: {
     nick: string,
+    bando: string,
     vehiculos: GOPesquero[] | GOPatrulla[],
-  } = { nick: 'player2', vehiculos: [] };
+  } = { nick: 'player2', bando: '', vehiculos: [] };
 
   constructor() {
     super('Game');
@@ -54,6 +60,16 @@ export class Game extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, sceneConfig.width, sceneConfig.height);
 
     agregarAgua(this, sceneConfig.width, sceneConfig.height);
+
+    this.ws = new WebSocket('ws://192.168.1.3:8080/backend/endpoint');
+
+    this.ws.onopen = (msg) => {
+      console.log('conexion');
+    };
+
+    this.ws.onmessage = this.wshandler;
+
+    this.ws.send('crear_partida');
 
     sceneConfig.jugadores.forEach(
       (p) => {
