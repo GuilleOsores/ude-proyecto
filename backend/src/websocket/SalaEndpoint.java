@@ -8,20 +8,23 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint("/sala")
+@ServerEndpoint("/sala/{tipoJugador}")
 public class SalaEndpoint {
 	
 	private static Session sessionCrearSala = null;
 	
 	@OnOpen
-	public void onOpen(Session session) throws IOException {
+	public void onOpen(Session session, @PathParam("tipoJugador") String tipoJugador) throws IOException {
 		this.sessionCrearSala = session;
+	
 	}
 	
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
+		
 		
 	}
 
