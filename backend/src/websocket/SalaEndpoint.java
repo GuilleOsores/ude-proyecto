@@ -13,9 +13,11 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint("/sala")
 public class SalaEndpoint {
 	
+	private static Session sessionCrearSala = null;
+	
 	@OnOpen
 	public void onOpen(Session session) throws IOException {
-		
+		this.sessionCrearSala = session;
 	}
 	
 	@OnMessage

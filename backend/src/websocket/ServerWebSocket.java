@@ -30,12 +30,13 @@ public class ServerWebSocket {
 
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
+		System.out.println("Sesion " + session.getId() + " dice: " + msg);
 		broadcast(msg, session);
 	}
 
 	@OnClose
 	public void onClose(CloseReason reason, Session session) {
-		System.out.println("Cerrando sesion: " + session.getId() + ", " + reason.getReasonPhrase());
+		System.out.println("Cerrando sesion: " + session.getId() + ", motivo: " + reason.getReasonPhrase());
 		sesiones.remove(session.getId());
 		System.out.println("Cant. sesiones: " + sesiones.size());
 	}
