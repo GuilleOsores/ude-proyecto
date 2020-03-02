@@ -11,10 +11,11 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint("/sala/{tipoJugador}")
+@ServerEndpoint("/sala/{nick}")
 public class SalaEndpoint {
 	
 	private static Session sessionCrearSala = null;
+	
 	
 	@OnOpen
 	public void onOpen(Session session, @PathParam("tipoJugador") String tipoJugador) throws IOException {
