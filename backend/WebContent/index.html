@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>Server corriendo</title>
 </head>
 <body>
 	<script>
-		var ws;
+		var ws = undefined;
 		
 		ws.onopen = function(message){ 
 			console.log("Conexion: " + message);
@@ -24,11 +24,12 @@
 		};
 		
 		function conectar(){
-			ws = new WebSocket("ws://192.168.18.106:8080/backend/endpoint");
+			ws = new WebSocket("ws://192.168.1.3:8080/backend/endpoint");
 		}
 		
 		function enviar(){
-			ws.send("coso");		
+			let texto = document.getElementById('texto').value;
+			ws.send(texto);		
 		}
 		
 		function cancelar(){
@@ -36,9 +37,14 @@
 		}
 		
 	</script>
+	<h1>Servidor funcionando</h1>
+	<p>Fijarse la IP que figura en la funcion conectar()</p>
+	<p>Probar conexion con los siguientes botones: </p>
+	<input id="texto" placeholder="enviar al server"/>
 	<button onclick="conectar()">Conectar</button>
 	<button onclick="enviar()">Enviar</button>
-	<button onclick="cancelar()">Cancelar</button>
+	<button onclick="cancelar()">Desconectar</button>
+	<p>Si funciona el ws debe figurar en la consola de Eclipse</p>
 
 </body>
 </html>
