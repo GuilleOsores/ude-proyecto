@@ -4,6 +4,7 @@ import * as Phaser from 'phaser';
 import { GOVehiculo } from '../gameObjects/vehiculo';
 import { GOPesquero } from '../gameObjects/pesquero';
 import { GOPatrulla } from '../gameObjects/patrulla';
+import { Muelle } from '../gameObjects/muelle';
 import { agregarAgua } from '../gameObjects/agua';
 import { getWs, EVENTOS } from '../ws';
 
@@ -60,6 +61,12 @@ export class Game extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, sceneConfig.width, sceneConfig.height);
 
     agregarAgua(this, sceneConfig.width, sceneConfig.height);
+    // linea pesca
+    this.add.graphics({
+      fillStyle: { color: 0xFF0000 },
+    }).fillRect(0, sceneConfig.millaLimite, sceneConfig.width, 1);
+    // eslint-disable-next-line no-new
+    const muelle = new Muelle(this, sceneConfig.width / 2, sceneConfig.height, 'puerto');
 
     this.ws = new WebSocket('ws://192.168.1.3:8080/backend/endpoint');
 
@@ -83,6 +90,7 @@ export class Game extends Phaser.Scene {
               millaLimite: sceneConfig.millaLimite,
               enviarInfo: p.nick === this.jugadorLocal.nick,
             };
+            if (v.tipo === 'patruya') data.muelle = muelle;
 
             // eslint-disable-next-line no-new
             const ve = v.tipo === 'pesquero' ? new GOPesquero(this, v, data) : new GOPatrulla(this, v, data);
@@ -105,6 +113,16 @@ export class Game extends Phaser.Scene {
     });
 
     this.input.keyboard.on('keydown', this.keyboardHandler);
+  }
+
+  public agregarTexto = (texto) => {
+    let txt = null;
+    if (txt == null) {
+      txt = this.add.text(16, 16, texto);
+      txt.setScrollFactor(0);
+    } else {
+      txt.setText = texto;
+    }
   }
 
   keyboardHandler = (event: KeyboardEvent) => {

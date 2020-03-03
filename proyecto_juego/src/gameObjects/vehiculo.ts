@@ -75,8 +75,10 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
 
     if (cursorKeys.up.isDown) {
       this.getMatterSprite().thrust(this.getData('velocity'));
+      if (this.getData('combustibleActual')) this.setData('combustibleActual', this.getData('combustibleActual') - this.getData('gastoCombustible'));
     } else if (cursorKeys.down.isDown) {
       this.getMatterSprite().thrustBack(this.getData('velocity'));
+      if (this.getData('combustibleActual')) this.setData('combustibleActual', this.getData('combustibleActual') - this.getData('gastoCombustible'));
     }
   }
 

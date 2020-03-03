@@ -50,11 +50,22 @@ export class GOPesquero extends GOVehiculo {
           this.txtPesco.destroy();
           this.txtResto.destroy();
         }
-        this.txtPesco = this.scene.add.text(16, 16, pescado, { fontSize: '32px', fill: '#FFF' });
-
+        
         this.cantResto -= resto;
         const restantes = `restantes:${this.cantResto}`;
-        this.txtResto = this.scene.add.text(450, 16, restantes, { fontSize: '32px', fill: '#FFF' });
+        this.setData('restoPesca', this.cantPesca);
+
+        if(this.getData('id')==1){
+          this.txtPesco = this.scene.add.text(16, 16, pescado, { fontSize: '32px', fill: '#FFF' });
+          this.txtPesco.setScrollFactor(0);
+          this.txtResto = this.scene.add.text(250, 16, restantes, { fontSize: '32px', fill: '#FFF' });
+          this.txtResto.setScrollFactor(0);
+        }else{
+          this.txtPesco = this.scene.add.text(600, 16, pescado, { fontSize: '32px', fill: '#FFF' });
+          this.txtPesco.setScrollFactor(0);
+          this.txtResto = this.scene.add.text(850, 16, restantes, { fontSize: '32px', fill: '#FFF' });
+          this.txtResto.setScrollFactor(0);
+        }
       }
     }
   }

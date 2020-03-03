@@ -1,7 +1,7 @@
 {
   "width": 3200,
   "height": 3200,
-  "millaLimite": 500,
+  "millaLimite": 600,
   "time": 600,
   "fishFished": 0,
   "jugadores": [
@@ -57,33 +57,41 @@
           "angularVelocity": 1,
           "normalSprite": "./assets/images/police01.png",
           "normalAnimation": "barcoUp",
-          "tipo": "patruya",          
+          "tipo": "patruya",
+          "combustibleMaximo": 100,
+          "gastoCombustible": 1,
           "armas": [
             {
               "id": 0,
               "tipo": "disparo",
               "danio": 50,
               "cadencia": 2,
-              "sprite": "bala",
+              "distancia": 800,
+              "sprite": "bala_canion",
               "velocidad": 0.01,
-              "sonido": "canion"
+              "sonido": "canion",
+              "escala": 1
             },
             {
               "id": 1,
               "tipo": "disparo",
               "danio": 25,
-              "cadencia": 1,
+              "cadencia": 0.5,
+              "distancia": 400,
               "sprite": "bala",
               "velocidad": 0.03,
-              "sonido": "ametralladora"
+              "sonido": "ametralladora",
+              "escala": 0.4
             },
             {
-              "id": 1,
+              "id": 2,
               "tipo": "dron",
               "cadencia": 1,
               "sprite": "policia1",
-              "velocidad": 0.03,
-              "sonido": "ametralladora"
+              "velocidad": 0.0005,
+              "sonido": "ametralladora",
+              "ttl": 5,
+              "velocidadAngular": 1.3
             }
           ]
         },
@@ -98,32 +106,40 @@
           "normalSprite": "./assets/images/police01.png",
           "normalAnimation": "barcoUp",
           "tipo": "patruya",
+          "combustibleMaximo": 100,
+          "gastoCombustible": 1,
           "armas": [
             {
               "id": 0,
               "tipo": "disparo",
               "danio": 50,
               "cadencia": 2,
-              "sprite": "bala",
+              "distancia": 800,
+              "sprite": "bala_canion",
               "velocidad": 0.01,
-              "sonido": "canion"
+              "sonido": "canion",
+              "escala": 1
             },
             {
               "id": 1,
               "tipo": "disparo",
               "danio": 25,
-              "cadencia": 1,
+              "cadencia": 0.5,
+              "distancia": 400,
               "sprite": "bala",
               "velocidad": 0.03,
-              "sonido": "ametralladora"
+              "sonido": "ametralladora",
+              "escala": 0.4
             },
             {
-              "id": 1,
+              "id": 2,
               "tipo": "dron",
               "cadencia": 1,
               "sprite": "policia1",
-              "velocidad": 0.03,
-              "sonido": "ametralladora"
+              "velocidad": 0.005,
+              "sonido": "ametralladora",
+              "ttl": 15,
+              "velocidadAngular": 1
             }
           ]
         },
@@ -138,32 +154,41 @@
           "normalSprite": "./assets/images/police01.png",
           "normalAnimation": "barcoUp",
           "tipo":"patruya",
+          "combustibleMaximo": 100,
+          "gastoCombustible": 1,
           "armas": [
             {
               "id": 0,
               "tipo": "disparo",
               "danio": 50,
               "cadencia": 2,
-              "sprite": "bala",
+              "distancia": 800,
+              "sprite": "bala_canion",
               "velocidad": 0.01,
-              "sonido": "canion"
+              "sonido": "canion",
+              "escala": 1
             },
             {
               "id": 1,
               "tipo": "disparo",
               "danio": 25,
-              "cadencia": 1,
+              "cadencia": 0.5,
+              "distancia": 400,
               "sprite": "bala",
               "velocidad": 0.03,
-              "sonido": "ametralladora"
+              "sonido": "ametralladora",
+              "escala": 0.4
             },
             {
-              "id": 1,
+              "id": 2,
               "tipo": "dron",
               "cadencia": 1,
+              "distancia": 400,
               "sprite": "policia1",
-              "velocidad": 0.03,
-              "sonido": "ametralladora"
+              "velocidad": 0.005,
+              "sonido": "ametralladora",
+              "ttl": 15,
+              "velocidadAngular": 1
             }
           ]
         }

@@ -39,7 +39,11 @@ declare interface Arma {
   tipo: string,
   danio: number,
   cadencia: number,
+  distancia: number,
   sprite: string,
   velocidad: number,
-  sonido: string
+  sonido: string,
+  escala: number,
+  ttl? : number,
+  velocidadAngular?: number,
 }
