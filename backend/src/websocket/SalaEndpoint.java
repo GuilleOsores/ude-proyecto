@@ -14,39 +14,31 @@ import javax.websocket.server.ServerEndpoint;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-@ServerEndpoint("/sala/{nick}")
+import logica.Fachada;
+import logica.entidades.Partida;
+
+@ServerEndpoint("/sala/{pedido}")
 public class SalaEndpoint {
 	
-	private static Session sessionCrearSala = null;
+	private Session sessionCrearSala = null;
+	
+	private Fachada fachada;
 	
 	@OnOpen
-	public void onOpen(Session session, @PathParam("nick") String nick) throws IOException {
-		System.out.println(nick);
+	public void onOpen(Session session, @PathParam("pedido") String pedido) throws IOException {
+		System.out.println(pedido);
 		
-		if(sessionCrearSala == null) {
-			this.sessionCrearSala = session;
-			session.getBasicRemote().sendText("pesquero");
+		if(pedido.equals("crear")) {
+			crearPartida(session);						
 		} else {
-			session.getBasicRemote().sendText("patrulla");
+			
 		}
 	}
 	
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
+		
 		System.out.println(msg);
-		
-		try {
-			JsonParser parser = new JsonParser();
-			JsonObject datos = parser.parse(msg).getAsJsonObject();
-			
-			String nick = datos.get("nick").toString();
-			System.out.println(nick);
-			String tipoConec = datos.get("tipoConec").toString();
-			System.out.println(tipoConec);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	@OnClose
@@ -56,6 +48,14 @@ public class SalaEndpoint {
 
 	@OnError
 	public void onError(Session session, Throwable t) {
+		
+	}
+	
+	private void crearPartida(Session session) throws IOException {
+		session.getBasicRemote().sendText("mandame tu nick wachin");
+	}
+	
+	private void unirsePartida(Session session) {
 		
 	}
 }
