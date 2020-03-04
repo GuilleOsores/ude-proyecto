@@ -7,9 +7,9 @@ import { GOPatrulla } from '../gameObjects/patrulla';
 import { Muelle } from '../gameObjects/muelle';
 import { agregarAgua } from '../gameObjects/agua';
 
-const sceneConfig: SceneConfiguration = require('../../mock/scene.json');
-
 export class Game extends Phaser.Scene {
+  sceneConfig: SceneConfiguration;
+
   jugadorLocal: {
     nick: string,
     vehiculos: GOPesquero[] | GOPatrulla[],
@@ -17,6 +17,10 @@ export class Game extends Phaser.Scene {
 
   constructor() {
     super('Game');
+  }
+
+  public init(data: any) {
+    this.sceneConfig = data;
   }
 
   public preload() {
@@ -44,18 +48,18 @@ export class Game extends Phaser.Scene {
   }
 
   public create() {
-    this.matter.world.setBounds(0, 0, sceneConfig.width, sceneConfig.height);
-    this.cameras.main.setBounds(0, 0, sceneConfig.width, sceneConfig.height);
+    this.matter.world.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
+    this.cameras.main.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
 
-    agregarAgua(this, sceneConfig.width, sceneConfig.height);
+    agregarAgua(this, this.sceneConfig.width, this.sceneConfig.height);
     // linea pesca
     this.add.graphics({
       fillStyle: { color: 0xFF0000 },
-    }).fillRect(0, sceneConfig.millaLimite, sceneConfig.width, 1);
+    }).fillRect(0, this.sceneConfig.millaLimite, this.sceneConfig.width, 1);
     // eslint-disable-next-line no-new
-    const muelle = new Muelle(this, sceneConfig.width / 2, sceneConfig.height, 'puerto');
+    const muelle = new Muelle(this, this.sceneConfig.width / 2, this.sceneConfig.height, 'puerto');
 
-    sceneConfig.jugadores.forEach(
+    this.sceneConfig.jugadores.forEach(
       (p) => {
         p.vehiculos.forEach(
           (v, i) => {
@@ -63,7 +67,7 @@ export class Game extends Phaser.Scene {
               ...v,
               canBeSelected: p.nick === this.jugadorLocal.nick,
               selected: i === 0 && p.nick === this.jugadorLocal.nick,
-              millaLimite: sceneConfig.millaLimite,
+              millaLimite: this.sceneConfig.millaLimite,
             };
             if (v.tipo === 'patruya') data.muelle = muelle;
 

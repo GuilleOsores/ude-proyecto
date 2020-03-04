@@ -39,9 +39,9 @@ export class Main extends Phaser.Scene {
 
   clickHandler = (pointer, gameObject: Phaser.GameObjects.GameObject) => {
     if (gameObject === this.btnNuevaPartida) {
-      this.scene.start('Game');
+      this.scene.start('Nick');
     } else {
-      this.scene.start('Game');
+      this.scene.start('Nick');
     }
   }
 }
