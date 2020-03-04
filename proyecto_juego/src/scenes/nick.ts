@@ -34,7 +34,7 @@ export class Nick extends Phaser.Scene {
       (height - this.btnContinuar.height) / 2 + 50,
     );
 
-    this.goNick.setText('jugador1');
+    this.goNick.setText('player2');
     this.btnContinuar.setInteractive();
 
     this.add.existing(this.goNick);

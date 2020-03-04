@@ -21,6 +21,7 @@ export class Game extends Phaser.Scene {
 
   public init(data: any) {
     this.sceneConfig = data;
+    this.jugadorLocal.nick = data.nick;
   }
 
   public preload() {
