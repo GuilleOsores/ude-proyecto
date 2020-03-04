@@ -28,6 +28,7 @@ declare interface Vehiculo {
 declare interface Pesquero extends Vehiculo {
   tiempoPesca: number,
   restoPesca: number,
+  tipoPesquero: string,
 }
 
 declare interface Patrulla extends Vehiculo {
@@ -46,4 +47,5 @@ declare interface Arma {
   escala: number,
   ttl? : number,
   velocidadAngular?: number,
+  puedeNeutralizar: string,
 }

@@ -151,8 +151,8 @@ export class Dron extends Phaser.GameObjects.Sprite {
     const goB = <Phaser.GameObjects.GameObject> bodyB.gameObject;
 
     if (goA && goB
-      && ((goA.getData && goA.getData('tipo') === 'pesquero') || bodyA === this.body)
-      && ((goB.getData && goB.getData('tipo') === 'pesquero') || bodyB === this.body)
+      && ((goA.getData && goA.getData('tipoPesquero') === this.arma.puedeNeutralizar) || bodyA === this.body)
+      && ((goB.getData && goB.getData('tipoPesquero') === this.arma.puedeNeutralizar) || bodyB === this.body)
     ) {
 
       const pesquero = <GOPesquero>(goA === this ? goB : goA);
