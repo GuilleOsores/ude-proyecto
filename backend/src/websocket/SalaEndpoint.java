@@ -17,7 +17,7 @@ import com.google.gson.JsonParser;
 import logica.Fachada;
 import logica.entidades.Partida;
 
-@ServerEndpoint("/sala/{pedido}")
+@ServerEndpoint("/sala")
 public class SalaEndpoint {
 	
 	private Session sessionCrearSala = null;
@@ -25,19 +25,12 @@ public class SalaEndpoint {
 	private Fachada fachada;
 	
 	@OnOpen
-	public void onOpen(Session session, @PathParam("pedido") String pedido) throws IOException {
-		System.out.println(pedido);
-		
-		if(pedido.equals("crear")) {
-			crearPartida(session);						
-		} else {
-			
-		}
+	public void onOpen(Session session) throws IOException {
+		this.sessionCrearSala = session;
 	}
 	
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
-		
 		System.out.println(msg);
 	}
 

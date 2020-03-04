@@ -6,30 +6,17 @@ import { GOPesquero } from '../gameObjects/pesquero';
 import { GOPatrulla } from '../gameObjects/patrulla';
 import { Muelle } from '../gameObjects/muelle';
 import { agregarAgua } from '../gameObjects/agua';
-import { getWs, EVENTOS } from '../ws';
 
 const sceneConfig: SceneConfiguration = require('../../mock/scene.json');
 
 export class Game extends Phaser.Scene {
-  // eslint-disable-next-line no-new
-
-  ws;
-
   jugadorLocal: {
     nick: string,
-    bando: string,
     vehiculos: GOPesquero[] | GOPatrulla[],
-  } = { nick: 'player1', bando: '', vehiculos: [] };
-
-  jugadorRemoto: {
-    nick: string,
-    bando: string,
-    vehiculos: GOPesquero[] | GOPatrulla[],
-  } = { nick: 'player2', bando: '', vehiculos: [] };
+  } = { nick: 'player2', vehiculos: [] };
 
   constructor() {
     super('Game');
-    getWs().onmessage = this.wshandler;
   }
 
   public preload() {
@@ -68,27 +55,15 @@ export class Game extends Phaser.Scene {
     // eslint-disable-next-line no-new
     const muelle = new Muelle(this, sceneConfig.width / 2, sceneConfig.height, 'puerto');
 
-    this.ws = new WebSocket('ws://192.168.1.3:8080/backend/endpoint');
-
-    this.ws.onopen = (msg) => {
-      console.log('conexion');
-    };
-
-    this.ws.onmessage = this.wshandler;
-
-    this.ws.send('crear_partida');
-
     sceneConfig.jugadores.forEach(
       (p) => {
         p.vehiculos.forEach(
           (v, i) => {
             const data = {
               ...v,
-              nick: p.nick,
               canBeSelected: p.nick === this.jugadorLocal.nick,
               selected: i === 0 && p.nick === this.jugadorLocal.nick,
               millaLimite: sceneConfig.millaLimite,
-              enviarInfo: p.nick === this.jugadorLocal.nick,
             };
             if (v.tipo === 'patruya') data.muelle = muelle;
 
@@ -99,8 +74,6 @@ export class Game extends Phaser.Scene {
             }
             if (p.nick === this.jugadorLocal.nick) {
               this.jugadorLocal.vehiculos.push(<any>ve);
-            } else {
-              this.jugadorRemoto.vehiculos.push(<any>ve);
             }
           },
         );
@@ -136,18 +109,5 @@ export class Game extends Phaser.Scene {
       (v) => v.setSeleccionado(v.getId() === id)
       ,
     );
-  }
-
-  wshandler = ({ data }) => {
-    console.log(data);
-    const info = JSON.parse(data);
-    if (info.event === EVENTOS.MUEVO_BARCO) {
-      if (info.nick === this.jugadorRemoto.nick) {
-        // console.log(`x: ${info.x}, y: ${info.y}`);
-        const v = this.jugadorRemoto.vehiculos[info.id - 1];
-        v.x = info.x;
-        v.y = info.y;
-      }
-    }
   }
 }

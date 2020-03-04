@@ -1,4 +1,5 @@
 const ws = new WebSocket('ws://192.168.1.3:8080/backend/endpoint');
+const wsSala = new WebSocket('ws://192.168.1.3:8080/backend/sala');
 
 ws.onopen = (msg) => {
   console.log('Mensaje: ' + msg);
