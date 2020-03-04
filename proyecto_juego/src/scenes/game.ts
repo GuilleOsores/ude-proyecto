@@ -26,24 +26,60 @@ export class Game extends Phaser.Scene {
 
   public preload() {
     this.anims.create({
-      key: 'barcoDown',
-      frames: this.anims.generateFrameNumbers('barco1', {
+      key: 'policia1',
+      frames: this.anims.generateFrameNumbers('policia1', {
         start: 0,
-        end: 3,
+        end: 1,
       }),
       frameRate: 3,
-      yoyo: false,
       repeat: -1,
     });
 
     this.anims.create({
-      key: 'barcoUp',
-      frames: this.anims.generateFrameNumbers('barco1', {
-        start: 12,
-        end: 25,
+      key: 'policia2',
+      frames: this.anims.generateFrameNumbers('policia2', {
+        start: 0,
+        end: 1,
       }),
       frameRate: 3,
-      yoyo: false,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'pesquero1',
+      frames: this.anims.generateFrameNumbers('pesquero1', {
+        start: 0,
+        end: 1,
+      }),
+      frameRate: 3,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'pesquero2',
+      frames: this.anims.generateFrameNumbers('pesquero2', {
+        start: 0,
+        end: 1,
+      }),
+      frameRate: 3,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'patrulla-auxiliar',
+      frames: this.anims.generateFrameNumbers('patrulla-auxiliar', {
+        start: 0,
+        end: 1,
+      }),
+      frameRate: 3,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'patrulla-helicoptero',
+      frames: this.anims.generateFrameNumbers('patrulla-helicoptero', {
+        start: 0,
+        end: 1,
+      }),
+      frameRate: 3,
       repeat: -1,
     });
   }

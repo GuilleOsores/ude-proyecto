@@ -14,6 +14,7 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
     const f = new Phaser.Physics.Matter.Factory(scene.matter.world);
     f.gameObject(this, {}, true);
     scene.add.existing(this);
+    this.play(vehicle.sprite);
 
     this.setDataEnabled();
     Object.keys(data).forEach((k) => this.setData(k, data[k]));
@@ -53,6 +54,7 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
   }
 
   public preUpdate(timeElapsed: number, timeLastUpdate: number) {
+    super.preUpdate(timeElapsed, timeLastUpdate);
     if (!this.initialRotationSet) {
       this.initialRotationSet = true;
       this.setRotation(Phaser.Math.DegToRad(this.getData('initialRotation')));

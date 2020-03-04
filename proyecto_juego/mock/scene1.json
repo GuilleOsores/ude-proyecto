@@ -22,6 +22,24 @@
           "cantPesca": 0,
           "tiempoPesca": -2,
           "tipo": "pesquero",
+          "tipoPesquero": "fabrica",
+          "restoPesca": 1000,
+          "vida": 100
+        },        {
+          "id": 2,
+          "sprite": "pesquero2",
+          "x": 350,
+          "y": 150,
+          "initialRotation": 90,
+          "velocity": 0.01,
+          "angularVelocity": 1,
+          "normalSprite": "./assets/images/pesquero02.png",
+          "normalAnimation": "barcoDown",
+          "horaPesca": "19:30",
+          "cantPesca": 0,
+          "tiempoPesca": -2,
+          "tipo": "pesquero",
+          "tipoPesquero": "comun",
           "restoPesca": 1000,
           "vida": 100
         }
@@ -70,11 +88,49 @@
               "id": 2,
               "tipo": "dron",
               "cadencia": 1,
-              "sprite": "policia1",
+              "sprite": "patrulla-auxiliar",
               "velocidad": 0.0005,
-              "sonido": "ametralladora",
+              "sonido": "",
               "ttl": 5,
-              "velocidadAngular": 1.3
+              "velocidadAngular": 1.3,
+              "puedeNeutralizar": "comun"
+            },            {
+              "id": 3,
+              "tipo": "dron",
+              "cadencia": 1,
+              "sprite": "patrulla-helicoptero",
+              "velocidad": 0.0005,
+              "sonido": "",
+              "ttl": 5,
+              "velocidadAngular": 1.3,
+              "puedeNeutralizar": "fabrica"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "sprite": "policia2",
+          "x": 550,
+          "y": 450,
+          "initialRotation": -90,
+          "velocity": 0.01,
+          "angularVelocity": 1,
+          "normalSprite": "./assets/images/police02.png",
+          "normalAnimation": "barcoUp",
+          "tipo": "patruya",
+          "combustibleMaximo": 100000,
+          "gastoCombustible": 1,
+          "armas": [
+            {
+              "id": 1,
+              "tipo": "disparo",
+              "danio": 25,
+              "cadencia": 0.5,
+              "distancia": 400,
+              "sprite": "bala",
+              "velocidad": 0.03,
+              "sonido": "ametralladora",
+              "escala": 0.4
             }
           ]
         }
