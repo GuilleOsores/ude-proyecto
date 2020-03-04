@@ -28,4 +28,11 @@ ws.onmessage = (msg) => {
   }
 };
 
-export const enviar = (evento, data) => ws.send(JSON.stringify({ evento, ...data }));
+export const enviar = (evento, data) => {
+  try {
+    ws.send(JSON.stringify({ evento, ...data }));
+  } catch (e) {
+    console.log('ws error (si no queres que te joda éste mensaje y no queres '
+    + 'conectarlo con el server, comentá el send de arriba): ', e);
+  }
+};
