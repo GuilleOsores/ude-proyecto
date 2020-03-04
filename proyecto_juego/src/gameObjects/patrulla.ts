@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import * as moment from 'moment';
 
+import * as server from '../server';
 import { GOVehiculo } from './vehiculo';
 import { Disparo } from './disparo';
 import { Dron } from './dron';
@@ -21,6 +22,33 @@ export class GOPatrulla extends GOVehiculo {
     if (vehicle.armas && vehicle.armas.length) {
       this.scene.input.on(Phaser.Input.Events.POINTER_DOWN, this.dispararHandle);
       this.scene.input.keyboard.on('keydown', this.keyboardHandler);
+    }
+    server.addhandler(server.EVENTOS.DISPARO, this.disparoHandler);
+  }
+
+  disparoHandler = (data) => {
+    if (data.arma.tipo === 'disparo') {
+      // eslint-disable-next-line no-new
+      new Disparo(
+        this.scene,
+        data.x,
+        data.y,
+        data.arma,
+        this.rotation,
+      );
+      this.scene.sound.play(data.arma.sonido);
+    } else {
+      // eslint-disable-next-line no-new
+      new Dron(
+        this.scene,
+        data.x,
+        data.y,
+        data.pointer.x,
+        data.pointer.y,
+        data.arma,
+        this.rotation,
+        this,
+      );
     }
   }
 
@@ -59,10 +87,6 @@ export class GOPatrulla extends GOVehiculo {
     const posRelativaX = (this.width / 2 + 30) * Math.sin(radianes);
     const posRelativaY = (this.height / 2 + 30) * Math.cos(radianes);
 
-    // console.log(`Rotation: ${rotacionAntihoraria}`);
-    // console.log(`Rotacion: ${rotacionPositiva}`);
-    // console.log(`radianes calculados: ${radianes}`);
-    // console.log(`posRelativaX: ${posRelativaX} || posRelativaY: ${posRelativaY}`);
     if (arma.tipo === 'disparo') {
       // eslint-disable-next-line no-new
       new Disparo(
@@ -72,6 +96,15 @@ export class GOPatrulla extends GOVehiculo {
         arma,
         this.rotation,
       );
+      server.enviar(server.EVENTOS.DISPARO, {
+        x: this.x + posRelativaX,
+        y: this.y + posRelativaY,
+        pointer: {
+          x: pointer.x,
+          y: pointer.y,
+        },
+        arma,
+      });
       this.scene.sound.play(arma.sonido);
     } else {
       // eslint-disable-next-line no-new
@@ -85,6 +118,15 @@ export class GOPatrulla extends GOVehiculo {
         this.rotation,
         this,
       );
+      server.enviar(server.EVENTOS.DISPARO, {
+        x: this.x + posRelativaX,
+        y: this.y + posRelativaY,
+        pointer: {
+          x: pointer.x,
+          y: pointer.y,
+        },
+        arma,
+      });
     }
   }
 

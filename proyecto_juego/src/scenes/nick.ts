@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 import InputText from 'phaser3-rex-plugins/plugins/inputtext.js';
 
-const sceneConfig: SceneConfiguration = require('../../mock/scene.json');
+const sceneConfig: SceneConfiguration = require('../../mock/scene1.json');
 
 export class Nick extends Phaser.Scene {
   goNick: any;

@@ -1,5 +1,7 @@
 import * as Phaser from 'phaser';
 
+import * as server from '../server';
+
 export class GOVehiculo extends Phaser.GameObjects.Sprite {
   private id;
 
@@ -19,6 +21,8 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
     if (data.canBeSelected) {
       this.setInteractive();
     }
+
+    server.addhandler(server.EVENTOS.MOVER_BARCO, this.muevoBarcoHandler);
   }
 
   getMatterSprite() {
@@ -38,6 +42,14 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
       });
     }
     this.setRotation(Phaser.Math.DegToRad(this.getData('initialRotation')));
+  }
+
+  muevoBarcoHandler = (data) => {
+    if (this.getData('nick') === data.nick && this.getData('id') === data.id) {
+      this.x = data.x;
+      this.y = data.y;
+      this.setRotation(data.rotacion);
+    }
   }
 
   public preUpdate(timeElapsed: number, timeLastUpdate: number) {
@@ -64,6 +76,12 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
     } else if (cursorKeys.down.isDown) {
       this.getMatterSprite().thrustBack(this.getData('velocity'));
       if (this.getData('combustibleActual')) this.setData('combustibleActual', this.getData('combustibleActual') - this.getData('gastoCombustible'));
+    }
+
+    if (this.getData('sendToServer')) {
+      server.enviar(server.EVENTOS.MOVER_BARCO, {
+        nick: this.getData('nick'), id: this.id, x: this.x, y: this.y, rotacion: this.rotation,
+      });
     }
   }
 

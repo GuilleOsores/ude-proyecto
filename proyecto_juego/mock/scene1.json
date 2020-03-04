@@ -1,0 +1,84 @@
+{
+  "width": 3200,
+  "height": 3200,
+  "millaLimite": 600,
+  "time": 600,
+  "fishFished": 0,
+  "jugadores": [
+    {
+      "nick": "player1",
+      "vehiculos": [
+        {
+          "id": 1,
+          "sprite": "pesquero1",
+          "x": 150,
+          "y": 150,
+          "initialRotation": 90,
+          "velocity": 0.01,
+          "angularVelocity": 1,
+          "normalSprite": "./assets/images/pesquero01.png",
+          "normalAnimation": "barcoDown",
+          "horaPesca": "19:30",
+          "cantPesca": 0,
+          "tiempoPesca": -2,
+          "tipo": "pesquero",
+          "restoPesca": 1000,
+          "vida": 100
+        }
+      ]
+    },
+    {
+      "nick": "player2",
+      "vehiculos": [
+        {
+          "id": 1,
+          "sprite": "policia1",
+          "x": 150,
+          "y": 450,
+          "initialRotation": -90,
+          "velocity": 0.01,
+          "angularVelocity": 1,
+          "normalSprite": "./assets/images/police01.png",
+          "normalAnimation": "barcoUp",
+          "tipo": "patruya",
+          "combustibleMaximo": 100000,
+          "gastoCombustible": 1,
+          "armas": [
+            {
+              "id": 0,
+              "tipo": "disparo",
+              "danio": 50,
+              "cadencia": 2,
+              "distancia": 800,
+              "sprite": "bala_canion",
+              "velocidad": 0.01,
+              "sonido": "canion",
+              "escala": 1
+            },
+            {
+              "id": 1,
+              "tipo": "disparo",
+              "danio": 25,
+              "cadencia": 0.5,
+              "distancia": 400,
+              "sprite": "bala",
+              "velocidad": 0.03,
+              "sonido": "ametralladora",
+              "escala": 0.4
+            },
+            {
+              "id": 2,
+              "tipo": "dron",
+              "cadencia": 1,
+              "sprite": "policia1",
+              "velocidad": 0.0005,
+              "sonido": "ametralladora",
+              "ttl": 5,
+              "velocidadAngular": 1.3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

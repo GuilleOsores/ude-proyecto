@@ -66,6 +66,8 @@ export class Game extends Phaser.Scene {
           (v, i) => {
             const data = {
               ...v,
+              nick: p.nick,
+              sendToServer: p.nick === this.jugadorLocal.nick,
               canBeSelected: p.nick === this.jugadorLocal.nick,
               selected: i === 0 && p.nick === this.jugadorLocal.nick,
               millaLimite: this.sceneConfig.millaLimite,
