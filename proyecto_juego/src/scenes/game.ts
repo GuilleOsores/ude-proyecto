@@ -8,6 +8,8 @@ import { Muelle } from '../gameObjects/muelle';
 import { agregarAgua } from '../gameObjects/agua';
 
 export class Game extends Phaser.Scene {
+  minimap: Phaser.Cameras.Scene2D.Camera;
+
   sceneConfig: SceneConfiguration;
 
   jugadorLocal: {
@@ -87,8 +89,11 @@ export class Game extends Phaser.Scene {
   public create() {
     this.matter.world.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
     this.cameras.main.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
+    this.minimap = this.cameras.add(0, 0, 210, this.sceneConfig.height * (210 / this.sceneConfig.width), false, 'minimap');
+    this.minimap.setZoom(200 / (this.sceneConfig.width * 2));
 
-    agregarAgua(this, this.sceneConfig.width, this.sceneConfig.height);
+    const agua = agregarAgua(this, this.sceneConfig.width, this.sceneConfig.height);
+    this.minimap.ignore(agua);
     // linea pesca
     this.add.graphics({
       fillStyle: { color: 0xFF0000 },
@@ -117,6 +122,8 @@ export class Game extends Phaser.Scene {
             }
             if (p.nick === this.jugadorLocal.nick) {
               this.jugadorLocal.vehiculos.push(<any>ve);
+            } else {
+              this.minimap.ignore(ve);
             }
           },
         );

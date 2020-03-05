@@ -28,4 +28,5 @@ export const agregarAgua = (scene: Phaser.Scene, width: number, height: number) 
   group.setTint(150);
   group.setOrigin(0, 0);
   group.playAnimation('water');
+  return group;
 };
