@@ -24,6 +24,8 @@ export class Dron extends Phaser.GameObjects.Sprite {
 
   tween: Phaser.Tweens.Tween;
 
+  private vision: Phaser.GameObjects.Sprite;
+
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -49,6 +51,7 @@ export class Dron extends Phaser.GameObjects.Sprite {
     this.destino = { x: toX, y: toY };
     this.setRotation(rotacion);
 
+    this.vision = new Phaser.GameObjects.Sprite(scene, 0, 0, 'vision');
 
     this.tween = this.scene.tweens.add({
       targets: this.getMatterSprite(),
@@ -114,7 +117,7 @@ export class Dron extends Phaser.GameObjects.Sprite {
       this.colisionConPatruya(bodyA, bodyB);
     } else if (!this.siguiendo) {
       this.colisionConPesquero(bodyA, bodyB);
-    } else if(this.siguiendo){
+    } else if (this.siguiendo) {
       this.colisionSiguiendoPesquero(bodyA, bodyB);
     }
   }
@@ -154,12 +157,18 @@ export class Dron extends Phaser.GameObjects.Sprite {
       && ((goA.getData && goA.getData('tipoPesquero') === this.arma.puedeNeutralizar) || bodyA === this.body)
       && ((goB.getData && goB.getData('tipoPesquero') === this.arma.puedeNeutralizar) || bodyB === this.body)
     ) {
-
       const pesquero = <GOPesquero>(goA === this ? goB : goA);
       this.siguiendo = pesquero;
       this.siguiendo.destroy();
-      this.siguiendo=null;
-      
+      this.siguiendo = null;
     }
+  }
+
+  public getVision = () => this.vision;
+
+  destroy() {
+    this.scene.matter.world.remove(this.collisionHandler);
+    this.patruya.barcosAuxiliares = this.patruya.barcosAuxiliares.filter((va) => va !== this);
+    super.destroy();
   }
 }
