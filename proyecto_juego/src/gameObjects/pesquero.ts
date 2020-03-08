@@ -30,13 +30,8 @@ export class GOPesquero extends GOVehiculo {
 
     const cursorKeys = this.scene.input.keyboard.createCursorKeys();
 
-    if (this.getData('tipo') === 'pesquero' && this.x >= this.getData('millaLimite')
-    && !(
-      cursorKeys.right.isDown
-      || cursorKeys.left.isDown
-      || cursorKeys.up.isDown
-      || cursorKeys.down.isDown
-    )) {
+    if (this.getData('tipo') === 'pesquero' && this.y >= this.getData('millaLimite')
+    && (cursorKeys.up.isDown || cursorKeys.down.isDown)) {
       if (moment().add(this.getData('tiempoPesca'), 'seconds').isAfter(this.getData('horaPesca'))) {
         let resto = 1;
         this.cantPesca += 1;
