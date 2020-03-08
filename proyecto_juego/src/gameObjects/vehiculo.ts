@@ -7,6 +7,8 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
 
   private initialRotationSet = false;
 
+  private vision: Phaser.GameObjects.Sprite;
+
   constructor(scene: Phaser.Scene, vehicle: Pesquero | Patrulla, data: any) {
     super(scene, vehicle.x, vehicle.y, vehicle.sprite);
     this.id = vehicle.id;
@@ -15,6 +17,8 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
     f.gameObject(this, {}, true);
     scene.add.existing(this);
     this.play(vehicle.sprite);
+
+    this.vision = new Phaser.GameObjects.Sprite(scene, 0, 0, 'vision');
 
     this.setDataEnabled();
     Object.keys(data).forEach((k) => this.setData(k, data[k]));
@@ -55,6 +59,7 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
 
   public preUpdate(timeElapsed: number, timeLastUpdate: number) {
     super.preUpdate(timeElapsed, timeLastUpdate);
+    this.vision.setPosition(this.x, this.y);
     if (!this.initialRotationSet) {
       this.initialRotationSet = true;
       this.setRotation(Phaser.Math.DegToRad(this.getData('initialRotation')));
@@ -93,4 +98,6 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
     this.setData('selected', estaSeleccionado);
     if (estaSeleccionado) this.scene.cameras.main.startFollow(this);
   }
+
+  public getVision = () => this.vision;
 }
