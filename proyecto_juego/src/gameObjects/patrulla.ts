@@ -13,6 +13,8 @@ export class GOPatrulla extends GOVehiculo {
 
   yendoAlMuelle = false;
 
+  barcosAuxiliares: Dron[] = [];
+
   constructor(scene: Phaser.Scene, vehicle: Patrulla, data: any) {
     super(scene, vehicle, data);
     this.setData('combustibleActual', data.combustibleMaximo);
@@ -108,7 +110,7 @@ export class GOPatrulla extends GOVehiculo {
       this.scene.sound.play(arma.sonido);
     } else {
       // eslint-disable-next-line no-new
-      new Dron(
+      const d = new Dron(
         this.scene,
         this.x + posRelativaX,
         this.y + posRelativaY,
@@ -118,6 +120,7 @@ export class GOPatrulla extends GOVehiculo {
         this.rotation,
         this,
       );
+      this.barcosAuxiliares.push(d);
       server.enviar(server.EVENTOS.DISPARO, {
         x: this.x + posRelativaX,
         y: this.y + posRelativaY,
