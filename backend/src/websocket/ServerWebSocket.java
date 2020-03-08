@@ -22,13 +22,13 @@ public class ServerWebSocket {
 	public void onOpen(Session session) throws IOException {
 		sesiones.put(session.getId(), session);		
 		System.out.println("Conexion abierta: " + session.getId());
-		// session.getBasicRemote().sendText("Sesion: " + session.getId());
+		 session.getBasicRemote().sendText("Sesion: " + session.getId());
 		System.out.println("Cant. sesiones: " + sesiones.size());
 	}
 
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
-		// System.out.println("Sesion " + session.getId() + " dice: " + msg);
+		System.out.println("Sesion " + session.getId() + " dice: " + msg);
 		broadcast(msg, session);
 	}
 

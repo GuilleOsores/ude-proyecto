@@ -12,10 +12,13 @@ export class Game extends Phaser.Scene {
 
   sceneConfig: SceneConfiguration;
 
+  txtPescadoTotal: Phaser.GameObjects.Text;
+
   jugadorLocal: {
     nick: string,
     vehiculos: GOPesquero[] | GOPatrulla[],
-  } = { nick: 'player2', vehiculos: [] };
+    pescados: number,
+  } = { nick: 'player2', vehiculos: [], pescados: 0 };
 
   constructor() {
     super('Game');
@@ -87,6 +90,7 @@ export class Game extends Phaser.Scene {
   }
 
   public create() {
+    
     this.matter.world.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
     this.cameras.main.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
     this.minimap = this.cameras.add(0, 0, 210, this.sceneConfig.height * (210 / this.sceneConfig.width), false, 'minimap');
@@ -101,6 +105,8 @@ export class Game extends Phaser.Scene {
     // eslint-disable-next-line no-new
     const muelle = new Muelle(this, this.sceneConfig.width / 2, this.sceneConfig.height, 'puerto');
 
+    this.txtPescadoTotal = this.add.text(600, 16, 'Total: 0', { fontSize: '28px', fill: '#FFF' });
+    this.txtPescadoTotal.setScrollFactor(0);
     this.sceneConfig.jugadores.forEach(
       (p) => {
         p.vehiculos.forEach(
@@ -136,16 +142,20 @@ export class Game extends Phaser.Scene {
     });
 
     this.input.keyboard.on('keydown', this.keyboardHandler);
-  }
 
-  public agregarTexto = (texto) => {
-    let txt = null;
-    if (txt == null) {
-      txt = this.add.text(16, 16, texto);
-      txt.setScrollFactor(0);
-    } else {
-      txt.setText = texto;
-    }
+    
+    this.events.on('countfish', () => {
+      this.jugadorLocal.pescados=0;
+      var i;
+      for (i = 0; i < this.jugadorLocal.vehiculos.length; i++) {
+        this.jugadorLocal.pescados += (<GOPesquero>this.jugadorLocal.vehiculos[i]).cantPesca;
+      }
+
+      this.txtPescadoTotal.setText('Total: '+ this.jugadorLocal.pescados);
+
+      console.log('countfish');
+      
+    });
   }
 
   keyboardHandler = (event: KeyboardEvent) => {

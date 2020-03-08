@@ -7,18 +7,20 @@ import { GOVehiculo } from './vehiculo';
 export class GOPesquero extends GOVehiculo {
   txtPesco: Phaser.GameObjects.Text;
 
-  txtResto: Phaser.GameObjects.Text;
-
   cantPesca: number=0;
 
-  cantResto: number=0;
+  pasoMilla: boolean;
 
   constructor(scene: Phaser.Scene, vehicle: Pesquero, data: any) {
     super(scene, vehicle, data);
 
-    this.cantResto = vehicle.restoPesca;
-
     this.setData('horaPesca', moment().add(this.getData('tiempoPesca'), 'seconds'));
+
+    this.txtPesco = this.scene.add.text(16, 20*vehicle.id, '', { fontSize: '20px', fill: '#FFF' });
+    this.txtPesco.setScrollFactor(0); 
+
+    this.pasoMilla = false;
+  
   }
 
   public preUpdate(timeElapsed: number, timeLastUpdate: number) {
@@ -30,6 +32,11 @@ export class GOPesquero extends GOVehiculo {
 
     const cursorKeys = this.scene.input.keyboard.createCursorKeys();
 
+    if (this.getData('tipo') === 'pesquero' && this.y < this.getData('millaLimite') && this.pasoMilla) {
+      this.scene.events.emit('countfish');
+      this.pasoMilla = false;
+    }
+
     if (this.getData('tipo') === 'pesquero' && this.y >= this.getData('millaLimite')
     && (cursorKeys.up.isDown || cursorKeys.down.isDown)) {
       if (moment().add(this.getData('tiempoPesca'), 'seconds').isAfter(this.getData('horaPesca'))) {
@@ -39,28 +46,9 @@ export class GOPesquero extends GOVehiculo {
         this.cantPesca += millasDiv;
         resto += millasDiv;
         this.setData('horaPesca', moment());
-        const pescado = `pescado:${this.cantPesca}`;
-
-        if (this.txtPesco != null && this.txtResto != null) {
-          this.txtPesco.destroy();
-          this.txtResto.destroy();
-        }
-        
-        this.cantResto -= resto;
-        const restantes = `restantes:${this.cantResto}`;
-        this.setData('restoPesca', this.cantPesca);
-
-        if(this.getData('id')==1){
-          this.txtPesco = this.scene.add.text(16, 16, pescado, { fontSize: '32px', fill: '#FFF' });
-          this.txtPesco.setScrollFactor(0);
-          this.txtResto = this.scene.add.text(250, 16, restantes, { fontSize: '32px', fill: '#FFF' });
-          this.txtResto.setScrollFactor(0);
-        }else{
-          this.txtPesco = this.scene.add.text(600, 16, pescado, { fontSize: '32px', fill: '#FFF' });
-          this.txtPesco.setScrollFactor(0);
-          this.txtResto = this.scene.add.text(850, 16, restantes, { fontSize: '32px', fill: '#FFF' });
-          this.txtResto.setScrollFactor(0);
-        }
+        const pescado = `\n Barco ${this.getData('id')} pescado:${this.cantPesca} \n`;
+        this.txtPesco.text = pescado;
+        this.pasoMilla = true;
       }
     }
   }
