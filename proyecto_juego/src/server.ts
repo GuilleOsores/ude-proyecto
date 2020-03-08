@@ -1,5 +1,5 @@
 // let ws: WebSocket = new WebSocket('ws://localhost:8080/backend/endpoint');
-let ws: WebSocket = new WebSocket('ws://192.168.18.105:8080/backend/endpoint');
+let ws: WebSocket = new WebSocket('ws://localhost:8080/backend/endpoint');
 // let ws: WebSocket;// = new WebSocket('ws://localhost:8080/backend/endpoint');
 export const EVENTOS = {
   MOVER_BARCO: 'mb',
