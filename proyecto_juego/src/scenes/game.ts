@@ -13,6 +13,7 @@ export class Game extends Phaser.Scene {
   sceneConfig: SceneConfiguration;
 
   txtPescadoTotal: Phaser.GameObjects.Text;
+
   nieblaDeGuerra: Phaser.GameObjects.Rectangle;
 
   renderTexture: Phaser.GameObjects.RenderTexture;
@@ -93,7 +94,6 @@ export class Game extends Phaser.Scene {
   }
 
   public create() {
-    
     this.matter.world.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
     this.cameras.main.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
 
@@ -166,18 +166,13 @@ export class Game extends Phaser.Scene {
 
     this.input.keyboard.on('keydown', this.keyboardHandler);
 
-    
     this.events.on('countfish', () => {
-      this.jugadorLocal.pescados=0;
-      var i;
-      for (i = 0; i < this.jugadorLocal.vehiculos.length; i++) {
-        this.jugadorLocal.pescados += (<GOPesquero>this.jugadorLocal.vehiculos[i]).cantPesca;
+      this.jugadorLocal.pescados = 0;
+      for (let i = 0; i < this.jugadorLocal.vehiculos.length; i++) {
+        this.jugadorLocal.pescados += (<GOPesquero> this.jugadorLocal.vehiculos[i]).cantPesca;
       }
 
-      this.txtPescadoTotal.setText('Total: '+ this.jugadorLocal.pescados);
-
-      console.log('countfish');
-      
+      this.txtPescadoTotal.setText(`Total: ${this.jugadorLocal.pescados}`);
     });
   }
 
