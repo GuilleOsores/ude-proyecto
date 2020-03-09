@@ -18,6 +18,7 @@ export class GOPesquero extends GOVehiculo {
 
     this.txtPesco = this.scene.add.text(16, 20*vehicle.id, '', { fontSize: '20px', fill: '#FFF' });
     this.txtPesco.setScrollFactor(0); 
+    this.txtPesco.setDepth(150);
 
     this.pasoMilla = false;
   

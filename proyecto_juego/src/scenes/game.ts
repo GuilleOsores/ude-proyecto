@@ -131,6 +131,7 @@ export class Game extends Phaser.Scene {
 
     this.txtPescadoTotal = this.add.text(600, 16, 'Total: 0', { fontSize: '28px', fill: '#FFF' });
     this.txtPescadoTotal.setScrollFactor(0);
+    this.txtPescadoTotal.setDepth(150);
     this.sceneConfig.jugadores.forEach(
       (p) => {
         p.vehiculos.forEach(
@@ -179,7 +180,7 @@ export class Game extends Phaser.Scene {
       
     });
   }
-  
+
   public update() {
     this.renderTexture.clear();
     this.jugadorLocal.vehiculos.forEach(
