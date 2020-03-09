@@ -7,9 +7,7 @@ export class Load extends Phaser.Scene {
   }
 
   public preload() {
-    this.add.existing(new ProgressBar(this, () => this.input.on('pointerdown', () => {
-      this.scene.start('Main');
-    })));
+    this.add.existing(new ProgressBar(this, () => this.scene.start('Main')));
 
     this.load.spritesheet('water', './assets/images/Ocean_SpriteSheet.png', {
       frameWidth: 32,
