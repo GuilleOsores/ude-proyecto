@@ -25,11 +25,6 @@ export class Disparo extends Phaser.GameObjects.Sprite {
     this.setScale(this.arma.escala);
 
     this.scene.matter.world.on('collisionstart', this.collisionHandler);
-
-    this.on('destroy', () => {
-      this.scene.matter.world.removeListener('collisionstart', this.collisionHandler);
-      this.removeAllListeners();
-    });
   }
 
   getMatterSprite() {
@@ -49,18 +44,26 @@ export class Disparo extends Phaser.GameObjects.Sprite {
     this.getMatterSprite().thrust(this.arma.velocidad * (timeLastUpdate / 1000));
   }
 
+  public destroy() {
+    this.scene.matter.world.removeListener('collisionstart', this.collisionHandler);
+    this.removeAllListeners();
+    super.destroy();
+  }
+
   collisionHandler = (
     _event: Phaser.Physics.Matter.Events.CollisionStartEvent,
-    ...bodys: any[]
+    bodyA: any,
+    bodyB: any,
   ) => {
-    bodys.forEach(
-      (o) => {
-        if (o.gameObject && o.gameObject.getData('tipo') === 'pesquero') {
-          o.gameObject.setData('vida', o.gameObject.getData('vida') - this.arma.danio);
-        } else if (o.gameObject === this) {
-          o.gameObject.destroy();
-        }
-      },
-    );
+    if (bodyA.gameObject && bodyB.gameObject
+      && (
+        ((bodyA.gameObject.getData && bodyA.gameObject.getData('tipo') === 'pesquero') || bodyA.gameObject === this)
+        && ((bodyB.gameObject.getData && bodyB.gameObject.getData('tipo') === 'pesquero') || bodyB.gameObject === this)
+      )
+    ) {
+      const pesquero = bodyA.gameObject.getData('tipo') === 'pesquero' ? bodyA.gameObject : bodyB.gameObject;
+      pesquero.setData('vida', pesquero.getData('vida') - this.arma.danio);
+      this.destroy();
+    }
   }
 }
