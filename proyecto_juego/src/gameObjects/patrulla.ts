@@ -5,6 +5,7 @@ import * as server from '../server';
 import { GOVehiculo } from './vehiculo';
 import { Disparo } from './disparo';
 import { Dron } from './dron';
+import { Mensaje } from './mensaje';
 
 export class GOPatrulla extends GOVehiculo {
   ultimoDisparo: moment.Moment[] = [];
@@ -14,6 +15,8 @@ export class GOPatrulla extends GOVehiculo {
   yendoAlMuelle = false;
 
   barcosAuxiliares: Dron[] = [];
+
+  armasHabilitadas: Boolean;
 
   constructor(scene: Phaser.Scene, vehicle: Patrulla, data: any) {
     super(scene, vehicle, data);
@@ -26,6 +29,26 @@ export class GOPatrulla extends GOVehiculo {
       this.scene.input.keyboard.on('keydown', this.keyboardHandler);
     }
     server.addhandler(server.EVENTOS.DISPARO, this.disparoHandler);
+    this.scene.matter.world.on('collisionstart', this.collisionHandler);
+  }
+
+  collisionHandler = (
+    _event: Phaser.Physics.Matter.Events.CollisionStartEvent,
+    bodyA: any,
+    bodyB: any,
+  ) => {
+    if (bodyA.gameObject && bodyB.gameObject
+      && (bodyA.gameObject === this.getVision() || bodyB.gameObject === this.getVision())
+      && ((bodyA.gameObject && bodyA.gameObject.getData && bodyA.gameObject.getData('tipo') === 'pesquero')
+      || (bodyB.gameObject && bodyB.gameObject.getData && bodyB.gameObject.getData('tipo') === 'pesquero'))
+    ) {
+      this.scene.matter.world.removeListener('collisionstart', this.collisionHandler);
+      const { width, height } = this.scene.game.canvas;
+      // eslint-disable-next-line no-new
+      new Mensaje(
+        this.scene, width / 2, height - 100, 5000, () => { this.armasHabilitadas = true; },
+      );
+    }
   }
 
   disparoHandler = (data) => {
@@ -73,7 +96,7 @@ export class GOPatrulla extends GOVehiculo {
     if (this.getData('selected')) {
       const armas = <Arma[]> this.getData('armas');
       const arma = armas[this.armaSeleccionada];
-      if (!this.ultimoDisparo[this.armaSeleccionada] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[this.armaSeleccionada]))) {
+      if (this.armasHabilitadas && (!this.ultimoDisparo[this.armaSeleccionada] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[this.armaSeleccionada])))) {
         this.disparo(arma, pointer);
         this.ultimoDisparo[this.armaSeleccionada] = moment();
       }
@@ -86,8 +109,8 @@ export class GOPatrulla extends GOVehiculo {
     const rotacionPositiva = rotacionAntihoraria >= 0
       ? rotacionAntihoraria % (Math.PI * 2) : (Math.PI * 2) + (rotacionAntihoraria % (Math.PI * 2));
     const radianes = (rotacionPositiva) % (Math.PI * 2);
-    const posRelativaX = (this.width / 2 + 30) * Math.sin(radianes);
-    const posRelativaY = (this.height / 2 + 30) * Math.cos(radianes);
+    const posRelativaX = (this.displayWidth / 2 + 30) * Math.sin(radianes);
+    const posRelativaY = (this.displayHeight / 2 + 30) * Math.cos(radianes);
 
     if (arma.tipo === 'disparo') {
       // eslint-disable-next-line no-new
