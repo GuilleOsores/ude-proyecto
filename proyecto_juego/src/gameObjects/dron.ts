@@ -116,7 +116,7 @@ export class Dron extends Phaser.GameObjects.Sprite {
     if (this.regresando) {
       this.colisionConPatruya(bodyA, bodyB);
     } else if (!this.siguiendo) {
-      this.colisionConPesquero(bodyA, bodyB);
+      this.encuentroConPesquero(bodyA, bodyB);
     } else if (this.siguiendo) {
       this.colisionSiguiendoPesquero(bodyA, bodyB);
     }
@@ -128,21 +128,17 @@ export class Dron extends Phaser.GameObjects.Sprite {
       && (bodyB.gameObject === this.patruya || bodyB.gameObject === this)
     ) {
       this.sensor.destroy();
-      if (bodyA.gameObject === this) {
-        bodyA.gameObject.destroy();
-      } else {
-        bodyB.gameObject.destroy();
-      }
+      this.destroy();
     }
   }
 
-  colisionConPesquero = (bodyA: MatterJS.BodyType, bodyB: MatterJS.BodyType) => {
+  encuentroConPesquero = (bodyA: MatterJS.BodyType, bodyB: MatterJS.BodyType) => {
     const goA = <Phaser.GameObjects.GameObject> bodyA.gameObject;
     const goB = <Phaser.GameObjects.GameObject> bodyB.gameObject;
 
     if (goA && goB
-      && ((goA.getData && goA.getData('tipo') === 'pesquero') || bodyA.gameObject === this.sensor)
-      && ((goB.getData && goB.getData('tipo') === 'pesquero') || bodyB.gameObject === this.sensor)
+      && ((goA.getData && goA.getData('tipoPesquero') === this.arma.puedeNeutralizar) || goA === this.sensor)
+      && ((goB.getData && goB.getData('tipoPesquero') === this.arma.puedeNeutralizar) || goB === this.sensor)
     ) {
       const pesquero = <GOPesquero>(goA === this ? goB : goA);
       this.siguiendo = pesquero;
@@ -154,11 +150,9 @@ export class Dron extends Phaser.GameObjects.Sprite {
     const goB = <Phaser.GameObjects.GameObject> bodyB.gameObject;
 
     if (goA && goB
-      && ((goA.getData && goA.getData('tipoPesquero') === this.arma.puedeNeutralizar) || bodyA === this.body)
-      && ((goB.getData && goB.getData('tipoPesquero') === this.arma.puedeNeutralizar) || bodyB === this.body)
+      && ((goA.getData && goA.getData('tipoPesquero') === this.arma.puedeNeutralizar) || goA === this)
+      && ((goB.getData && goB.getData('tipoPesquero') === this.arma.puedeNeutralizar) || goB === this)
     ) {
-      const pesquero = <GOPesquero>(goA === this ? goB : goA);
-      this.siguiendo = pesquero;
       this.siguiendo.destroy();
       this.siguiendo = null;
     }

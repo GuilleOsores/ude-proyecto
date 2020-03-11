@@ -39,8 +39,8 @@ export class GOPatrulla extends GOVehiculo {
   ) => {
     if (bodyA.gameObject && bodyB.gameObject
       && (bodyA.gameObject === this.getVision() || bodyB.gameObject === this.getVision())
-      && ((bodyA.gameObject && bodyA.gameObject.getData && bodyA.gameObject.getData('tipo') === 'pesquero')
-      || (bodyB.gameObject && bodyB.gameObject.getData && bodyB.gameObject.getData('tipo') === 'pesquero'))
+      && ((bodyA.gameObject.getData && bodyA.gameObject.getData('tipo') === 'pesquero')
+      || (bodyB.gameObject.getData && bodyB.gameObject.getData('tipo') === 'pesquero'))
     ) {
       this.scene.matter.world.removeListener('collisionstart', this.collisionHandler);
       const { width, height } = this.scene.game.canvas;

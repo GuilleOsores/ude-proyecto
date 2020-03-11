@@ -101,4 +101,9 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
   }
 
   public getVision = () => this.vision;
+
+  public destroy() {
+    this.vision.destroy();
+    super.destroy();
+  }
 }
