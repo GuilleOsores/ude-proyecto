@@ -28,5 +28,7 @@ export class Mensaje extends Phaser.GameObjects.Container {
 
     setTimeout(() => { this.destroy(); callback(); }, displayTime);
     scene.sound.play('manini');
+
+    scene.cameras.getCamera('minimap').ignore(this);
   }
 }
