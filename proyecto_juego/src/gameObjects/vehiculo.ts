@@ -103,7 +103,9 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
   public getVision = () => this.vision;
 
   public destroy() {
-    if (this.getData('selected')) this.scene.cameras.main.stopFollow();
+    if (this.getData('selected') && this.scene && this.scene.cameras && this.scene.cameras.main) {
+      this.scene.cameras.main.stopFollow();
+    }
     this.vision.destroy();
     super.destroy();
   }

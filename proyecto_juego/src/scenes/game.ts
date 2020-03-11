@@ -6,6 +6,7 @@ import { GOPesquero } from '../gameObjects/pesquero';
 import { GOPatrulla } from '../gameObjects/patrulla';
 import { Muelle } from '../gameObjects/muelle';
 import { agregarAgua } from '../gameObjects/agua';
+import * as server from '../server';
 
 export class Game extends Phaser.Scene {
   minimap: Phaser.Cameras.Scene2D.Camera;
@@ -171,9 +172,18 @@ export class Game extends Phaser.Scene {
       for (let i = 0; i < this.jugadorLocal.vehiculos.length; i++) {
         this.jugadorLocal.pescados += (<GOPesquero> this.jugadorLocal.vehiculos[i]).cantPesca;
       }
-
       this.txtPescadoTotal.setText(`Total: ${this.jugadorLocal.pescados}`);
+      if (this.jugadorLocal.pescados >= 100) { // parametrizar esto
+        server.enviar(server.EVENTOS.FINALIZAR, { ganador: this.jugadorLocal.nick });
+        this.finalizar(this.jugadorLocal.nick);
+      }
     });
+
+    server.addhandler(server.EVENTOS.FINALIZAR, this.finalizarPartidaHandler);
+  }
+
+  finalizarPartidaHandler = (data) => {
+    this.finalizar(data.ganador);
   }
 
   public update() {
@@ -215,5 +225,9 @@ export class Game extends Phaser.Scene {
     (<GOVehiculo[]> this.jugadorLocal.vehiculos).forEach(
       (v) => v.setSeleccionado(v.getId() === id),
     );
+  }
+
+  finalizar(ganador) {
+    this.scene.start('Resultado', { jugadorLocalNick: this.jugadorLocal.nick, ganador });
   }
 }

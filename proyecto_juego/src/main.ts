@@ -5,6 +5,7 @@ import { Load } from './scenes/load';
 import { Main } from './scenes/main';
 import { Nick } from './scenes/nick';
 import { Game } from './scenes/game';
+import { Resultado } from './scenes/resultado';
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Sample',
@@ -29,7 +30,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   },
   parent: 'game',
   backgroundColor: '#FFFFFF',
-  scene: [Load, Main, Nick, Game],
+  scene: [Load, Main, Nick, Game, Resultado],
   plugins: {
     global: [{
       key: 'rexInputTextPlugin',

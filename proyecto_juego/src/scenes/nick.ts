@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import InputText from 'phaser3-rex-plugins/plugins/inputtext.js';
-import {startWebSocket} from '../server';
+import { startWebSocket } from '../server';
 
 const sceneConfig: SceneConfiguration = require('../../mock/scene1.json');
 
@@ -44,11 +44,10 @@ export class Nick extends Phaser.Scene {
     this.input.on('gameobjectdown', this.clickHandler);
   }
 
-   clickHandler = async (pointer, gameObject: Phaser.GameObjects.GameObject) => {
+  clickHandler = async (pointer, gameObject: Phaser.GameObjects.GameObject) => {
     if (gameObject === this.btnContinuar && this.goNick.text !== '') {
       await startWebSocket();
       this.scene.start('Game', { ...sceneConfig, nick: this.goNick.text });
-
     }
   }
 }
