@@ -180,13 +180,16 @@ export class Game extends Phaser.Scene {
     this.renderTexture.clear();
     this.jugadorLocal.vehiculos.forEach(
       (v) => {
-        this.renderTexture.draw(v.getVision(), v.x, v.y);
-        if (v.barcosAuxiliares && v.barcosAuxiliares.length) {
-          v.barcosAuxiliares.forEach(
-            (va) => {
-              this.renderTexture.draw(va.getVision(), va.x, va.y);
-            },
-          );
+        // si no se destruyó
+        if (v.scene) {
+          this.renderTexture.draw(v.getVision(), v.x, v.y);
+          if (v.barcosAuxiliares && v.barcosAuxiliares.length) {
+            v.barcosAuxiliares.forEach(
+              (va) => {
+                this.renderTexture.draw(va.getVision(), va.x, va.y);
+              },
+            );
+          }
         }
       },
     );

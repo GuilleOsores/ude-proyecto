@@ -46,7 +46,6 @@ export class Disparo extends Phaser.GameObjects.Sprite {
 
   public destroy() {
     this.scene.matter.world.removeListener('collisionstart', this.collisionHandler);
-    this.removeAllListeners();
     super.destroy();
   }
 

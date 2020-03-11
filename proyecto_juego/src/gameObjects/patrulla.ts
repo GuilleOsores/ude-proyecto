@@ -52,6 +52,8 @@ export class GOPatrulla extends GOVehiculo {
   }
 
   disparoHandler = (data) => {
+    if (data.id !== this.getData('id')) return;
+
     if (data.arma.tipo === 'disparo') {
       // eslint-disable-next-line no-new
       new Disparo(
@@ -122,12 +124,9 @@ export class GOPatrulla extends GOVehiculo {
         this.rotation,
       );
       server.enviar(server.EVENTOS.DISPARO, {
+        id: this.getData('id'),
         x: this.x + posRelativaX,
         y: this.y + posRelativaY,
-        pointer: {
-          x: pointer.x,
-          y: pointer.y,
-        },
         arma,
       });
       this.scene.sound.play(arma.sonido);
@@ -147,11 +146,12 @@ export class GOPatrulla extends GOVehiculo {
       );
       this.barcosAuxiliares.push(d);
       server.enviar(server.EVENTOS.DISPARO, {
+        id: this.getData('id'),
         x: this.x + posRelativaX,
         y: this.y + posRelativaY,
         pointer: {
-          x: pointer.x,
-          y: pointer.y,
+          x,
+          y,
         },
         arma,
       });

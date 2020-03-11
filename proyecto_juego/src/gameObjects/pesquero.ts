@@ -25,8 +25,8 @@ export class GOPesquero extends GOVehiculo {
 
   public preUpdate(timeElapsed: number, timeLastUpdate: number) {
     super.preUpdate(timeElapsed, timeLastUpdate);
-    if (this.getData('tipo') === 'pesquero' && this.getData('vida') <= 0) {
-      this.destroy();
+    if (this.getData('vida') <= 0) {
+      super.destroy();
       return;
     }
 
