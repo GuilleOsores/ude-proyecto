@@ -27,5 +27,6 @@ export class Mensaje extends Phaser.GameObjects.Container {
     scene.add.existing(this);
 
     setTimeout(() => { this.destroy(); callback(); }, displayTime);
+    scene.sound.play('manini');
   }
 }

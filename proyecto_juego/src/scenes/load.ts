@@ -66,5 +66,6 @@ export class Load extends Phaser.Scene {
     this.load.audio('canion', '../assets/sonidos/canion.m4a');
     this.load.audio('ametralladora', '../assets/sonidos/ametralladora.m4a');
     this.load.audio('helicoptero', '../assets/sonidos/helicoptero.m4a');
+    this.load.audio('manini', '../assets/sonidos/manini.m4a');
   }
 }
