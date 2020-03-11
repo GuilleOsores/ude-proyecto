@@ -132,15 +132,17 @@ export class GOPatrulla extends GOVehiculo {
       });
       this.scene.sound.play(arma.sonido);
     } else {
+      const { x, y } = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y);
+      const rotacion = Phaser.Math.Angle.Between(this.x, this.y, x, y);
       // eslint-disable-next-line no-new
       const d = new Dron(
         this.scene,
         this.x + posRelativaX,
         this.y + posRelativaY,
-        pointer.x,
-        pointer.y,
+        x,
+        y,
         arma,
-        this.rotation,
+        rotacion,
         this,
       );
       this.barcosAuxiliares.push(d);
