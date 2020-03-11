@@ -86,9 +86,9 @@ export class Game extends Phaser.Scene {
       key: 'patrulla-helicoptero',
       frames: this.anims.generateFrameNumbers('patrulla-helicoptero', {
         start: 0,
-        end: 1,
+        end: 5,
       }),
-      frameRate: 3,
+      frameRate: 8,
       repeat: -1,
     });
   }

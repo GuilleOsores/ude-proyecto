@@ -26,6 +26,8 @@ export class Dron extends Phaser.GameObjects.Sprite {
 
   private vision: Phaser.GameObjects.Sprite;
 
+  sonido: Phaser.Sound.BaseSound;
+
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -46,6 +48,14 @@ export class Dron extends Phaser.GameObjects.Sprite {
     this.setScale(0.3);
     scene.add.existing(this);
 
+    // animacion
+    this.play(arma.sprite);
+    // sonido
+    if (arma.sonido) {
+      this.sonido = scene.sound.add(arma.sonido, { loop: true });
+      this.sonido.play();
+    }
+
     this.arma = arma;
     this.patruya = patruya;
     this.destino = { x: toX, y: toY };
@@ -62,13 +72,12 @@ export class Dron extends Phaser.GameObjects.Sprite {
       duration: 3500,
     });
 
-    // tween.c
-
     this.fechaCreacion = moment();
     this.scene.matter.world.on('collisionstart', this.collisionHandler);
   }
 
   preUpdate(timeElapsed: number, timeLastUpdate: number) {
+    super.preUpdate(timeElapsed, timeLastUpdate);
     (<any> this.sensor.body).position.x = (<any> this.body).position.x;
     (<any> this.sensor.body).position.y = (<any> this.body).position.y;
 
@@ -161,6 +170,9 @@ export class Dron extends Phaser.GameObjects.Sprite {
   public getVision = () => this.vision;
 
   destroy() {
+    if (this.sonido) {
+      this.sonido.stop();
+    }
     this.scene.matter.world.remove(this.collisionHandler);
     this.patruya.barcosAuxiliares = this.patruya.barcosAuxiliares.filter((va) => va !== this);
     super.destroy();
