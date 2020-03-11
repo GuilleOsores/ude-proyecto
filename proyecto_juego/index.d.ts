@@ -1,3 +1,5 @@
+
+
 declare interface SceneConfiguration {
   width: number,
   height: number,
@@ -5,6 +7,13 @@ declare interface SceneConfiguration {
   time: number,
   fishFished: number,
   jugadores: Jugador[],
+  tormentas:Tormenta[]
+}
+
+declare interface Tormenta{
+  tormentaInicio: number,
+  tormentaDuracion: number,
+  spirte: String
 }
 
 declare interface Jugador {

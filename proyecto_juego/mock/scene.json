@@ -4,6 +4,18 @@
   "millaLimite": 600,
   "time": 600,
   "fishFished": 0,
+  "tormentas": [
+    { 
+      "tormentaInicio": 10,
+      "tormentaDuracion": 10,
+      "sprite":"tormenta"
+    },
+    { 
+      "tormentaInicio": 50,
+      "tormentaDuracion": 20,
+      "sprite":"tormenta"
+    }
+  ],
   "jugadores": [
     {
       "nick": "player1",

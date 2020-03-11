@@ -57,6 +57,7 @@ export class Load extends Phaser.Scene {
     });
 
     this.load.image('main', './assets/images/main.jpg');
+    this.load.image('tormenta', './assets/images/tormenta.png');
     this.load.image('puerto', './assets/images/puerto.png');
     this.load.image('bala', './assets/images/bullet6.png');
     this.load.image('bala_canion', './assets/images/bullet8.png');

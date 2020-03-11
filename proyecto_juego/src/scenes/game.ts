@@ -6,6 +6,7 @@ import { GOPesquero } from '../gameObjects/pesquero';
 import { GOPatrulla } from '../gameObjects/patrulla';
 import { Muelle } from '../gameObjects/muelle';
 import { agregarAgua } from '../gameObjects/agua';
+import { GOTormenta } from '../gameObjects/tormenta';
 
 export class Game extends Phaser.Scene {
   minimap: Phaser.Cameras.Scene2D.Camera;
@@ -16,6 +17,8 @@ export class Game extends Phaser.Scene {
   nieblaDeGuerra: Phaser.GameObjects.Rectangle;
 
   renderTexture: Phaser.GameObjects.RenderTexture;
+
+  tormentaActiva: Phaser.GameObjects.Group;
 
   jugadorLocal: {
     nick: string,
@@ -90,6 +93,17 @@ export class Game extends Phaser.Scene {
       frameRate: 3,
       repeat: -1,
     });
+
+    this.anims.create({
+      key: 'tormenta',
+      frames: this.anims.generateFrameNumbers('tormenta', {
+        start: 0,
+        end: 3,
+      }),
+      frameRate: 3,
+      yoyo: false,
+      repeat: -1,
+    });
   }
 
   public create() {
@@ -105,7 +119,7 @@ export class Game extends Phaser.Scene {
     this.minimap.ignore(agua);
 
     // cosas locas para la niebla de guerra
-    this.nieblaDeGuerra = this.add.rectangle(
+    /*this.nieblaDeGuerra = this.add.rectangle(
       0, 0, this.sceneConfig.width, this.sceneConfig.height, 0x00000000,
     ).setOrigin(0, 0).setDepth(100);
 
@@ -118,7 +132,7 @@ export class Game extends Phaser.Scene {
     });
     maskImage.setOrigin(0, 0);
     this.nieblaDeGuerra.mask = new Phaser.Display.Masks.BitmapMask(this, maskImage);
-    this.nieblaDeGuerra.mask.invertAlpha = true;
+    this.nieblaDeGuerra.mask.invertAlpha = true;*/
     // fin cosas locas para la niebla de guerra
 
     // linea pesca
@@ -179,17 +193,52 @@ export class Game extends Phaser.Scene {
       console.log('countfish');
       
     });
+
+    
+   
   }
 
-  public update() {
-    this.renderTexture.clear();
+  timeElapsedInicial=null;
+  verificarTormenta(timeElapsed){
+    const tormenta = this.sceneConfig.tormentas.find((t)=>{
+     //console.log('timeElapsed ', timeElapsed, ' , ', timeElapsed/1000>t.tormentaInicio && timeElapsed/1000<t.tormentaInicio);
+      if(timeElapsed/1000>t.tormentaInicio && timeElapsed/1000<t.tormentaInicio+t.tormentaDuracion){
+        return t;
+      }
+
+      return null;
+    });
+    if(tormenta){
+      this.tormentaActiva = new GOTormenta(this, 'tormenta');
+    }else if(this.tormentaActiva){
+        this.tormentaActiva.getChildren().forEach(
+          (t)=> t.destroy()
+        )
+        this.tormentaActiva.destroy();
+        this.tormentaActiva=null;
+    }
+  }
+
+  i =0;
+  public update(timeElapsed: number, timeLastUpdate: number) {
+    if(!this.timeElapsedInicial){
+        this.timeElapsedInicial=timeElapsed;
+    }
+
+    if(this.i===0){
+      console.log(timeElapsed, this.i++);
+    }
+    if(!this.tormentaActiva){
+      this.verificarTormenta(timeElapsed-this.timeElapsedInicial);
+    }
+    //this.renderTexture.clear();
     this.jugadorLocal.vehiculos.forEach(
       (v) => {
-        this.renderTexture.draw(v.getVision(), v.x, v.y);
+        //this.renderTexture.draw(v.getVision(), v.x, v.y);
         if (v.barcosAuxiliares && v.barcosAuxiliares.length) {
           v.barcosAuxiliares.forEach(
             (va) => {
-              this.renderTexture.draw(va.getVision(), va.x, va.y);
+              //this.renderTexture.draw(va.getVision(), va.x, va.y);
             },
           );
         }
