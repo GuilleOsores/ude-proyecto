@@ -46,7 +46,7 @@ export class GOPatrulla extends GOVehiculo {
       const { width, height } = this.scene.game.canvas;
       // eslint-disable-next-line no-new
       new Mensaje(
-        this.scene, width / 2, height - 100, 5000, () => { this.armasHabilitadas = true; },
+        this.scene, width / 2, height - 300, 5000, () => { this.armasHabilitadas = true; },
       );
     }
   }

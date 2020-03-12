@@ -19,6 +19,8 @@ export class GOPesquero extends GOVehiculo {
     this.txtPesco = this.scene.add.text(16, 20 * vehicle.id, '', { fontSize: '20px', fill: '#FFF' });
     this.txtPesco.setScrollFactor(0);
     this.txtPesco.setDepth(150);
+    this.scene.cameras.getCamera('camaraLateral').ignore(this.txtPesco);
+    this.scene.cameras.getCamera('minimap').ignore(this.txtPesco);
 
     this.pasoMilla = false;
   }

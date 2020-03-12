@@ -11,6 +11,8 @@ import * as server from '../server';
 export class Game extends Phaser.Scene {
   minimap: Phaser.Cameras.Scene2D.Camera;
 
+  camaraLateral: Phaser.Cameras.Scene2D.Camera;
+
   sceneConfig: SceneConfiguration;
 
   txtPescadoTotal: Phaser.GameObjects.Text;
@@ -96,19 +98,26 @@ export class Game extends Phaser.Scene {
 
   public create() {
     this.matter.world.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
-    this.cameras.main.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
-
-    const agua = agregarAgua(this, this.sceneConfig.width, this.sceneConfig.height);
+    this.cameras.main.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height)
+      .setSize(this.game.canvas.width, this.game.canvas.height - 200);
 
     // camara minimapa
     this.minimap = this.cameras.add(0, 0, 210, this.sceneConfig.height * (210 / this.sceneConfig.width), false, 'minimap');
     this.minimap.setZoom(200 / (this.sceneConfig.width * 2));
+
+    // camara lateral
+    this.camaraLateral = this.cameras.add(0, 0, this.sceneConfig.width, 200, false, 'camaraLateral');
+    this.camaraLateral.setSize(this.game.canvas.width, 200).setPosition(0, this.game.canvas.height - 200);
+
+    const agua = agregarAgua(this, this.sceneConfig.width, this.sceneConfig.height);
     this.minimap.ignore(agua);
+    this.camaraLateral.ignore(agua);
 
     // cosas locas para la niebla de guerra
     this.nieblaDeGuerra = this.add.rectangle(
       0, 0, this.sceneConfig.width, this.sceneConfig.height, 0x00000000,
     ).setOrigin(0, 0).setDepth(100);
+    this.camaraLateral.ignore(this.nieblaDeGuerra);
 
     this.renderTexture = new Phaser.GameObjects.RenderTexture(
       this, 0, 0, this.sceneConfig.width, this.sceneConfig.height,
@@ -133,6 +142,9 @@ export class Game extends Phaser.Scene {
     this.txtPescadoTotal = this.add.text(600, 16, 'Total: 0', { fontSize: '28px', fill: '#FFF' });
     this.txtPescadoTotal.setScrollFactor(0);
     this.txtPescadoTotal.setDepth(150);
+    this.minimap.ignore(this.txtPescadoTotal);
+    this.camaraLateral.ignore(this.txtPescadoTotal);
+
     this.sceneConfig.jugadores.forEach(
       (p) => {
         p.vehiculos.forEach(
@@ -169,7 +181,7 @@ export class Game extends Phaser.Scene {
 
     this.events.on('countfish', () => {
       this.jugadorLocal.pescados = 0;
-      for (let i = 0; i < this.jugadorLocal.vehiculos.length; i++) {
+      for (let i = 0; i < this.jugadorLocal.vehiculos.length; i += 1) {
         this.jugadorLocal.pescados += (<GOPesquero> this.jugadorLocal.vehiculos[i]).cantPesca;
       }
       this.txtPescadoTotal.setText(`Total: ${this.jugadorLocal.pescados}`);

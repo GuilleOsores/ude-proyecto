@@ -23,6 +23,13 @@ declare interface Vehiculo {
   normalSprite: string,
   normalAnimation: string,
   tipo: string,
+  spriteLateralInicial: string,
+  spritesLaterales: {
+    l: string,
+    r: string,
+    u: string,
+    d: string
+  },
 }
 
 declare interface Pesquero extends Vehiculo {
