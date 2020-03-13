@@ -27,7 +27,7 @@ public class GetPartida extends HttpServlet {
 
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//no es necesario pasar parametros, devuelve la partida actual.	
 		Fachada fachada = Fachada.getInstanceFachada();
 	
