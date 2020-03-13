@@ -19,12 +19,51 @@ public class Pesquero extends Vehiculo {
 		
 	}
 
-	public Pesquero(String tipoPatrulla) {
+	public Pesquero(String tipoPesquero) {
 		//leer de BD o properties
 		//crear una patrulla de tipo tipoPatrulla (fabrica/comun)
+		
+		//HARDCODEADO PARA TEST
+		if (tipoPesquero.equals("fabrica")) {
+			this.setId(1); 
+			this.setX(150); 
+			this.setY(150);
+			this.setVelocidad((float)0.01); 
+			this.setVelocidadAngular(1);
+			this.setSpriteVivo("pesquero1"); 
+			this.setSpritesLaterales("{\"l\": \"pesquero1\",\"r\": \"pesquero1\",\"u\": \"pesquero1\",\"d\": \"pesquero1\"}");
+			this.setInitialRotation(90);
+
+			vida = 100;
+			horaPesca = "19:30";
+			cantPesca = 0;
+			tiempoPesca = -2;
+			tipo = "pesquero";
+			tipoPesquero = "fabrica";
+			restoPesca = 1000;
+		}else if(tipoPesquero.equals("comun")) {
+
+			this.setId(2); 
+			this.setX(750); 
+			this.setY(150);
+			this.setVelocidad((float)0.01); 
+			this.setVelocidadAngular(1);
+			this.setSpriteVivo("pesquero2"); 
+			this.setSpritesLaterales("{\"l\": \"pesquero2\",\"r\": \"pesquero2\",\"u\": \"pesquero2\",\"d\": \"pesquero2\"}");
+			this.setInitialRotation(90);
+
+			vida = 100;
+			horaPesca = "19:30";
+			cantPesca = 0;
+			tiempoPesca = -2;
+			tipo = "pesquero";
+			tipoPesquero = "comun";
+			restoPesca = 1000;
+		}
+		//FIN HARDCODE
 	}
 	
-	public Pesquero(int id, float x, float y, float velocidad, float velocidadAngular, String spriteVivo, String spritesLaterales, float vida, String spriteMuerto, String animacionExplosion, float multiplicadorDePesca, float initialRotation, String horaPesca, int cantPesca, int tiempoPesca, String tipo, String tipoPesquero, int restoPesca) {
+	public Pesquero(int id, int x, int y, float velocidad, float velocidadAngular, String spriteVivo, String spritesLaterales, float vida, String spriteMuerto, String animacionExplosion, float multiplicadorDePesca, float initialRotation, String horaPesca, int cantPesca, int tiempoPesca, String tipo, String tipoPesquero, int restoPesca) {
 		super(id, x, y, velocidad, velocidadAngular, spriteVivo, spritesLaterales, initialRotation);
 		this.vida = vida;
 		this.spriteMuerto = spriteMuerto;
