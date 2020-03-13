@@ -19,5 +19,9 @@ public class Jugadores {
 	public Jugador get(String nick) {
 		return diccionario.get(nick);
 	}
+	
+	public boolean isEmpty(){
+		return diccionario.isEmpty();
+	}
 
 }
