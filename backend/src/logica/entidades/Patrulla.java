@@ -28,8 +28,8 @@ public class Patrulla extends Vehiculo {
 		this.combustible = combustible;
 	}
 
-	public Patrulla(int id, float x, float y, float velocidad, float velocidadAngular, String spriteVivo, float combustible, Armas armas) {
-		super(id, x, y, velocidad, velocidadAngular, spriteVivo);
+	public Patrulla(int id, float x, float y, float velocidad, float velocidadAngular, String spriteVivo, String spritesLaterales, float combustible, Armas armas) {
+		super(id, x, y, velocidad, velocidadAngular, spriteVivo, spritesLaterales);
 		this.combustible = combustible;
 		this.setArmas(armas);
 		

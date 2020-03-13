@@ -17,8 +17,8 @@ public class Pesquero extends Vehiculo {
 		//crear una patrulla de tipo tipoPatrulla (fabrica/comun)
 	}
 	
-	public Pesquero(int id, float x, float y, float velocidad, float velocidadAngular, String spriteVivo, float vida, String spriteMuerto, String animacionExplosion, float multiplicadorDePesca) {
-		super(id, x, y, velocidad, velocidadAngular, spriteVivo);
+	public Pesquero(int id, float x, float y, float velocidad, float velocidadAngular, String spriteVivo, String spritesLaterales, float vida, String spriteMuerto, String animacionExplosion, float multiplicadorDePesca) {
+		super(id, x, y, velocidad, velocidadAngular, spriteVivo, spritesLaterales);
 		this.vida = vida;
 		this.spriteMuerto = spriteMuerto;
 		this.animacionExplosion = animacionExplosion;

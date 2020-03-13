@@ -1,5 +1,7 @@
 package logica.entidades;
 
+import com.google.gson.JsonArray;
+
 public abstract class Vehiculo {
 
 	private int id;
@@ -8,12 +10,13 @@ public abstract class Vehiculo {
 	private float velocidad;
 	private float velocidadAngular;
 	private String spriteVivo;
+	private String spritesLaterales;
 	
 	public Vehiculo() {
 		
 	}
 	
-	public Vehiculo(int id, float x, float y, float velocidad, float velocidadAngular, String spriteVivo) {
+	public Vehiculo(int id, float x, float y, float velocidad, float velocidadAngular, String spriteVivo, String spritesLaterales) {
 		super();
 		this.id = id;
 		this.x = x;
@@ -21,6 +24,7 @@ public abstract class Vehiculo {
 		this.velocidad = velocidad;
 		this.velocidadAngular = velocidadAngular;
 		this.spriteVivo = spriteVivo;
+		this.spritesLaterales = spritesLaterales;
 	}
 
 	public int getId() {
@@ -70,5 +74,13 @@ public abstract class Vehiculo {
 	public void setSpriteVivo(String spriteVivo) {
 		this.spriteVivo = spriteVivo;
 	}
+
+	public String getSpritesLaterales() {
+		return spritesLaterales;
+	}
+
+	public void setSpritesLaterales(String spritesLaterales) {
+		this.spritesLaterales = spritesLaterales;
+	}	
 		
 }
