@@ -20,7 +20,7 @@ import logica.Fachada;
 @WebServlet("/unirsepartida")
 public class UnirsePartida extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	JsonObject resultado = new JsonObject();
+	JsonObject json = new JsonObject();
 	
     public UnirsePartida() {
         super();
@@ -28,21 +28,19 @@ public class UnirsePartida extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		int idPartida = Integer.parseInt(request.getParameter("idPartida"));
-		String nick = request.getParameter("nick");
-		String bando = request.getParameter("bando");
 		
-		if (bando.equals("PESQUERO") || bando.equals("PATRULLA")) { 
-			Fachada fachada = new Fachada();
-			//delegar a fachada, devolver un JsonObject si vamos a mostrar mensajes. 
-			//fachada.unirsePartida(idPartida, nick, bando);
+		String nickName = null;
+		nickName = request.getParameter("nickName");
+				
+		if (nickName != null) { 
+			Fachada fachada = Fachada.getInstanceFachada();
+			json = fachada.unirsePartida(nickName);
 		} else {
-			resultado.addProperty("mensaje", "Bando incorrecto");
+			json.addProperty("mensaje", "Debe de elegir un nombre de jugador.");
 		}
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
-		out.print(resultado);
+		out.print(json);
 	}
 }

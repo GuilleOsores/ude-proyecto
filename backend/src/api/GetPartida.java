@@ -20,7 +20,7 @@ import logica.Fachada;
 @WebServlet("/getpartida")
 public class GetPartida extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	JsonObject resultado = new JsonObject();
+	JsonObject json = new JsonObject();
 	
     public GetPartida() {
         super();
@@ -28,16 +28,14 @@ public class GetPartida extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//no es necesario pasar parametros, devuelve la partida actual.	
+		Fachada fachada = Fachada.getInstanceFachada();
 	
-		int idPartida = Integer.parseInt(request.getParameter("idPartida"));
-		
-		Fachada fachada = new Fachada();
-		
-		resultado = fachada.getPartidaJson(idPartida);
+		json = fachada.getPartida();
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
-		out.print(resultado);
+		out.print(json);
 	}
 }
