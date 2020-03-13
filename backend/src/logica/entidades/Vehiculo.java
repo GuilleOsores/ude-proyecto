@@ -11,12 +11,13 @@ public abstract class Vehiculo {
 	private float velocidadAngular;
 	private String spriteVivo;
 	private String spritesLaterales;
+	private float initialRotation;
 	
 	public Vehiculo() {
 		
 	}
 	
-	public Vehiculo(int id, float x, float y, float velocidad, float velocidadAngular, String spriteVivo, String spritesLaterales) {
+	public Vehiculo(int id, float x, float y, float velocidad, float velocidadAngular, String spriteVivo, String spritesLaterales, float initialRotation) {
 		super();
 		this.id = id;
 		this.x = x;
@@ -25,6 +26,7 @@ public abstract class Vehiculo {
 		this.velocidadAngular = velocidadAngular;
 		this.spriteVivo = spriteVivo;
 		this.spritesLaterales = spritesLaterales;
+		this.initialRotation = initialRotation;
 	}
 
 	public int getId() {
@@ -81,6 +83,14 @@ public abstract class Vehiculo {
 
 	public void setSpritesLaterales(String spritesLaterales) {
 		this.spritesLaterales = spritesLaterales;
+	}
+
+	public float getInitialRotation() {
+		return initialRotation;
+	}
+
+	public void setInitialRotation(float initialRotation) {
+		this.initialRotation = initialRotation;
 	}	
 		
 }
