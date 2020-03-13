@@ -1,14 +1,20 @@
 package logica.colecciones;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
+import logica.entidades.Jugador;
+import logica.entidades.Patrulla;
+import logica.entidades.Pesquero;
 import logica.entidades.Vehiculo;
 
 public class Vehiculos {
 	
-	private HashMap<Integer, Vehiculo> diccionario;
+	private Map<Integer, Vehiculo> diccionario;
 	
 	public Vehiculos() {
 		diccionario = new HashMap<Integer, Vehiculo>();
@@ -25,7 +31,41 @@ public class Vehiculos {
 	public JsonArray getVehiculosToJson() {	
 		JsonArray jsonArray = new JsonArray();
 		
-		//implementar
+		try {
+			for (Entry<Integer, Vehiculo> vehiculo : diccionario.entrySet()) {
+				JsonObject json = new JsonObject();
+				
+				json.addProperty("id", this.get(vehiculo.getKey()).getId());
+				json.addProperty("sprite", this.get(vehiculo.getKey()).getSpriteVivo());
+				json.addProperty("spritesLaterales", this.get(vehiculo.getKey()).getSpritesLaterales());
+				json.addProperty("x", this.get(vehiculo.getKey()).getX());
+				json.addProperty("y", this.get(vehiculo.getKey()).getY());
+				json.addProperty("initialRotation", this.get(vehiculo.getKey()).getInitialRotation());
+				json.addProperty("velocity", this.get(vehiculo.getKey()).getVelocidad());
+				json.addProperty("angularVelocity", this.get(vehiculo.getKey()).getVelocidadAngular());
+				
+				if (this.get(vehiculo.getKey()) instanceof Patrulla){
+					json.addProperty("tipo", ((Patrulla) this.get(vehiculo.getKey())).getTipo());
+					json.addProperty("combustibleMaximo", ((Patrulla) this.get(vehiculo.getKey())).getCombustible());
+					json.addProperty("gastoCombustible", ((Patrulla) this.get(vehiculo.getKey())).getGastoCombustible());
+					json.addProperty("armas", ((Patrulla) this.get(vehiculo.getKey())).getArmas().getArmasToJson().toString());
+				}
+				else if (this.get(vehiculo.getKey()) instanceof Pesquero){
+					json.addProperty("horaPesca", ((Pesquero) this.get(vehiculo.getKey())).getHoraPesca());
+					json.addProperty("cantPesca", ((Pesquero) this.get(vehiculo.getKey())).getCantPesca());
+					json.addProperty("tiempoPesca", ((Pesquero) this.get(vehiculo.getKey())).getTiempoPesca());
+					json.addProperty("tipo", ((Pesquero) this.get(vehiculo.getKey())).getTipo());
+					json.addProperty("tipoPesquero", ((Pesquero) this.get(vehiculo.getKey())).getTipoPesquero());
+					json.addProperty("restoPesca", ((Pesquero) this.get(vehiculo.getKey())).getRestoPesca());
+					json.addProperty("vida", ((Pesquero) this.get(vehiculo.getKey())).getVida());
+				}
+				
+				jsonArray.add(json);
+	
+			}
+		}catch(Exception e) {
+			jsonArray.add(e.toString());
+		}
 		
 		return jsonArray;
 	}
