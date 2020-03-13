@@ -2,6 +2,8 @@ package logica.colecciones;
 
 import java.util.HashMap;
 
+import com.google.gson.JsonArray;
+
 import logica.entidades.Vehiculo;
 
 public class Vehiculos {
@@ -18,6 +20,14 @@ public class Vehiculos {
 	
 	public Vehiculo get(int id) {
 		return diccionario.get(id);
+	}
+	
+	public JsonArray getVehiculosToJson() {	
+		JsonArray jsonArray = new JsonArray();
+		
+		//implementar
+		
+		return jsonArray;
 	}
 	
 }
