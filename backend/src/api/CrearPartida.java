@@ -28,39 +28,43 @@ public class CrearPartida extends HttpServlet {
         super();
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		Properties prop = new Properties();
 		InputStream input = null;
 		
 		String nickName = null;
 		String bando = null;
 		
-		nickName = request.getParameter("nickName");
-		bando = request.getParameter("bando");
-		
-		if (nickName != null && bando != null) {
+		try {			
+			nickName = request.getParameter("nickName");
+			bando = request.getParameter("bando");
 			
-			//para que lea este input debe estar correctamente incorporado /resources/config.properties en el proyecto
-			input = getClass().getClassLoader().getResourceAsStream("config.properties");			
-			prop.load(input);
-			
-			//esto solo para que puedan probar con su ruta, si es que no les detecta la configuracion anterior.
-			//prop.load(new FileReader("C:\\Users\\gnova\\eclipse-workspace\\backend\\src\\resources\\config.properties"));
-			
-			int width       = Integer.parseInt(prop.getProperty("width"));
-			int height      = Integer.parseInt(prop.getProperty("height"));
-			int millaLimite = Integer.parseInt(prop.getProperty("millaLimite"));
-			int time        = Integer.parseInt(prop.getProperty("time"));
-			int cantPeces   = Integer.parseInt(prop.getProperty("cantPeces"));
-						
-			if (bando.equals("PATRULLA") || bando.equals("PESQUERO")) { 								
-				Fachada fachada = Fachada.getInstanceFachada();
-				json = fachada.crearPartida(nickName, bando, width, height, millaLimite, time, cantPeces, 0);
+			if (nickName != null && bando != null) {
+				//para que lea este input debe estar correctamente incorporado /resources/config.properties en el proyecto
+				input = getClass().getClassLoader().getResourceAsStream("config.properties");			
+				prop.load(input);
+				
+				//esto solo para que puedan probar con su ruta, si es que no les detecta la configuracion anterior.
+				//prop.load(new FileReader("C:\\Users\\gnova\\eclipse-workspace\\backend\\src\\resources\\config.properties"));
+				
+				int width       = Integer.parseInt(prop.getProperty("width"));
+				int height      = Integer.parseInt(prop.getProperty("height"));
+				int millaLimite = Integer.parseInt(prop.getProperty("millaLimite"));
+				int time        = Integer.parseInt(prop.getProperty("time"));
+				int cantPeces   = Integer.parseInt(prop.getProperty("cantPeces"));
+							
+				if (bando.equals("PATRULLA") || bando.equals("PESQUERO")) { 								
+					Fachada fachada = Fachada.getInstanceFachada();
+					json = fachada.crearPartida(nickName, bando, width, height, millaLimite, time, cantPeces, 0);
+				}else 
+					json.addProperty("mensaje", "Debe elegir un Bando correcto.");	
+				
 			}else 
-				json.addProperty("mensaje", "Debe elegir un Bando correcto.");	
+				json.addProperty("mensaje", "Debe elegir un Nick de jugador y un Bando.");	
 			
-		}else 
-			json.addProperty("mensaje", "Debe elegir un Nick de jugador y un Bando.");	
+		}catch(Exception e){
+			json.addProperty("mensaje", e.toString());
+		}
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
