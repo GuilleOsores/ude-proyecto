@@ -40,12 +40,8 @@ public class CrearPartida extends HttpServlet {
 			bando = request.getParameter("bando");
 			
 			if (nickName != null && bando != null) {
-				//para que lea este input debe estar correctamente incorporado /resources/config.properties en el proyecto
-				input = getClass().getClassLoader().getResourceAsStream("config.properties");			
+				input = getClass().getClassLoader().getResourceAsStream("resources/config.properties");			
 				prop.load(input);
-				
-				//esto solo para que puedan probar con su ruta, si es que no les detecta la configuracion anterior.
-				//prop.load(new FileReader("C:\\Users\\gnova\\eclipse-workspace\\backend\\src\\resources\\config.properties"));
 				
 				int width       = Integer.parseInt(prop.getProperty("width"));
 				int height      = Integer.parseInt(prop.getProperty("height"));
