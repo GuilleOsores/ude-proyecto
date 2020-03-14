@@ -1,6 +1,10 @@
 package logica;
 
 import com.google.gson.JsonObject;
+
+import java.io.FileInputStream;
+import java.util.Properties;
+
 import com.google.gson.Gson;
 
 import logica.colecciones.Jugadores;
@@ -11,6 +15,7 @@ import logica.entidades.Partida;
 import logica.entidades.Patrulla;
 import logica.entidades.Pesquero;
 import logica.entidades.Vehiculo;
+import persistencia.DAOBarcos;
 
 public class Fachada {
 	
@@ -18,9 +23,34 @@ public class Fachada {
 	private static Fachada fachada;	
 	private String bandoCreadorDePartida;
 	private String nickCreadorDePartida;
+	private DAOBarcos daoBarcos;
 	
 	private Fachada() {
+		
 		partida = new Partida();
+		
+		try {
+			Properties p = new Properties();
+			p.load(new FileInputStream("config/config.properties"));
+		
+			String driver = p.getProperty("db_server");
+			String host = p.getProperty("db_server");
+			String port = p.getProperty("db_port");
+			String database = p.getProperty("db_database");
+			
+			String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
+			String user = p.getProperty("db_user");
+			String password = p.getProperty("db_password");
+			
+			Class.forName(driver);
+		
+			daoBarcos = new DAOBarcos(url, user, password);
+			
+		} catch (Exception e) {
+			System.out.println("Exception creando fachada");
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
@@ -56,7 +86,7 @@ public class Fachada {
 			vehiculos.put(v1);	
 			vehiculos.put(v2);	
 			
-			Jugador jugador = new Jugador(nickName, vehiculos, 0);
+			Jugador jugador = new Jugador(1, nickName, vehiculos, 0);
 			
 			Jugadores jugadores = partida.getJugadores();
 			jugadores.put(jugador);
@@ -87,15 +117,15 @@ public class Fachada {
 			
 			mensaje = "No hay una partida creada.";	
 			
-		}else if(nickCreadorDePartida.equals(nickName)){
+		} else if (nickCreadorDePartida.equals(nickName)){
 			
 			mensaje = "El nombre de jugador ya existe.";
 			
-		}else if(partida.getJugadores().cantidadDeJugadores() == 2){
+		} else if (partida.getJugadores().cantidadDeJugadores() == 2){
 			
 			mensaje = "La partida está completa.";
 			
-		}else {
+		} else {
 			
 			Vehiculo v1 = null, v2 = null;
 			
@@ -105,7 +135,7 @@ public class Fachada {
 				v1 = new Patrulla("grande");
 				v2 = new Patrulla("chica");	
 				
-			}else {
+			} else {
 				
 				v1 = new Pesquero("fabrica");
 				v2 = new Pesquero("comun");
@@ -116,7 +146,7 @@ public class Fachada {
 			vehiculos.put(v1);	
 			vehiculos.put(v2);	
 			
-			Jugador jugador2 = new Jugador(nickName, vehiculos, 0);			
+			Jugador jugador2 = new Jugador(2, nickName, vehiculos, 0);			
 			
 			Jugadores jugadores = partida.getJugadores();
 			jugadores.put(jugador2);

@@ -1,5 +1,8 @@
 package logica.entidades;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class Pesquero extends Vehiculo {
 	
 	private float vida;
@@ -10,61 +13,100 @@ public class Pesquero extends Vehiculo {
 	private String horaPesca;
 	private int cantPesca;
 	private int tiempoPesca;
-	private String tipo;
 	private String tipoPesquero;
 	private int restoPesca;
-	
 	
 	public Pesquero() {
 		
 	}
+	
+	// Constructor para usar cuando se recupera de la BD
+	public Pesquero(int id, int x, int y, float vida, String tipo, String tipoPesquero, int cantPesca, float initialRotation) {
+		try {
+			Properties p = new Properties();
+			p.load(new FileInputStream("config/config.properties"));
+			
+			String prefijoProperties = "";
+			
+			if (tipoPesquero.equals("fabrica")) {
+				
+				prefijoProperties = "pes1_";
+				this.setSpritesLaterales("{\"l\": \"pesquero1\",\"r\": \"pesquero1\",\"u\": \"pesquero1\",\"d\": \"pesquero1\"}");
+				
+			} else if (tipoPesquero.equals("comun")) {
 
-	public Pesquero(String tipoPesquero) {
-		//leer de BD o properties
-		//crear una patrulla de tipo tipoPatrulla (fabrica/comun)
-		
-		//HARDCODEADO PARA TEST
-		if (tipoPesquero.equals("fabrica")) {
-			this.setId(1); 
-			this.setX(150); 
-			this.setY(150);
-			this.setVelocidad((float)0.01); 
-			this.setVelocidadAngular(1);
-			this.setSpriteVivo("pesquero1"); 
-			this.setSpritesLaterales("{\"l\": \"pesquero1\",\"r\": \"pesquero1\",\"u\": \"pesquero1\",\"d\": \"pesquero1\"}");
-			this.setInitialRotation(90);
+				prefijoProperties = "pes2_";
+				this.setSpritesLaterales("{\"l\": \"pesquero2\",\"r\": \"pesquero2\",\"u\": \"pesquero2\",\"d\": \"pesquero2\"}");			
+			
+			}
+			
+			this.setId(id);
+			this.setX(x);
+			this.setY(y);
+			this.setTipo(tipoPesquero);
+			this.setVelocidad(Float.parseFloat(p.getProperty(prefijoProperties + "initialRotation"))); 
+			this.setVelocidadAngular(Integer.parseInt(p.getProperty(prefijoProperties + "angularVelocity")));
+			this.setSpriteVivo(p.getProperty(prefijoProperties + "sprite"));
+			this.setInitialRotation(initialRotation);
 
-			vida = 100;
-			horaPesca = "19:30";
-			cantPesca = 0;
-			tiempoPesca = -2;
-			tipo = "pesquero";
-			tipoPesquero = "fabrica";
-			restoPesca = 1000;
-		}else if(tipoPesquero.equals("comun")) {
-
-			this.setId(2); 
-			this.setX(750); 
-			this.setY(150);
-			this.setVelocidad((float)0.01); 
-			this.setVelocidadAngular(1);
-			this.setSpriteVivo("pesquero2"); 
-			this.setSpritesLaterales("{\"l\": \"pesquero2\",\"r\": \"pesquero2\",\"u\": \"pesquero2\",\"d\": \"pesquero2\"}");
-			this.setInitialRotation(90);
-
-			vida = 100;
-			horaPesca = "19:30";
-			cantPesca = 0;
-			tiempoPesca = -2;
-			tipo = "pesquero";
-			tipoPesquero = "comun";
-			restoPesca = 1000;
+			this.vida = vida;
+			this.horaPesca = p.getProperty(prefijoProperties + "horaPesca");
+			this.cantPesca = cantPesca;
+			this.tiempoPesca = Integer.parseInt(p.getProperty(prefijoProperties + "tiempoPesca"));
+			this.tipoPesquero = tipoPesquero;
+			this.restoPesca = Integer.parseInt(p.getProperty(prefijoProperties + "restoPesca"));
+			
+		} catch (Exception e) {
+			System.out.println("Exception creando pesquero (BD)");
+			e.printStackTrace();
 		}
-		//FIN HARDCODE
+	}
+
+	// Constructor para usar cuando se crea partida
+	public Pesquero(String tipoPesquero) {
+				
+		try {
+			Properties p = new Properties();
+			p.load(new FileInputStream("config/config.properties"));
+			
+			String prefijoProperties = "";
+			
+			if (tipoPesquero.equals("fabrica")) {
+				
+				prefijoProperties = "pes1_";
+				this.setSpritesLaterales("{\"l\": \"pesquero1\",\"r\": \"pesquero1\",\"u\": \"pesquero1\",\"d\": \"pesquero1\"}");
+				
+			} else if (tipoPesquero.equals("comun")) {
+
+				prefijoProperties = "pes2_";
+				this.setSpritesLaterales("{\"l\": \"pesquero2\",\"r\": \"pesquero2\",\"u\": \"pesquero2\",\"d\": \"pesquero2\"}");			
+			
+			}
+			
+			this.setId(Integer.parseInt(p.getProperty(prefijoProperties + "id"))); 
+			this.setX(Integer.parseInt(p.getProperty(prefijoProperties + "x")));
+			this.setY(Integer.parseInt(p.getProperty(prefijoProperties + "y")));
+			this.setVelocidad(Float.parseFloat(p.getProperty(prefijoProperties + "initialRotation"))); 
+			this.setVelocidadAngular(Integer.parseInt(p.getProperty(prefijoProperties + "angularVelocity")));
+			this.setSpriteVivo(p.getProperty(prefijoProperties + "sprite"));
+			this.setInitialRotation(Integer.parseInt(p.getProperty(prefijoProperties + "initialRotation")));
+
+			this.vida = Integer.parseInt(p.getProperty(prefijoProperties + "vida"));
+			this.horaPesca = p.getProperty(prefijoProperties + "horaPesca");
+			this.cantPesca = Integer.parseInt(p.getProperty(prefijoProperties + "cantPesca"));
+			this.tiempoPesca = Integer.parseInt(p.getProperty(prefijoProperties + "tiempoPesca"));
+			this.setTipo(p.getProperty(prefijoProperties + "tipo"));
+			this.tipoPesquero = tipoPesquero;
+			this.restoPesca = Integer.parseInt(p.getProperty(prefijoProperties + "restoPesca"));
+			
+		} catch (Exception e) {
+			System.out.println("Excepcion creando pesquero (Properties)");
+			e.printStackTrace();
+		}
 	}
 	
 	public Pesquero(int id, int x, int y, float velocidad, float velocidadAngular, String spriteVivo, String spritesLaterales, float vida, String spriteMuerto, String animacionExplosion, float multiplicadorDePesca, float initialRotation, String horaPesca, int cantPesca, int tiempoPesca, String tipo, String tipoPesquero, int restoPesca) {
-		super(id, x, y, velocidad, velocidadAngular, spriteVivo, spritesLaterales, initialRotation);
+		super(id, x, y, tipo, velocidad, velocidadAngular, spriteVivo, spritesLaterales, initialRotation);
 		this.vida = vida;
 		this.spriteMuerto = spriteMuerto;
 		this.animacionExplosion = animacionExplosion;
@@ -73,10 +115,8 @@ public class Pesquero extends Vehiculo {
 		this.setHoraPesca(horaPesca);
 		this.setCantPesca(cantPesca);
 		this.setTiempoPesca(tiempoPesca);
-		this.setTipo(tipo);
 		this.setTipoPesquero(tipoPesquero);
 		this.setRestoPesca(restoPesca);		
-
 	}
 
 	public float getVida() {
@@ -135,14 +175,6 @@ public class Pesquero extends Vehiculo {
 		this.tiempoPesca = tiempoPesca;
 	}
 
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
 	public String getTipoPesquero() {
 		return tipoPesquero;
 	}
@@ -157,6 +189,30 @@ public class Pesquero extends Vehiculo {
 
 	public void setRestoPesca(int restoPesca) {
 		this.restoPesca = restoPesca;
+	}
+	
+	@Override
+	public String toString() {
+		
+		return 
+			String.valueOf(this.getId()) + ", " + 
+			String.valueOf(this.getX()) + ", " + 
+			String.valueOf(this.getY()) + ", " + 
+			String.valueOf(this.getVelocidad()) + ", " + 
+			String.valueOf(this.getVelocidadAngular()) + ", " + 
+			this.getSpriteVivo() + ", " + 
+			this.getSpritesLaterales() + ", " + 
+			String.valueOf(this.getInitialRotation()) + ", " + 
+			String.valueOf(vida) + ", " + 
+			spriteMuerto + ", " + 
+			animacionExplosion + ", " + 
+			String.valueOf(multiplicadorDePesca) + ", " + 
+			horaPesca + ", " + 
+			String.valueOf(cantPesca) + ", " + 
+			String.valueOf(tiempoPesca) + ", " + 
+			this.getTipo() + ", " + 
+			tipoPesquero + ", " + 
+			String.valueOf(restoPesca);
 	}
 		
 }

@@ -1,6 +1,5 @@
 package api;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -16,8 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 
 import logica.Fachada;
-import logica.entidades.*;
-import logica.colecciones.*;
 
 @WebServlet("/crearpartida")
 public class CrearPartida extends HttpServlet {

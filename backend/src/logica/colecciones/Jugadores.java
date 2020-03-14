@@ -1,6 +1,8 @@
 package logica.colecciones;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -35,7 +37,6 @@ public class Jugadores {
 	
 	public JsonArray getJugadoresToJson() {
 		
-		
 		JsonArray jsonArray = new JsonArray();
 
 
@@ -50,6 +51,15 @@ public class Jugadores {
 		}
 		
 		return jsonArray;
+	}
+	
+	// Funcion auxiliar para convertir el map en lista
+	public List<Jugador> jugadoresToList() {
+		ArrayList<Jugador> lista = new ArrayList<>();
+		
+		diccionario.forEach((k, v) -> lista.add(v));
+		
+		return lista;
 	}
 
 }
