@@ -5,6 +5,8 @@ export const EVENTOS = {
   MOVER_BARCO: 'mb',
   DISPARO: 'd',
   FINALIZAR: 'f',
+  PAUSAR: 'p',
+  DESPERTAR: 'des',
 };
 
 const eventos = Object.values(EVENTOS).reduce(

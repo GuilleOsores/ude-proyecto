@@ -6,6 +6,7 @@ import { Main } from './scenes/main';
 import { Nick } from './scenes/nick';
 import { Game } from './scenes/game';
 import { Resultado } from './scenes/resultado';
+import { PopUp } from './scenes/popup';
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Sample',
@@ -30,7 +31,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   },
   parent: 'game',
   backgroundColor: '#FFFFFF',
-  scene: [Load, Main, Nick, Game, Resultado],
+  scene: [Load, Main, Nick, Game, Resultado, PopUp],
   plugins: {
     global: [{
       key: 'rexInputTextPlugin',

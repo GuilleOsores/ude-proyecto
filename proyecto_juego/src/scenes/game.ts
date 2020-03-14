@@ -209,12 +209,15 @@ export class Game extends Phaser.Scene {
       },
     );
 
-    this.input.on('gameobjectdown', (pointer, gameObject: Phaser.GameObjects.GameObject) => {
-      const id = gameObject.getData('id');
-      this.seleccionarBarco(id);
-    });
+    this.input.on(
+      Phaser.Input.Events.GAMEOBJECT_DOWN,
+      (pointer, gameObject: Phaser.GameObjects.GameObject) => {
+        const id = gameObject.getData('id');
+        this.seleccionarBarco(id);
+      },
+    );
 
-    this.input.keyboard.on('keydown', this.keyboardHandler);
+    this.input.keyboard.on(Phaser.Input.Keyboard.Events.ANY_KEY_DOWN, this.keyboardHandler);
 
     this.events.on('countfish', (cantidad) => {
       this.jugadorLocal.pescados += cantidad;
@@ -226,6 +229,19 @@ export class Game extends Phaser.Scene {
     });
 
     server.addhandler(server.EVENTOS.FINALIZAR, this.finalizarPartidaHandler);
+    server.addhandler(server.EVENTOS.PAUSAR, this.pausarEscena);
+    server.addhandler(server.EVENTOS.DESPERTAR, this.despertarScena);
+  }
+
+  pausarEscena = () => {
+    console.log('el otro pauso');
+    this.scene.pause();
+    this.scene.run('PopUp', {});
+  }
+
+  despertarScena = () => {
+    this.scene.stop('PopUp');
+    this.scene.wake();
   }
 
   finalizarPartidaHandler = (data) => {
@@ -270,7 +286,24 @@ export class Game extends Phaser.Scene {
   keyboardHandler = (event: KeyboardEvent) => {
     if (event.shiftKey && this.jugadorLocal.vehiculos[event.keyCode - 49]) {
       this.seleccionarBarco(event.keyCode - 49 + 1);
+    } else if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
+      server.enviar(server.EVENTOS.PAUSAR, {});
+      this.scene.pause();
+      this.scene.run('PopUp', {
+        guardarHandler: this.guardarHandler,
+        continuarHandler: this.continuarHandler,
+      });
     }
+  }
+
+  guardarHandler = () => {
+    console.log('guardarHandler');
+  }
+
+  continuarHandler = () => {
+    this.scene.stop('PopUp');
+    server.enviar(server.EVENTOS.DESPERTAR, {});
+    this.scene.wake();
   }
 
   seleccionarBarco = (id) => {
