@@ -33,6 +33,8 @@ public class GetPartida extends HttpServlet {
 	
 		json = fachada.getPartida();
 		
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();

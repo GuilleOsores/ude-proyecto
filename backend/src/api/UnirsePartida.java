@@ -38,6 +38,9 @@ public class UnirsePartida extends HttpServlet {
 		} else {
 			json.addProperty("mensaje", "Debe de elegir un nombre de jugador.");
 		}
+		
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();

@@ -62,6 +62,8 @@ public class CrearPartida extends HttpServlet {
 			json.addProperty("mensaje", e.toString());
 		}
 		
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
