@@ -8,6 +8,7 @@ import { Muelle } from '../gameObjects/muelle';
 import { agregarAgua } from '../gameObjects/agua';
 import { GOTormenta } from '../gameObjects/tormenta';
 
+
 export class Game extends Phaser.Scene {
   minimap: Phaser.Cameras.Scene2D.Camera;
 
@@ -20,6 +21,10 @@ export class Game extends Phaser.Scene {
 
   tormentaActiva: Phaser.GameObjects.Group;
 
+  totalSeconds = 0;
+
+  tormentas: Tormenta[];
+  
   jugadorLocal: {
     nick: string,
     vehiculos: GOPesquero[] | GOPatrulla[],
@@ -106,7 +111,10 @@ export class Game extends Phaser.Scene {
     });
   }
 
-  public create() {
+  tormentaEnTiempo=false
+
+  
+  public create() { 
     
     this.matter.world.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
     this.cameras.main.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
@@ -194,11 +202,50 @@ export class Game extends Phaser.Scene {
       
     });
 
-    
+    this.tormentas = this.sceneConfig.tormentas;
    
+    setInterval(() => {
+    ++this.totalSeconds;
+    console.log(this.totalSeconds);
+
+    let torm=null;
+    let i=0;
+    let encontro=false;
+    this.tormentaEnTiempo=true;
+    while(i<this.tormentas.length && !encontro){
+      let fin =this.tormentas[i].tormentaDuracion+this.tormentas[i].tormentaInicio;
+      if(this.totalSeconds==this.tormentas[i].tormentaInicio){
+        torm = this.tormentas[i];
+        encontro=true;
+      }else if(this.totalSeconds>=fin){
+        this.tormentaEnTiempo=false;
+        this.tormentas.splice(i, 1);
+      }
+
+      i++;
+      
+    }
+    
+     if(encontro){
+      this.tormentaActiva = new GOTormenta(this, 'tormenta');
+      console.log('entro: '+this.totalSeconds);
+      this.events.emit('inicioTormenta');
+    }else if(this.tormentaActiva && !this.tormentaEnTiempo){
+        this.tormentaActiva.getChildren().forEach(
+          (t)=> t.destroy()
+        )
+        this.tormentaActiva.destroy();
+        this.tormentaActiva=null; 
+
+        console.log('elimino: '+this.totalSeconds);
+
+        this.events.emit('finTormenta');
+    } 
+    }, 1000);
   }
 
-  timeElapsedInicial=null;
+  /*timeElapsedInicial=null;
+  entro=false;
   verificarTormenta(timeElapsed){
     const tormenta = this.sceneConfig.tormentas.find((t)=>{
      //console.log('timeElapsed ', timeElapsed, ' , ', timeElapsed/1000>t.tormentaInicio && timeElapsed/1000<t.tormentaInicio);
@@ -208,30 +255,34 @@ export class Game extends Phaser.Scene {
 
       return null;
     });
-    if(tormenta){
+    if(tormenta && !this.entro){
+      this.entro=true;
       this.tormentaActiva = new GOTormenta(this, 'tormenta');
+      console.log('entro');
     }else if(this.tormentaActiva){
         this.tormentaActiva.getChildren().forEach(
           (t)=> t.destroy()
         )
         this.tormentaActiva.destroy();
         this.tormentaActiva=null;
+        this.entro=false;
+       
     }
-  }
+  }*/
 
-  i =0;
+
   public update(timeElapsed: number, timeLastUpdate: number) {
-    if(!this.timeElapsedInicial){
+    /*if(!this.timeElapsedInicial){
         this.timeElapsedInicial=timeElapsed;
     }
 
-    if(this.i===0){
-      console.log(timeElapsed, this.i++);
-    }
-    if(!this.tormentaActiva){
-      this.verificarTormenta(timeElapsed-this.timeElapsedInicial);
-    }
+    
+    if(timeLastUpdate%0.06===0)
+      this.verificarTormenta(timeElapsed-this.timeElapsedInicial);*/
+    
     //this.renderTexture.clear();
+
+
     this.jugadorLocal.vehiculos.forEach(
       (v) => {
         //this.renderTexture.draw(v.getVision(), v.x, v.y);
@@ -244,16 +295,6 @@ export class Game extends Phaser.Scene {
         }
       },
     );
-  }
-
-  public agregarTexto = (texto) => {
-    let txt = null;
-    if (txt == null) {
-      txt = this.add.text(16, 16, texto);
-      txt.setScrollFactor(0);
-    } else {
-      txt.setText = texto;
-    }
   }
 
   keyboardHandler = (event: KeyboardEvent) => {

@@ -6,13 +6,13 @@
   "fishFished": 0,
   "tormentas": [
     { 
-      "tormentaInicio": 10,
-      "tormentaDuracion": 10,
+      "tormentaInicio": 5,
+      "tormentaDuracion": 5,
       "sprite":"tormenta"
     },
     { 
-      "tormentaInicio": 50,
-      "tormentaDuracion": 20,
+      "tormentaInicio": 15,
+      "tormentaDuracion": 5,
       "sprite":"tormenta"
     }
   ],
