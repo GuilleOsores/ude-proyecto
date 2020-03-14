@@ -59,7 +59,7 @@ export class GOPesquero extends GOVehiculo {
     this.scene.events.on('inicioTormenta', () => {
 
       if(this.getData('tipo') === 'pesquero' && this.getData('tipoPesquero')==='comun'){
-        console.log('deshabilito pesquero comun');
+        //console.log('deshabilito pesquero comun');
         this.hayTormenta=true;
       }
       
@@ -69,7 +69,7 @@ export class GOPesquero extends GOVehiculo {
     this.scene.events.on('finTormenta', () => {
 
       if(this.getData('tipo') === 'pesquero' && this.getData('tipoPesquero')==='comun'){
-        console.log('habilito pesquero comun');
+        //console.log('habilito pesquero comun');
         this.hayTormenta=false;
       }
       

@@ -244,41 +244,9 @@ export class Game extends Phaser.Scene {
     }, 1000);
   }
 
-  /*timeElapsedInicial=null;
-  entro=false;
-  verificarTormenta(timeElapsed){
-    const tormenta = this.sceneConfig.tormentas.find((t)=>{
-     //console.log('timeElapsed ', timeElapsed, ' , ', timeElapsed/1000>t.tormentaInicio && timeElapsed/1000<t.tormentaInicio);
-      if(timeElapsed/1000>t.tormentaInicio && timeElapsed/1000<t.tormentaInicio+t.tormentaDuracion){
-        return t;
-      }
-
-      return null;
-    });
-    if(tormenta && !this.entro){
-      this.entro=true;
-      this.tormentaActiva = new GOTormenta(this, 'tormenta');
-      console.log('entro');
-    }else if(this.tormentaActiva){
-        this.tormentaActiva.getChildren().forEach(
-          (t)=> t.destroy()
-        )
-        this.tormentaActiva.destroy();
-        this.tormentaActiva=null;
-        this.entro=false;
-       
-    }
-  }*/
 
 
   public update(timeElapsed: number, timeLastUpdate: number) {
-    /*if(!this.timeElapsedInicial){
-        this.timeElapsedInicial=timeElapsed;
-    }
-
-    
-    if(timeLastUpdate%0.06===0)
-      this.verificarTormenta(timeElapsed-this.timeElapsedInicial);*/
     
     //this.renderTexture.clear();
 

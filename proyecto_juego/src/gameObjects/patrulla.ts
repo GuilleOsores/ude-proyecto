@@ -67,7 +67,7 @@ export class GOPatrulla extends GOVehiculo {
     this.scene.events.on('inicioTormenta', () => {
 
       if(this.getData('sprite') === 'policia2'){
-        console.log('deshabilito policia chico');
+        //console.log('deshabilito policia chico');
         this.hayTormenta=true;
       }
       
@@ -77,7 +77,7 @@ export class GOPatrulla extends GOVehiculo {
     this.scene.events.on('finTormenta', () => {
 
       if(this.getData('sprite') === 'policia2'){
-        console.log('habilito policia chico');
+        //console.log('habilito policia chico');
         this.hayTormenta=false;
       }
       
