@@ -33,33 +33,45 @@ public class Main {
 			
 			Fachada fachada = Fachada.getInstanceFachada();
 			
-			Vehiculo v11 = new Patrulla("grande");
-			Vehiculo v12 = new Patrulla("chica");
+			DAOJugadores daoJ = new DAOJugadores(url, user, password);
 			
-			Vehiculos ve1 = new Vehiculos();
-			ve1.put(v11);
-			ve1.put(v12);
+			Jugadores j = daoJ.getJugadores();
 			
-			Jugador j1 = new Jugador(1, "jug1", ve1, 0);
+			for(Jugador jugador : j.jugadoresToList()) {
+				System.out.println(jugador.toString());
+			}
 			
-			Vehiculo v21 = new Pesquero("fabrica");
-			Vehiculo v22 = new Pesquero("comun");
+//			=============PRUEBA GUARDAR PARTIDA COMPLETA===================
 			
-			Vehiculos ve2 = new Vehiculos();
-			ve2.put(v21);
-			ve2.put(v22);
+//			Vehiculo v11 = new Patrulla("grande");
+//			Vehiculo v12 = new Patrulla("chica");
+//			
+//			Vehiculos ve1 = new Vehiculos();
+//			ve1.put(v11);
+//			ve1.put(v12);
+//			
+//			Jugador j1 = new Jugador(1, "jug1", ve1, 0);
+//			
+//			Vehiculo v21 = new Pesquero("fabrica");
+//			Vehiculo v22 = new Pesquero("comun");
+//			
+//			Vehiculos ve2 = new Vehiculos();
+//			ve2.put(v21);
+//			ve2.put(v22);
+//			
+//			Jugador j2 = new Jugador(2, "jug2", ve2, 0);
+//			
+//			Jugadores jug = new Jugadores();
+//			jug.put(j1);
+//			jug.put(j2);
+//			
+//			Partida par = new Partida(1, jug, 3200, 3200, 600, 600, 1000, 0);
+//			
+//			fachada.setPartida(par);
+//			
+//			fachada.guardarPartida();
 			
-			Jugador j2 = new Jugador(2, "jug2", ve2, 0);
-			
-			Jugadores jug = new Jugadores();
-			jug.put(j1);
-			jug.put(j2);
-			
-			Partida par = new Partida(1, jug, 3200, 3200, 600, 600, 1000, 0);
-			
-			fachada.setPartida(par);
-			
-			fachada.guardarPartida();
+//			==================================================================
 			
 //			Partida p = new Partida();
 //			

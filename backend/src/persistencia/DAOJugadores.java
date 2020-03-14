@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import logica.colecciones.Jugadores;
 import logica.entidades.Jugador;
 
 public class DAOJugadores {
@@ -38,6 +39,30 @@ public class DAOJugadores {
 		con.close();
 	}
 	
+	public Jugadores getJugadores() throws SQLException {
+		
+		Connection con = DriverManager.getConnection(url, user, password);
+		
+		String query = "SELECT * FROM jugadores";
+		
+		PreparedStatement pstmt = con.prepareStatement(query);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		Jugadores jugadores = new Jugadores();
+		
+		while(rs.next()) {
+			Jugador j = new Jugador(rs.getInt(1), rs.getString(2), null, 0);
+			jugadores.put(j);
+		}
+
+		rs.close();
+		pstmt.close();
+		con.close();
+		
+		return jugadores;
+	}
+	
 	public Jugador getJugador(int id) throws SQLException {
 		
 		Connection con = DriverManager.getConnection(url, user, password);
@@ -53,6 +78,10 @@ public class DAOJugadores {
 		rs.next();
 		
 		Jugador j = new Jugador(id, rs.getString(1), null, 0);
+		
+		rs.close();
+		pstmt.close();
+		con.close();
 		
 		return j;
 	}

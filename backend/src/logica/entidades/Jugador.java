@@ -53,4 +53,9 @@ public class Jugador {
 		this.cantidadPescados = cantidadPescados;
 	}
 	
+	@Override
+	public String toString() {
+		return String.valueOf(id) + ", " + nick;
+	}
+	
 }

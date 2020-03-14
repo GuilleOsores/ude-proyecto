@@ -55,11 +55,11 @@ public class Jugadores {
 	
 	// Funcion auxiliar para convertir el map en lista
 	public List<Jugador> jugadoresToList() {
-		ArrayList<Jugador> lista = new ArrayList<>();
+		ArrayList<Jugador> lista = new ArrayList<Jugador>();
 		
 		diccionario.forEach((k, v) -> lista.add(v));
 		
 		return lista;
 	}
-
 }
+

@@ -44,6 +44,27 @@ public class DAOPartidas {
 		
 	}
 	
+	public Partida getPartida() throws SQLException {
+		
+		Connection con = DriverManager.getConnection(url, user, password);
+		
+		String query = "SELECT tiempoRestante, pecesRestantes FROM partidas";
+		
+		PreparedStatement pstmt = con.prepareStatement(query);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		rs.next();
+		
+		Partida p = new Partida(1, rs.getInt(1), rs.getInt(2));
+		
+		rs.close();
+		pstmt.close();
+		con.close();
+		
+		return p;
+	}
+	
 	public Partida getPartida(int id) throws SQLException {
 		
 		Connection con = DriverManager.getConnection(url, user, password);

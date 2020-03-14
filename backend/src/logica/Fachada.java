@@ -217,4 +217,14 @@ public class Fachada {
 		System.out.println("Partida guardada en BD");
 	}
 	
+	public JsonObject cargarPartida() throws SQLException {
+	
+		Partida p = daoPartidas.getPartida();
+		
+		
+		
+		
+		return null;
+	}
+	
 }
