@@ -22,7 +22,58 @@ public class Patrulla extends Vehiculo {
 	
 	public Patrulla(String tipoPatrulla){
 		//leer de BD o properties
-		//crear una patrulla de tipo tipoPatrulla (grande/chica)		
+		//crear una patrulla de tipo tipoPatrulla (grande/chica)
+		
+		//HARDCODEADO PARA TEST
+		if (tipoPatrulla.equals("grande")) {
+			this.setId(1); 
+			this.setX(150); 
+			this.setY(2050);
+			this.setVelocidad((float)0.01); 
+			this.setVelocidadAngular(1);
+			this.setSpriteVivo("policia1"); 
+			this.setSpritesLaterales("{\"l\": \"policia1\",\"r\": \"policia1\",\"u\": \"policia1\",\"d\": \"policia1\"}");
+			this.setInitialRotation(-90);
+
+			combustible = 100000;
+			gastoCombustible = 1;
+			tipo = "patrulla";
+					
+			Arma arma1 = new Arma(1, (float)800, (float)50, (float)2, "canion", "bala_canion", (float)0.03, "disparo", (float)1);
+			Arma arma2 = new Arma(2, (float)400, (float)25, (float)0.5, "ametralladora", "bala", (float)0.03, "disparo", (float)0.4);
+						
+			Armas armas = new Armas();
+			armas.push(arma1);
+			armas.push(arma2);
+			
+			//arma3 -> crear vehiculo de de apoyo
+			//arma4 -> crear helicoptero
+			
+			this.setArmas(armas);
+			
+		}else if(tipoPatrulla.equals("chica")) {
+
+			this.setId(2); 
+			this.setX(750); 
+			this.setY(2050);
+			this.setVelocidad((float)0.01); 
+			this.setVelocidadAngular(1);
+			this.setSpriteVivo("policia2"); 
+			this.setSpritesLaterales("{\"l\": \"policia2\",\"r\": \"policia2\",\"u\": \"policia2\",\"d\": \"policia2\"}");
+			this.setInitialRotation(-90);
+
+			combustible = 100000;
+			gastoCombustible = 1;
+			tipo = "patrulla";
+			
+			Arma arma2 = new Arma(2, (float)400, (float)25, (float)0.5, "ametralladora", "bala", (float)0.03, "disparo", (float)0.4);
+			
+			Armas armas = new Armas();
+			armas.push(arma2);
+			
+			this.setArmas(armas);
+		}
+		//FIN HARDCODE
 	}
 	
 	public Patrulla(float combustible) {
