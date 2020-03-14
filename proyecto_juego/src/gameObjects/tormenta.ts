@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import * as moment from 'moment';
 // eslint-disable-next-line no-unused-vars
 
-export class GOTormenta extends Phaser.GameObjects.Group {
+export class GOTormenta extends Phaser.GameObjects.Container {
   
   tween: Phaser.Tweens.Tween;
 
@@ -16,12 +16,14 @@ export class GOTormenta extends Phaser.GameObjects.Group {
   constructor(scene: Phaser.Scene, sprite: string) {
     super(scene);
     let cantidadTornados = (Math.random()*100).toFixed(0);
+    console.log('cantidad tornados: '+cantidadTornados)
     for(let i=0; i<new Number(cantidadTornados); i++){
       const x= (Math.random()*100000)%3200;
       const y=(Math.random()*100000)%3200;
-      this.tornados[i]=new Phaser.GameObjects.Sprite(scene, x, y, sprite);
-      scene.add.existing(this.tornados[i]);
-      this.add(this.tornados[i]);
+      //this.tornados[i]=new Phaser.GameObjects.Sprite(scene, x, y, sprite);
+      const tornado = new Phaser.GameObjects.Sprite(scene, x, y, sprite);
+      this.add(tornado);
+      console.log('i: '+i);
     }
 
     scene.add.existing(this);

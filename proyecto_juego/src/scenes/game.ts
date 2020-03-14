@@ -19,7 +19,7 @@ export class Game extends Phaser.Scene {
 
   renderTexture: Phaser.GameObjects.RenderTexture;
 
-  tormentaActiva: Phaser.GameObjects.Group;
+  tormentaActiva: Phaser.GameObjects.Container;
 
   totalSeconds = 0;
 
@@ -127,7 +127,7 @@ export class Game extends Phaser.Scene {
     this.minimap.ignore(agua);
 
     // cosas locas para la niebla de guerra
-    /*this.nieblaDeGuerra = this.add.rectangle(
+    this.nieblaDeGuerra = this.add.rectangle(
       0, 0, this.sceneConfig.width, this.sceneConfig.height, 0x00000000,
     ).setOrigin(0, 0).setDepth(100);
 
@@ -140,7 +140,7 @@ export class Game extends Phaser.Scene {
     });
     maskImage.setOrigin(0, 0);
     this.nieblaDeGuerra.mask = new Phaser.Display.Masks.BitmapMask(this, maskImage);
-    this.nieblaDeGuerra.mask.invertAlpha = true;*/
+    this.nieblaDeGuerra.mask.invertAlpha = true;
     // fin cosas locas para la niebla de guerra
 
     // linea pesca
@@ -206,7 +206,6 @@ export class Game extends Phaser.Scene {
    
     setInterval(() => {
     ++this.totalSeconds;
-    console.log(this.totalSeconds);
 
     let torm=null;
     let i=0;
@@ -228,16 +227,10 @@ export class Game extends Phaser.Scene {
     
      if(encontro){
       this.tormentaActiva = new GOTormenta(this, 'tormenta');
-      console.log('entro: '+this.totalSeconds);
       this.events.emit('inicioTormenta');
     }else if(this.tormentaActiva && !this.tormentaEnTiempo){
-        this.tormentaActiva.getChildren().forEach(
-          (t)=> t.destroy()
-        )
         this.tormentaActiva.destroy();
         this.tormentaActiva=null; 
-
-        console.log('elimino: '+this.totalSeconds);
 
         this.events.emit('finTormenta');
     } 
@@ -248,16 +241,16 @@ export class Game extends Phaser.Scene {
 
   public update(timeElapsed: number, timeLastUpdate: number) {
     
-    //this.renderTexture.clear();
+    this.renderTexture.clear();
 
 
     this.jugadorLocal.vehiculos.forEach(
       (v) => {
-        //this.renderTexture.draw(v.getVision(), v.x, v.y);
+        this.renderTexture.draw(v.getVision(), v.x, v.y);
         if (v.barcosAuxiliares && v.barcosAuxiliares.length) {
           v.barcosAuxiliares.forEach(
             (va) => {
-              //this.renderTexture.draw(va.getVision(), va.x, va.y);
+              this.renderTexture.draw(va.getVision(), va.x, va.y);
             },
           );
         }
