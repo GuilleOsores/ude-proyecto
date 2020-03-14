@@ -107,8 +107,36 @@ export class Game extends Phaser.Scene {
       .setSize(this.game.canvas.width, this.game.canvas.height - 200);
 
     // camara minimapa
-    this.minimap = this.cameras.add(0, 0, 210, this.sceneConfig.height * (210 / this.sceneConfig.width), false, 'minimap');
-    this.minimap.setZoom(200 / (this.sceneConfig.width * 2));
+    const minimapaWidth = 100;
+    const minimapaHeight = this.sceneConfig.height * (100 / this.sceneConfig.width);
+    this.minimap = this.cameras.add(30, 30, minimapaWidth, minimapaHeight, false, 'minimap');
+    this.minimap.setZoom(100 / this.sceneConfig.width).setOrigin(0, 0);
+    // bordes
+    this.add.line(
+      0, 0,
+      this.minimap.x - 1, this.minimap.y - 1,
+      this.minimap.x + this.minimap.width + 1, this.minimap.y - 1,
+      0x00FF00,
+    ).setScrollFactor(0, 0).setDepth(200).setOrigin(0, 0);
+    this.add.line(
+      0, 0,
+      this.minimap.x - 1, this.minimap.y - 1,
+      this.minimap.x - 1, this.minimap.y + this.minimap.height + 1,
+      0x00FF00,
+    ).setScrollFactor(0, 0).setDepth(200).setOrigin(0, 0);
+    this.add.line(
+      0, 0,
+      this.minimap.x + this.minimap.width + 1, this.minimap.y - 1,
+      this.minimap.x + this.minimap.width + 1, this.minimap.y + this.minimap.height + 1,
+      0x00FF00,
+    ).setScrollFactor(0, 0).setDepth(200).setOrigin(0, 0);
+    this.add.line(
+      0, 0,
+      this.minimap.x - 1, this.minimap.y + this.minimap.height + 1,
+      this.minimap.x + this.minimap.width + 1, this.minimap.y + this.minimap.height + 1,
+      0x00FF00,
+    ).setScrollFactor(0, 0).setDepth(200).setOrigin(0, 0);
+    // fin bordes
 
     // camara lateral
     this.camaraLateral = this.cameras.add(0, 0, this.sceneConfig.width, 200, false, 'camaraLateral');
