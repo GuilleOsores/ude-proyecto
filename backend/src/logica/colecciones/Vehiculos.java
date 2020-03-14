@@ -48,7 +48,7 @@ public class Vehiculos {
 					json.addProperty("tipo", ((Patrulla) this.get(vehiculo.getKey())).getTipo());
 					json.addProperty("combustibleMaximo", ((Patrulla) this.get(vehiculo.getKey())).getCombustible());
 					json.addProperty("gastoCombustible", ((Patrulla) this.get(vehiculo.getKey())).getGastoCombustible());
-					json.addProperty("armas", ((Patrulla) this.get(vehiculo.getKey())).getArmas().getArmasToJson().toString());
+					json.add("armas", ((Patrulla) this.get(vehiculo.getKey())).getArmas().getArmasToJson());
 				}
 				else if (this.get(vehiculo.getKey()) instanceof Pesquero){
 					json.addProperty("horaPesca", ((Pesquero) this.get(vehiculo.getKey())).getHoraPesca());

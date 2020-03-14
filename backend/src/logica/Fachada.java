@@ -145,7 +145,7 @@ public class Fachada {
 			json.addProperty("fishFished", partida.getFishFished());
 			json.addProperty("time", partida.getTiempo());
 			
-			json.addProperty("jugadores", partida.getJugadores().getJugadoresToJson().toString());
+			json.add("jugadores", partida.getJugadores().getJugadoresToJson());
 	
 			mensaje = "OK";
 			

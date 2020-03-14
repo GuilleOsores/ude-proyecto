@@ -43,7 +43,7 @@ public class Jugadores {
 			JsonObject json = new JsonObject();
 			
 			json.addProperty("nick", this.get(jugador.getKey()).getNick());
-			json.addProperty("vehiculos", this.get(jugador.getKey()).getVehiculos().getVehiculosToJson().toString());
+			json.add("vehiculos", this.get(jugador.getKey()).getVehiculos().getVehiculosToJson());
 			
 			jsonArray.add(json);
 
