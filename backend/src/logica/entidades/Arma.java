@@ -13,11 +13,15 @@ public class Arma {
 	private String tipo;
 	private float escala; 
 	
+	private float ttl;
+	private float velocidadAngular;
+	private String puedeNeutralizar;
+	
 	public Arma() {
 		
 	}
 	
-	public Arma(int id, float alcance, float danio, float cadencia, String sonido, String animacion, float velocidad, String tipo, float escala) {
+	public Arma(int id, float alcance, float danio, float cadencia, String sonido, String animacion, float velocidad, String tipo, float escala, float ttl, float velocidadAngular, String puedeNeutralizar) {
 		super();
 		this.id = id;
 		this.alcance = alcance;
@@ -29,6 +33,10 @@ public class Arma {
 		this.setVelocidad(velocidad);
 		this.setTipo(tipo);
 		this.setEscala(escala);
+		
+		this.ttl = ttl;
+		this.velocidadAngular = velocidadAngular;
+		this.puedeNeutralizar = puedeNeutralizar;
 	}
 
 	public float getAlcance() {
@@ -101,6 +109,30 @@ public class Arma {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public float getTtl() {
+		return ttl;
+	}
+
+	public void setTtl(float ttl) {
+		this.ttl = ttl;
+	}
+
+	public float getVelocidadAngular() {
+		return velocidadAngular;
+	}
+
+	public void setVelocidadAngular(float velocidadAngular) {
+		this.velocidadAngular = velocidadAngular;
+	}
+
+	public String getPuedeNeutralizar() {
+		return puedeNeutralizar;
+	}
+
+	public void setPuedeNeutralizar(String puedeNeutralizar) {
+		this.puedeNeutralizar = puedeNeutralizar;
 	}
 		
 }

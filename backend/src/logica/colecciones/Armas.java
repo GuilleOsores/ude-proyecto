@@ -40,6 +40,10 @@ public class Armas {
 			json.addProperty("sonido", arma.getSonido());
 			json.addProperty("escala", arma.getEscala());
 			
+			json.addProperty("ttl", arma.getTtl());
+			json.addProperty("velocidadAngular", arma.getVelocidadAngular());
+			json.addProperty("velocidadAngular", arma.getPuedeNeutralizar());
+			
 			jsonArray.add(json);
 			
 		}
