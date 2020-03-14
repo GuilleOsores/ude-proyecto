@@ -28,6 +28,11 @@ Hay que instalar los siguientes elementos del marketplace:
 	- Eclipse JST Server Adapters (Apache Tomcat, JOnAS, J2EE) Luna
 	- Eclipse Web Developer Tools 3.16
 
+Instalar maven, estando parado en la ruta del pom.xml correr:
+```
+mvn install
+```
+
 Para *crear un servidor* y correr el proyecto:
 
 	- Window -> Show view -> Other... -> Server -> Servers
