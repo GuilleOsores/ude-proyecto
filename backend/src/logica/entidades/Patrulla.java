@@ -70,21 +70,18 @@ public class Patrulla extends Vehiculo {
 			String prefijoProperties = "";
 			
 			if (tipoPatrulla.equals("grande")) {
-				
 				prefijoProperties = "pat1_";
 				this.setSpritesLaterales("NO SE QUE VA");
 				
 			} else if (tipoPatrulla.equals("chica")) {
-
 				prefijoProperties = "pat2_";
 				this.setSpritesLaterales("NO SE QUE VA");			
-			
 			}
-			
+					
 			this.setId(Integer.parseInt(p.getProperty(prefijoProperties + "id"))); 
 			this.setX(Integer.parseInt(p.getProperty(prefijoProperties + "x")));
 			this.setY(Integer.parseInt(p.getProperty(prefijoProperties + "y")));
-			this.setTipo(tipoPatrulla);
+			this.setTipo(p.getProperty(prefijoProperties + "tipo"));
 			this.setVelocidad(Float.parseFloat(p.getProperty(prefijoProperties + "initialRotation"))); 
 			this.setVelocidadAngular(Integer.parseInt(p.getProperty(prefijoProperties + "angularVelocity")));
 			this.setSpriteVivo(p.getProperty(prefijoProperties + "sprite"));

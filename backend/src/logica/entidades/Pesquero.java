@@ -43,7 +43,7 @@ public class Pesquero extends Vehiculo {
 			this.setId(id);
 			this.setX(x);
 			this.setY(y);
-			this.setTipo(tipoPesquero);
+			this.setTipo(p.getProperty(prefijoProperties + "tipo"));
 			this.setVelocidad(Float.parseFloat(p.getProperty(prefijoProperties + "initialRotation"))); 
 			this.setVelocidadAngular(Integer.parseInt(p.getProperty(prefijoProperties + "angularVelocity")));
 			this.setSpriteVivo(p.getProperty(prefijoProperties + "sprite"));

@@ -23,7 +23,7 @@ public class DAOBarcos {
 		this.password = password;
 	}
 	
-	public void guardarVehiculo(Vehiculo v, int idJugador) throws SQLException, ClassNotFoundException {
+	public void guardarVehiculo(Vehiculo v, int idJugador) throws SQLException {
 		
 		Connection con = DriverManager.getConnection(url, user, password);
 		

@@ -3,6 +3,8 @@ package logica;
 import com.google.gson.JsonObject;
 
 import java.io.FileInputStream;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
 import com.google.gson.Gson;
@@ -16,6 +18,8 @@ import logica.entidades.Patrulla;
 import logica.entidades.Pesquero;
 import logica.entidades.Vehiculo;
 import persistencia.DAOBarcos;
+import persistencia.DAOJugadores;
+import persistencia.DAOPartidas;
 
 public class Fachada {
 	
@@ -24,16 +28,18 @@ public class Fachada {
 	private String bandoCreadorDePartida;
 	private String nickCreadorDePartida;
 	private DAOBarcos daoBarcos;
+	private DAOPartidas daoPartidas;
+	private DAOJugadores daoJugadores;
 	
 	private Fachada() {
 		
-		partida = new Partida();
+		partida = null;
 		
 		try {
 			Properties p = new Properties();
 			p.load(new FileInputStream("config/config.properties"));
 		
-			String driver = p.getProperty("db_server");
+			String driver = p.getProperty("db_driver");
 			String host = p.getProperty("db_server");
 			String port = p.getProperty("db_port");
 			String database = p.getProperty("db_database");
@@ -45,6 +51,8 @@ public class Fachada {
 			Class.forName(driver);
 		
 			daoBarcos = new DAOBarcos(url, user, password);
+			daoJugadores = new DAOJugadores(url, user, password);
+			daoPartidas = new DAOPartidas(url, user, password);
 			
 		} catch (Exception e) {
 			System.out.println("Exception creando fachada");
@@ -53,12 +61,16 @@ public class Fachada {
 		
 	}
 	
-	
 	public static Fachada getInstanceFachada() {
 		if (fachada == null) {
 			fachada = new Fachada();
 		}
 		return fachada;	
+	}
+	
+	public void setPartida(Partida p) {
+		Fachada f = getInstanceFachada();
+		f.partida = p;
 	}
 	
 	public JsonObject crearPartida(String nickName, String bando, int tamanioEscenarioX, int tamanioEscenarioY, int millasPesca, int tiempo, int cantPeces, int fishFished) {
@@ -75,7 +87,7 @@ public class Fachada {
 				v1 = new Patrulla("grande");
 				v2 = new Patrulla("chica");	
 				
-			}else if (bando.equals("PESQUERO")) {
+			} else if (bando.equals("PESQUERO")) {
 				
 				v1 = new Pesquero("fabrica");
 				v2 = new Pesquero("comun");
@@ -121,7 +133,7 @@ public class Fachada {
 			
 			mensaje = "El nombre de jugador ya existe.";
 			
-		} else if (partida.getJugadores().cantidadDeJugadores() == 2){
+		} else if (partida.getJugadores().cantidadDeJugadores() == 2) {
 			
 			mensaje = "La partida está completa.";
 			
@@ -178,11 +190,31 @@ public class Fachada {
 			json.addProperty("jugadores", partida.getJugadores().getJugadoresToJson().toString());
 	
 			mensaje = "OK";
-			
 		}
 		
 		json.addProperty("mensaje", mensaje);
 		return json;
+	}
+	
+	// Guarda la instancia de la partida en la BD (Jugadores, Barcos y Partida)
+	public void guardarPartida() throws SQLException {
+		
+		List<Jugador> jugadores = this.partida.getJugadores().jugadoresToList();
+		
+		for(Jugador j : jugadores) {
+			
+			daoJugadores.guardarJugador(j);
+			
+			List<Vehiculo> vehiculos = j.getVehiculos().vehiculosToList();
+			
+			for(Vehiculo v : vehiculos) {
+				daoBarcos.guardarVehiculo(v, j.getId());
+			}
+		}
+		
+		daoPartidas.guardarPartida(this.partida);
+				
+		System.out.println("Partida guardada en BD");
 	}
 	
 }
