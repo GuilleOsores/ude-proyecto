@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import * as Phaser from 'phaser';
 import * as moment from 'moment';
 

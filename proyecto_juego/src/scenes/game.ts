@@ -27,6 +27,10 @@ export class Game extends Phaser.Scene {
     pescados: number,
   } = { nick: 'player2', vehiculos: [], pescados: 0 };
 
+  jugadorRemoto: {
+    nick: string,
+  } = { nick: 'player2' };
+
   constructor() {
     super('Game');
   }
@@ -34,6 +38,7 @@ export class Game extends Phaser.Scene {
   public init(data: any) {
     this.sceneConfig = data;
     this.jugadorLocal.nick = data.nick;
+    this.jugadorRemoto.nick = this.sceneConfig.jugadores.find((j) => j.nick !== data.nick).nick;
   }
 
   public preload() {
@@ -107,7 +112,8 @@ export class Game extends Phaser.Scene {
 
     // camara lateral
     this.camaraLateral = this.cameras.add(0, 0, this.sceneConfig.width, 200, false, 'camaraLateral');
-    this.camaraLateral.setSize(this.game.canvas.width, 200).setPosition(0, this.game.canvas.height - 200);
+    this.camaraLateral.setSize(this.game.canvas.width, 200)
+      .setPosition(0, this.game.canvas.height - 200);
 
     const agua = agregarAgua(this, this.sceneConfig.width, this.sceneConfig.height);
     this.minimap.ignore(agua);
@@ -200,10 +206,12 @@ export class Game extends Phaser.Scene {
 
   public update() {
     this.renderTexture.clear();
+    let cantidadVivos = 0;
     this.jugadorLocal.vehiculos.forEach(
       (v) => {
         // si no se destruyó
         if (v.scene) {
+          cantidadVivos += 1;
           this.renderTexture.draw(v.getVision(), v.x, v.y);
           if (v.barcosAuxiliares && v.barcosAuxiliares.length) {
             v.barcosAuxiliares.forEach(
@@ -215,6 +223,10 @@ export class Game extends Phaser.Scene {
         }
       },
     );
+    if (!cantidadVivos) {
+      server.enviar(server.EVENTOS.FINALIZAR, { ganador: this.jugadorRemoto.nick });
+      this.finalizar(this.jugadorRemoto.nick);
+    }
   }
 
   public agregarTexto = (texto) => {

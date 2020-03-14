@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 
 import * as server from '../server';
+// eslint-disable-next-line no-unused-vars
 import { Game } from '../scenes/game';
 
 export class GOVehiculo extends Phaser.GameObjects.Sprite {
@@ -19,7 +20,9 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
 
     this.vehiculo = vehicle;
 
-    this.spriteLateral = new Phaser.GameObjects.Sprite(scene, vehicle.x, vehicle.y, vehicle.spriteLateralInicial);
+    this.spriteLateral = new Phaser.GameObjects.Sprite(
+      scene, vehicle.x, vehicle.y, vehicle.spriteLateralInicial,
+    );
     this.scene.add.existing(this.spriteLateral);
     this.scene.cameras.main.ignore(this.spriteLateral);
     this.scene.cameras.getCamera('camaraLateral').ignore(this);
@@ -135,6 +138,7 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
       this.scene.cameras.main.stopFollow();
     }
     this.vision.destroy();
+    this.spriteLateral.destroy();
     super.destroy();
   }
 }
