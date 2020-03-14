@@ -139,11 +139,13 @@ export class Game extends Phaser.Scene {
     // eslint-disable-next-line no-new
     const muelle = new Muelle(this, this.sceneConfig.width / 2, this.sceneConfig.height, 'puerto');
 
-    this.txtPescadoTotal = this.add.text(600, 16, 'Total: 0', { fontSize: '28px', fill: '#FFF' });
-    this.txtPescadoTotal.setScrollFactor(0);
-    this.txtPescadoTotal.setDepth(150);
-    this.minimap.ignore(this.txtPescadoTotal);
-    this.camaraLateral.ignore(this.txtPescadoTotal);
+    if (this.sceneConfig.jugadores.find((j) => j.nick === this.jugadorLocal.nick).vehiculos[0].tipo === 'pesquero') {
+      this.txtPescadoTotal = this.add.text(600, 16, 'Total: 0', { fontSize: '28px', fill: '#FFF' });
+      this.txtPescadoTotal.setScrollFactor(0);
+      this.txtPescadoTotal.setDepth(150);
+      this.minimap.ignore(this.txtPescadoTotal);
+      this.camaraLateral.ignore(this.txtPescadoTotal);
+    }
 
     this.sceneConfig.jugadores.forEach(
       (p) => {
@@ -152,6 +154,7 @@ export class Game extends Phaser.Scene {
             const data = {
               ...v,
               nick: p.nick,
+              jugadorLocal: this.jugadorLocal,
               sendToServer: p.nick === this.jugadorLocal.nick,
               canBeSelected: p.nick === this.jugadorLocal.nick,
               selected: i === 0 && p.nick === this.jugadorLocal.nick,
@@ -179,11 +182,8 @@ export class Game extends Phaser.Scene {
 
     this.input.keyboard.on('keydown', this.keyboardHandler);
 
-    this.events.on('countfish', () => {
-      this.jugadorLocal.pescados = 0;
-      for (let i = 0; i < this.jugadorLocal.vehiculos.length; i += 1) {
-        this.jugadorLocal.pescados += (<GOPesquero> this.jugadorLocal.vehiculos[i]).cantPesca;
-      }
+    this.events.on('countfish', (cantidad) => {
+      this.jugadorLocal.pescados += cantidad;
       this.txtPescadoTotal.setText(`Total: ${this.jugadorLocal.pescados}`);
       if (this.jugadorLocal.pescados >= 100) { // parametrizar esto
         server.enviar(server.EVENTOS.FINALIZAR, { ganador: this.jugadorLocal.nick });
