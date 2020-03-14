@@ -130,7 +130,7 @@ export class GOPatrulla extends GOVehiculo {
         arma,
       });
       this.scene.sound.play(arma.sonido);
-    } else {
+    } else if (!this.barcosAuxiliares[arma.id]) {
       const { x, y } = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y);
       const rotacion = Phaser.Math.Angle.Between(this.x, this.y, x, y);
       // eslint-disable-next-line no-new
@@ -144,7 +144,7 @@ export class GOPatrulla extends GOVehiculo {
         rotacion,
         this,
       );
-      this.barcosAuxiliares.push(d);
+      this.barcosAuxiliares[arma.id] = d;
       server.enviar(server.EVENTOS.DISPARO, {
         id: this.getData('id'),
         x: this.x + posRelativaX,

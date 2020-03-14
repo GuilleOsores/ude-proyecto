@@ -244,7 +244,7 @@ export class Game extends Phaser.Scene {
           if (v.barcosAuxiliares && v.barcosAuxiliares.length) {
             v.barcosAuxiliares.forEach(
               (va) => {
-                this.renderTexture.draw(va.getVision(), va.x, va.y);
+                if (va) this.renderTexture.draw(va.getVision(), va.x, va.y);
               },
             );
           }
