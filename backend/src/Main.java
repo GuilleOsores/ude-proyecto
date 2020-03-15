@@ -9,6 +9,7 @@ import logica.entidades.Partida;
 import logica.entidades.Patrulla;
 import logica.entidades.Pesquero;
 import logica.entidades.Vehiculo;
+import persistencia.DAOBarcos;
 import persistencia.DAOJugadores;
 import persistencia.DAOPartidas;
 
@@ -33,14 +34,7 @@ public class Main {
 			
 			Fachada fachada = Fachada.getInstanceFachada();
 			
-			DAOJugadores daoJ = new DAOJugadores(url, user, password);
-			
-			Jugadores j = daoJ.getJugadores();
-			
-			for(Jugador jugador : j.jugadoresToList()) {
-				System.out.println(jugador.toString());
-			}
-			
+			System.out.println(fachada.cargarPartida());
 //			=============PRUEBA GUARDAR PARTIDA COMPLETA===================
 			
 //			Vehiculo v11 = new Patrulla("grande");
@@ -70,7 +64,7 @@ public class Main {
 //			fachada.setPartida(par);
 //			
 //			fachada.guardarPartida();
-			
+//			
 //			==================================================================
 			
 //			Partida p = new Partida();

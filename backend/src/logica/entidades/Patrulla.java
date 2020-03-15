@@ -151,7 +151,6 @@ public class Patrulla extends Vehiculo {
 			String.valueOf(this.getVelocidad()) + ", " + 
 			String.valueOf(this.getVelocidadAngular()) + ", " + 
 			this.getSpriteVivo() + ", " + 
-			this.getSpritesLaterales() + ", " + 
 			String.valueOf(this.getInitialRotation()) + ", " + 
 			String.valueOf(combustible) + ", " +  
 			this.getTipo() + ", " + 
