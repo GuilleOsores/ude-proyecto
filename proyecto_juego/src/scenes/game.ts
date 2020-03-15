@@ -105,7 +105,7 @@ export class Game extends Phaser.Scene {
         start: 0,
         end: 3,
       }),
-      frameRate: 3,
+      frameRate: 20,
       yoyo: false,
       repeat: -1,
     });

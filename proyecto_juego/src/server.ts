@@ -12,7 +12,7 @@ const eventos = Object.values(EVENTOS).reduce(
     p[c] = new Set();
     return p;
   },
-  {},
+  {}, 
 );
 
 let ws:WebSocket = null;
