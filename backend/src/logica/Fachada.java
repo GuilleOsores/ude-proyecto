@@ -134,7 +134,7 @@ public class Fachada {
 			
 		} else if (partida.getJugadores().cantidadDeJugadores() == 2) {
 			
-			throw new Exception("La partida está completa.");
+			throw new Exception("La partida estï¿½ completa.");
 			
 		} else {
 			
@@ -190,6 +190,10 @@ public class Fachada {
 		}
 		
 		return json;
+	}
+	
+	public int getTiempoPartida() {
+		return partida.getTiempo();
 	}
 	
 	public JsonObject finalizarPartida() throws Exception {
