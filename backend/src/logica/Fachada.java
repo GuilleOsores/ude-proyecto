@@ -5,12 +5,10 @@ import com.google.gson.JsonObject;
 import java.io.FileInputStream;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
-import com.google.gson.Gson;
-
 import logica.colecciones.Jugadores;
-import logica.colecciones.Partidas;
 import logica.colecciones.Vehiculos;
 import logica.entidades.Jugador;
 import logica.entidades.Partida;
@@ -237,11 +235,24 @@ public class Fachada {
 		System.out.println("Partida guardada en BD");
 	}
 	
-	public JsonObject cargarPartida() throws SQLException {
+	public JsonObject cargarPartida() throws Exception {
 	
-		Partida p = daoPartidas.getPartida();
-				
-		return null;
+		Partida partida = daoPartidas.getPartida();
+		Jugadores jugadoresAux = daoJugadores.getJugadores();
+		
+		Jugadores jugadores = new Jugadores();
+		
+		for(Jugador j : jugadoresAux.jugadoresToList()) {
+			j.setVehiculos(daoBarcos.getVehiculosJugador(j.getId()));
+			jugadores.put(j);
+		}
+		
+		partida.setJugadores(jugadores);
+		
+		this.partida = partida;
+		
+		return getPartida();
 	}
 	
 }
+
