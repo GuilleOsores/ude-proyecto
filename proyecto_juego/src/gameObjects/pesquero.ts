@@ -47,39 +47,32 @@ export class GOPesquero extends GOVehiculo {
         this.pasoMilla = false;
       }
     }
-    if (!this.hayTormenta && this.getData('tipo') === 'pesquero' && this.y >= this.getData('millaLimite')
+
+    if (this.getData('nick') === this.getData('jugadorLocal').nick && !this.hayTormenta && this.y >= this.getData('millaLimite')
     && !(cursorKeys.up.isDown || cursorKeys.down.isDown)) {
       if (moment().add(this.getData('tiempoPesca'), 'seconds').isAfter(this.getData('horaPesca'))) {
-        let resto = 1;
         this.cantPesca += 1;
         const millasDiv = Math.trunc(this.x / 100);
         this.cantPesca += millasDiv;
-        resto += millasDiv;
         this.setData('horaPesca', moment());
         const pescado = `\n Barco ${this.getData('id')} pescado:${this.cantPesca} \n`;
         this.txtPesco.text = pescado;
         this.pasoMilla = true;
+      }
+
+      this.scene.events.on('inicioTormenta', () => {
+        if (this.getData('tipo') === 'pesquero' && this.getData('tipoPesquero') === 'comun') {
+        // console.log('deshabilito pesquero comun');
+          this.hayTormenta = true;
+        }
+      });
+
+      this.scene.events.on('finTormenta', () => {
+        if (this.getData('tipo') === 'pesquero' && this.getData('tipoPesquero') === 'comun') {
+        // console.log('habilito pesquero comun');
+          this.hayTormenta = false;
+        }
+      });
     }
-
-    this.scene.events.on('inicioTormenta', () => {
-
-      if(this.getData('tipo') === 'pesquero' && this.getData('tipoPesquero')==='comun'){
-        //console.log('deshabilito pesquero comun');
-        this.hayTormenta=true;
-      }
-      
-      
-    });
-
-    this.scene.events.on('finTormenta', () => {
-
-      if(this.getData('tipo') === 'pesquero' && this.getData('tipoPesquero')==='comun'){
-        //console.log('habilito pesquero comun');
-        this.hayTormenta=false;
-      }
-      
-      
-    });
   }
-}
 }

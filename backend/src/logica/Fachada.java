@@ -91,7 +91,7 @@ public class Fachada {
 			
 		}else if(partida.getJugadores().cantidadDeJugadores() == 2){
 			
-			throw new Exception("La partida está completa.");
+			throw new Exception("La partida estï¿½ completa.");
 			
 		}else {
 			
@@ -152,6 +152,26 @@ public class Fachada {
 	
 	public int getTiempoPartida() {
 		return partida.getTiempo();
+	}
+	
+	public JsonObject finalizarPartida() throws Exception {
+		JsonObject json = new JsonObject();
+		
+		if (partida.getJugadores().isEmpty()) {
+			throw new Exception("No hay una partida creada.");			
+		}else {
+			fachada.dispose();		
+			json.addProperty("mensaje", "OK");		
+		}
+		
+		return json;
+	}
+	
+	private void dispose() {
+		fachada = null;
+		partida = null;
+		bandoCreadorDePartida = null;
+		nickCreadorDePartida = null;	
 	}
 	
 }

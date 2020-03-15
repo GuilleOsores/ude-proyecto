@@ -1,12 +1,15 @@
 import axios from 'axios';
 import * as Phaser from 'phaser';
-import * as server  from '../server';
+import * as server from '../server';
+import * as config from '../config';
 
 export class Espera extends Phaser.Scene {
   conectando: Phaser.GameObjects.Text;
+
   nick: string;
-  
+
   sceneConfig: any;
+
   constructor() {
     super('Espera');
   }
@@ -22,17 +25,17 @@ export class Espera extends Phaser.Scene {
       .setDisplaySize(width, height)
       .setOrigin(0, 0);
 
-    this.conectando = new Phaser.GameObjects.Text(this, 0, 0, 'Conectando con jugador...',  { fontSize: '35px', color:'#FFF' });
+    this.conectando = new Phaser.GameObjects.Text(this, 0, 0, 'Conectando con jugador...', { fontSize: '35px', color: '#FFF' });
 
 
     this.conectando.setPosition(
       (width - this.conectando.width) / 2,
       (height - this.conectando.height) / 2,
     );
-   
+
 
     this.add.existing(this.conectando);
-    
+
     server.addhandler(server.EVENTOS.INICIAR_PARTIDA, this.iniciarPartidaHandler);
 
     await server.startWebSocket();
@@ -40,11 +43,10 @@ export class Espera extends Phaser.Scene {
 
   iniciarPartidaHandler = async () => {
     try {
-      const getpartida = await axios('http://localhost:8080/backend/getpartida');
-      // console.log(getpartida.data)
+      const getpartida = await axios(config.endpoint.getPartida());
       this.scene.start('Game', { ...getpartida.data, nick: this.nick });
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      alert(error.response.data.mensaje);
     }
   }
 }
