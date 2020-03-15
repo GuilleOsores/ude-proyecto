@@ -2,6 +2,9 @@ package api;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +18,8 @@ import com.google.gson.JsonElement;
 
 
 import logica.Fachada;
+import logica.colecciones.Tormentas;
+import logica.entidades.Tormenta;
 
 @WebServlet("/getpartida")
 public class GetPartida extends HttpServlet {
@@ -31,21 +36,29 @@ public class GetPartida extends HttpServlet {
 		Fachada fachada = Fachada.getInstanceFachada();
 	
 		try {
-			json = fachada.getPartida();
 			
-			JsonArray tormentas = new JsonArray();
-			JsonObject t1 = new JsonObject();
-			t1.addProperty("tormentaInicio", 5);
-			t1.addProperty("tormentaDuracion", 5);
-			t1.addProperty("sprite", "tormenta");
-			JsonObject t2 = new JsonObject();
-			t2.addProperty("tormentaInicio", 15);
-			t2.addProperty("tormentaDuracion", 40);
-			t2.addProperty("sprite", "tormenta");
-			tormentas.add(t1);
-			tormentas.add(t2);
+			json = fachada.getPartida();
+			int tiempoPartida = fachada.getTiempoPartida();
+			
+			Tormentas tormentas= new Tormentas();
+			int randomNumTormentas = ThreadLocalRandom.current().nextInt(1, 6);
+			System.out.println("Tormentas "+ randomNumTormentas);
+			for(int i=0; i<randomNumTormentas; i++) {
+				
+				Tormenta t = new Tormenta();
+				t.setSprite("tormenta");
+				t.setTormentaDuracion(ThreadLocalRandom.current().nextInt(1, 60));
+				t.setTormentaInicio(ThreadLocalRandom.current().nextInt(1, tiempoPartida));
+				
+				tormentas.add(t);
+				
+			}
+			
+			tormentas.removerRepetidas();
+			
+			JsonArray jsonTormentas = tormentas.getTormentasToJson();
 
-			json.add("tormentas", tormentas);
+			json.add("tormentas", jsonTormentas);
 		} catch (Exception e) {
 			json.addProperty("mensaje", e.getMessage());
 			response.setStatus(500);
@@ -58,4 +71,6 @@ public class GetPartida extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.print(json);
 	}
+	
+	
 }
