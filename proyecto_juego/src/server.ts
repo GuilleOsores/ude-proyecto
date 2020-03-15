@@ -32,11 +32,7 @@ export async function startWebSocket() {
     };
     ws.onmessage = function (msg) {
       try {
-        console.log(msg.data);
         const data = JSON.parse(msg.data);
-        console.log('msg: ',data);
-        console.log('eventos', eventos);
-        console.log('eventos', eventos[data.evento]);
         eventos[data.evento].forEach((h) => h(data));
       } catch (e) {
        console.log(e);

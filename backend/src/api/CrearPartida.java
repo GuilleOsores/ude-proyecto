@@ -1,6 +1,5 @@
 package api;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -16,8 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 
 import logica.Fachada;
-import logica.entidades.*;
-import logica.colecciones.*;
 
 @WebServlet("/crearpartida")
 public class CrearPartida extends HttpServlet {
@@ -28,7 +25,7 @@ public class CrearPartida extends HttpServlet {
         super();
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Properties prop = new Properties();
 		InputStream input = null;
 		
@@ -61,9 +58,9 @@ public class CrearPartida extends HttpServlet {
 		}catch(Exception e){
 			json.addProperty("mensaje", e.toString());
 		}
-		
-		response.addHeader("Access-Control-Allow-Origin", "*");
-		
+
+		//response.addHeader("Access-Control-Allow-Origin", "*");
+
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();

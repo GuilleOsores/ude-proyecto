@@ -1,9 +1,10 @@
+import axios from 'axios';
 import * as Phaser from 'phaser';
 import * as server  from '../server';
 
 export class Espera extends Phaser.Scene {
   conectando: Phaser.GameObjects.Text;
-
+  nick: string;
   
   sceneConfig: any;
   constructor() {
@@ -11,7 +12,7 @@ export class Espera extends Phaser.Scene {
   }
 
   public init(data: any) {
-    this.sceneConfig = data;
+    this.nick = data.nick;
   }
 
   public async create() {
@@ -37,8 +38,13 @@ export class Espera extends Phaser.Scene {
     await server.startWebSocket();
   }
 
-  iniciarPartidaHandler=()=>{
-    console.log('iniciarPartidaHandler');
-    this.scene.start('Game', this.sceneConfig);
+  iniciarPartidaHandler = async () => {
+    try {
+      const getpartida = await axios('http://localhost:8080/backend/getpartida');
+      // console.log(getpartida.data)
+      this.scene.start('Game', { ...getpartida.data, nick: this.nick });
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

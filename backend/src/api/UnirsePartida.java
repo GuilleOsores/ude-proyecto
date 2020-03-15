@@ -27,7 +27,7 @@ public class UnirsePartida extends HttpServlet {
 
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String nickName = null;
 		nickName = request.getParameter("nickName");
@@ -39,7 +39,7 @@ public class UnirsePartida extends HttpServlet {
 			json.addProperty("mensaje", "Debe de elegir un nombre de jugador.");
 		}
 		
-		response.addHeader("Access-Control-Allow-Origin", "*");
+		//response.addHeader("Access-Control-Allow-Origin", "*");
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
