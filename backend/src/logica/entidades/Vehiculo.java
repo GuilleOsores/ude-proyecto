@@ -1,6 +1,7 @@
 package logica.entidades;
 
-import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonElement;
 
 public abstract class Vehiculo {
 
@@ -77,8 +78,8 @@ public abstract class Vehiculo {
 		this.spriteVivo = spriteVivo;
 	}
 
-	public String getSpritesLaterales() {
-		return spritesLaterales;
+	public JsonElement getSpritesLaterales() {
+		return JsonParser.parseString(spritesLaterales);
 	}
 
 	public void setSpritesLaterales(String spritesLaterales) {

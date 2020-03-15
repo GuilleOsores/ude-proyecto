@@ -42,7 +42,7 @@ public class Patrulla extends Vehiculo {
 			Arma canion = new Arma(1, (float)800, (float)50, (float)2, "canion", "bala_canion", (float)0.03, "disparo", (float)1, 0, 0, "");
 			Arma ametralladora = new Arma(2, (float)400, (float)25, (float)0.5, "ametralladora", "bala", (float)0.03, "disparo", (float)0.4, 0, 0, "");
 			
-			Arma vehiculoAux = new Arma(3, (float)0, (float)0, (float)10, "vehiculoAux", "patrulla-auxiliar", (float)0.0005, "dron", (float)1, (float)5, (float)1.3, "comun");
+			Arma vehiculoAux = new Arma(3, (float)0, (float)0, (float)10, "", "patrulla-auxiliar", (float)0.0005, "dron", (float)1, (float)5, (float)1.3, "comun");
 			Arma helicoptero = new Arma(4, (float)0, (float)0, (float)10, "helicoptero", "patrulla-helicoptero", (float)0.0005, "dron", (float)1, (float)5, (float)1.3, "fabrica");
 			
 			Armas armas = new Armas();

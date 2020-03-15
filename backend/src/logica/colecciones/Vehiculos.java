@@ -37,7 +37,7 @@ public class Vehiculos {
 				
 				json.addProperty("id", this.get(vehiculo.getKey()).getId());
 				json.addProperty("sprite", this.get(vehiculo.getKey()).getSpriteVivo());
-				json.addProperty("spritesLaterales", this.get(vehiculo.getKey()).getSpritesLaterales());
+				json.add("spritesLaterales", this.get(vehiculo.getKey()).getSpritesLaterales());
 				json.addProperty("x", this.get(vehiculo.getKey()).getX());
 				json.addProperty("y", this.get(vehiculo.getKey()).getY());
 				json.addProperty("initialRotation", this.get(vehiculo.getKey()).getInitialRotation());
