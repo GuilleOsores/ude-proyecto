@@ -5,6 +5,7 @@ export const EVENTOS = {
   MOVER_BARCO: 'mb',
   DISPARO: 'd',
   FINALIZAR: 'f',
+  INICIAR_PARTIDA: 'iniciarPartida'
 };
 
 const eventos = Object.values(EVENTOS).reduce(
@@ -29,10 +30,14 @@ export async function startWebSocket() {
     };
     ws.onmessage = function (msg) {
       try {
+        console.log(msg.data);
         const data = JSON.parse(msg.data);
+        console.log('msg: ',data);
+        console.log('eventos', eventos);
+        console.log('eventos', eventos[data.evento]);
         eventos[data.evento].forEach((h) => h(data));
       } catch (e) {
-      // console.log(e);
+       console.log(e);
       }
     };
     ws.onclose = function () {

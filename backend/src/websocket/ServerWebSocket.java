@@ -8,6 +8,8 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +25,15 @@ public class ServerWebSocket {
 		sesiones.put(session.getId(), session);		
 		System.out.println("Conexion abierta: " + session.getId());
 		 session.getBasicRemote().sendText("Sesion: " + session.getId());
-		System.out.println("Cant. sesiones: " + sesiones.size());
+		System.out.println("Cant. sesiones:aaa " + sesiones.size());
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("evento", "iniciarPartida");
+		if(sesiones.size()==2) {
+			System.out.println("Entro a conexiones 2 ");
+			System.out.println(jsonObject.toString());
+			//broadcastAll(jsonObject.toString());
+			//broadcastAll("\"{\\\"evento\\\":\\\"iniciarPartida\\\"}\"");
+		}
 	}
 
 	@OnMessage
@@ -49,6 +59,14 @@ public class ServerWebSocket {
 			if(s.getValue().getId() != session.getId()) {
 				s.getValue().getBasicRemote().sendText(msg);
 			}
+		}
+	}
+	
+	private static void broadcastAll(String msg) throws IOException {
+		for(Entry<String, Session> s : sesiones.entrySet()) {
+			s.getValue().getBasicRemote().sendText(msg);
+			System.out.println("broadcastAll"+msg);
+			
 		}
 	}
 }

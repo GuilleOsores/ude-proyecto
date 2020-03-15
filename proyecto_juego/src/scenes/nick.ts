@@ -46,8 +46,9 @@ export class Nick extends Phaser.Scene {
 
   clickHandler = async (pointer, gameObject: Phaser.GameObjects.GameObject) => {
     if (gameObject === this.btnContinuar && this.goNick.text !== '') {
-      await startWebSocket();
-      this.scene.start('Game', { ...sceneConfig, nick: this.goNick.text });
+      
+      //this.scene.start('Game', { ...sceneConfig, nick: this.goNick.text });
+      this.scene.start('Espera', { ...sceneConfig, nick: this.goNick.text });
     }
   }
 }
