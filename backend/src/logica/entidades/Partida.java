@@ -32,9 +32,10 @@ public class Partida {
 			this.jugadores = new Jugadores();
 			this.tamanioEscenarioX = Integer.parseInt(p.getProperty("width"));
 			this.tamanioEscenarioY = Integer.parseInt(p.getProperty("height"));
+			this.millasPesca = Integer.parseInt(p.getProperty("millaLimite"));
 			this.tiempo = tiempo;
 			this.cantPeces = Integer.parseInt(p.getProperty("cantPeces"));
-			this.fishFished = fishFished;
+			this.fishFished = this.cantPeces - pecesRestantes;
 		
 		} catch (Exception e) {
 			System.out.println("Exception creando partida");

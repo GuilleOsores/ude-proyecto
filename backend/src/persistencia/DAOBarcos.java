@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import logica.entidades.Vehiculo;
+import logica.colecciones.Vehiculos;
 import logica.entidades.Patrulla;
 import logica.entidades.Pesquero;
 
@@ -48,6 +49,50 @@ public class DAOBarcos {
 		pstmt.close();
 		con.close();
 		
+	}
+	
+	public Vehiculos getVehiculosJugador(int idJugador) throws SQLException {
+		
+		Vehiculos vehiculos = new Vehiculos();
+		
+		Connection con = DriverManager.getConnection(url, user, password);
+		
+		String query = "SELECT * FROM barcos WHERE idJugador = ?";
+		
+		PreparedStatement pstmt = con.prepareStatement(query);
+		
+		pstmt.setInt(1, idJugador);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+			
+			Vehiculo v = null;
+			
+			int id = rs.getInt("id");			
+			int posicionX = rs.getInt("posicionX");
+			int posicionY = rs.getInt("posicionY");
+			String tipo = rs.getString("tipo");
+			String tipoBarco = rs.getString("tipoBarco");
+			float initialRotation = rs.getFloat("initialRotation");
+			
+			if(tipo.equals("patrulla")) {
+				float combustible = rs.getFloat("combustible");		
+				v = new Patrulla(id, posicionX, posicionY, tipo, tipoBarco, initialRotation, combustible);
+			} else {
+				float vida = rs.getFloat("vida");
+				int cantPescados = rs.getInt("cantPescados");
+				v = new Pesquero(id, posicionX, posicionY, vida, tipo, tipoBarco, cantPescados, initialRotation);
+			}
+			
+			vehiculos.put(v);
+		}
+		
+		rs.close();
+		pstmt.close();
+		con.close();
+		
+		return vehiculos;
 	}
 	
 	public Vehiculo getVehiculo(int id, int idJugador) throws SQLException {
