@@ -31,7 +31,7 @@ public class ServerWebSocket {
 		if(sesiones.size()==2) {
 			System.out.println("Entro a conexiones 2 ");
 			System.out.println(jsonObject.toString());
-			//broadcastAll(jsonObject.toString());
+			broadcastAll(jsonObject.toString());
 			//broadcastAll("\"{\\\"evento\\\":\\\"iniciarPartida\\\"}\"");
 		}
 	}
