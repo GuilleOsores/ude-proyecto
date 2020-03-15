@@ -150,4 +150,24 @@ public class Fachada {
 		return json;
 	}
 	
+	public JsonObject finalizarPartida() throws Exception {
+		JsonObject json = new JsonObject();
+		
+		if (partida.getJugadores().isEmpty()) {
+			throw new Exception("No hay una partida creada.");			
+		}else {
+			fachada.dispose();		
+			json.addProperty("mensaje", "OK");		
+		}
+		
+		return json;
+	}
+	
+	private void dispose() {
+		fachada = null;
+		partida = null;
+		bandoCreadorDePartida = null;
+		nickCreadorDePartida = null;	
+	}
+	
 }

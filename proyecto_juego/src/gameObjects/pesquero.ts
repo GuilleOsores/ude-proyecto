@@ -12,6 +12,8 @@ export class GOPesquero extends GOVehiculo {
 
   pasoMilla: boolean;
 
+  hayTormenta: boolean;
+
   constructor(scene: Phaser.Scene, vehicle: Pesquero, data: any) {
     super(scene, vehicle, data);
 
@@ -25,6 +27,7 @@ export class GOPesquero extends GOVehiculo {
       this.scene.cameras.getCamera('minimap').ignore(this.txtPesco);
 
       this.pasoMilla = false;
+      this.hayTormenta = false;
     }
   }
 
@@ -43,19 +46,40 @@ export class GOPesquero extends GOVehiculo {
         this.cantPesca = 0;
         this.pasoMilla = false;
       }
-
-      if (this.y >= this.getData('millaLimite')
-      && (!cursorKeys.up.isDown && !cursorKeys.down.isDown)) {
-        if (moment().add(this.getData('tiempoPesca'), 'seconds').isAfter(this.getData('horaPesca'))) {
-          this.cantPesca += 1;
-          const millasDiv = Math.trunc(this.y / 100);
-          this.cantPesca += millasDiv;
-          this.setData('horaPesca', moment());
-          this.pasoMilla = true;
-        }
-      }
-      const pescado = `Barco ${this.getData('id')} pescado:${this.cantPesca}`;
-      this.txtPesco.text = pescado;
     }
+    if (!this.hayTormenta && this.getData('tipo') === 'pesquero' && this.y >= this.getData('millaLimite')
+    && !(cursorKeys.up.isDown || cursorKeys.down.isDown)) {
+      if (moment().add(this.getData('tiempoPesca'), 'seconds').isAfter(this.getData('horaPesca'))) {
+        let resto = 1;
+        this.cantPesca += 1;
+        const millasDiv = Math.trunc(this.x / 100);
+        this.cantPesca += millasDiv;
+        resto += millasDiv;
+        this.setData('horaPesca', moment());
+        const pescado = `\n Barco ${this.getData('id')} pescado:${this.cantPesca} \n`;
+        this.txtPesco.text = pescado;
+        this.pasoMilla = true;
+    }
+
+    this.scene.events.on('inicioTormenta', () => {
+
+      if(this.getData('tipo') === 'pesquero' && this.getData('tipoPesquero')==='comun'){
+        //console.log('deshabilito pesquero comun');
+        this.hayTormenta=true;
+      }
+      
+      
+    });
+
+    this.scene.events.on('finTormenta', () => {
+
+      if(this.getData('tipo') === 'pesquero' && this.getData('tipoPesquero')==='comun'){
+        //console.log('habilito pesquero comun');
+        this.hayTormenta=false;
+      }
+      
+      
+    });
   }
+}
 }
