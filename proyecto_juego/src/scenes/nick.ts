@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import * as Phaser from 'phaser';
 import InputText from 'phaser3-rex-plugins/plugins/inputtext.js';
+import * as config from '../config';
 
 
 export class Nick extends Phaser.Scene {
@@ -80,16 +81,13 @@ export class Nick extends Phaser.Scene {
     try {
       if (gameObject === this.btnContinuar) {
         if (!this.goNick.text) throw new Error('Debe elegir un nombre');
-        if (!this.bando && this.crearPartida) throw new Error('Debe elegir un bando');
+        if (this.crearPartida && !this.bando) throw new Error('Debe elegir un bando');
 
         if (this.crearPartida) {
-          // await axios('http://localhost:8080/backend/crearpartida', { method: 'POST', data: { nickName: this.goNick.text, bando: 'PATRULLA' } });
-          await axios(`http://localhost:8080/backend/crearpartida?nickName=${this.goNick.text}&bando=${this.bando}`);
+          await axios(config.endpoint.crearPartida(this.goNick.text, this.bando));
         } else {
-          // await axios('http://localhost:8080/backend/unirsepartida', { method: 'POST' });
-          await axios(`http://localhost:8080/backend/unirsepartida?nickName=${this.goNick.text}`);
+          await axios(config.endpoint.unirsePartida(this.goNick.text));
         }
-        // console.log(res);
 
         this.scene.start('Espera', { nick: this.goNick.text });
       } else if (gameObject === this.btnPatrulla) {

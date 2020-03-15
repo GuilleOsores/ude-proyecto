@@ -1,6 +1,5 @@
-// let ws: WebSocket = new WebSocket('ws://localhost:8080/backend/endpoint');
-// let ws: WebSocket = new WebSocket('ws://localhost:8080/backend/endpoint');
-// let ws: WebSocket;// = new WebSocket('ws://localhost:8080/backend/endpoint');
+import * as config from './config';
+
 export const EVENTOS = {
   MOVER_BARCO: 'mb',
   DISPARO: 'd',
@@ -16,7 +15,7 @@ const eventos = Object.values(EVENTOS).reduce(
     p[c] = new Set();
     return p;
   },
-  {}, 
+  {},
 );
 
 let ws:WebSocket = null;
@@ -25,7 +24,7 @@ export const addhandler = (event, handler) => { eventos[event].add(handler); };
 
 export async function startWebSocket() {
   return new Promise((resolve, reject) => {
-    ws = new WebSocket('ws://localhost:8080/backend/endpoint');
+    ws = new WebSocket(config.endpoint.ws());
     ws.onopen = function () {
       console.log('connected!');
       resolve();
@@ -35,7 +34,7 @@ export async function startWebSocket() {
         const data = JSON.parse(msg.data);
         eventos[data.evento].forEach((h) => h(data));
       } catch (e) {
-       console.log(e);
+        console.log(e);
       }
     };
     ws.onclose = function () {
