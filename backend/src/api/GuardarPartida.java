@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.JsonObject;
 
+import logica.Fachada;
+
 @WebServlet("/guardarpartida")
 public class GuardarPartida extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -20,11 +22,21 @@ public class GuardarPartida extends HttpServlet {
     }
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		JsonObject json = new JsonObject();
-		json.addProperty("mensaje", "OK");
+		
+		try {
+			Fachada fachada = Fachada.getInstanceFachada();
+			fachada.guardarPartida();
+			json.addProperty("mensaje", "OK");
+		} catch (Exception e) {
+			json.addProperty("mensaje", e.getMessage());
+			e.printStackTrace();
+		}
+		
 		out.print(json);
 	}
 }
