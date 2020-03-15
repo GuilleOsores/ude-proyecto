@@ -7,6 +7,8 @@ import { GOPatrulla } from '../gameObjects/patrulla';
 import { Muelle } from '../gameObjects/muelle';
 import { agregarAgua } from '../gameObjects/agua';
 import * as server from '../server';
+import { GOTormenta } from '../gameObjects/tormenta';
+
 
 export class Game extends Phaser.Scene {
   minimap: Phaser.Cameras.Scene2D.Camera;
@@ -21,6 +23,12 @@ export class Game extends Phaser.Scene {
 
   renderTexture: Phaser.GameObjects.RenderTexture;
 
+  tormentaActiva: Phaser.GameObjects.Container;
+
+  totalSeconds = 0;
+
+  tormentas: Tormenta[];
+  
   jugadorLocal: {
     nick: string,
     vehiculos: GOPesquero[] | GOPatrulla[],
@@ -99,9 +107,24 @@ export class Game extends Phaser.Scene {
       frameRate: 8,
       repeat: -1,
     });
+
+    this.anims.create({
+      key: 'tormenta',
+      frames: this.anims.generateFrameNumbers('tormenta', {
+        start: 0,
+        end: 3,
+      }),
+      frameRate: 20,
+      yoyo: false,
+      repeat: -1,
+    });
   }
 
-  public create() {
+  tormentaEnTiempo=false
+
+  
+  public create() { 
+    
     this.matter.world.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
     this.cameras.main.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height)
       .setSize(this.game.canvas.width, this.game.canvas.height - 200);
@@ -228,6 +251,40 @@ export class Game extends Phaser.Scene {
       }
     });
 
+    this.tormentas = this.sceneConfig.tormentas;
+   
+    setInterval(() => {
+      ++this.totalSeconds;
+
+      let torm=null;
+      let i=0;
+      let encontro=false;
+      this.tormentaEnTiempo=true;
+      while(i<this.tormentas.length && !encontro){
+        let fin =this.tormentas[i].tormentaDuracion+this.tormentas[i].tormentaInicio;
+        if(this.totalSeconds==this.tormentas[i].tormentaInicio){
+          torm = this.tormentas[i];
+          encontro=true;
+        }else if(this.totalSeconds>=fin){
+          this.tormentaEnTiempo=false;
+          this.tormentas.splice(i, 1);
+        }
+
+        i++;
+        
+      }
+    
+     if(encontro){
+      this.tormentaActiva = new GOTormenta(this, 'tormenta');
+      this.events.emit('inicioTormenta');
+      }else if(this.tormentaActiva && !this.tormentaEnTiempo){
+        this.tormentaActiva.destroy();
+        this.tormentaActiva=null; 
+
+        this.events.emit('finTormenta');
+      } 
+    }, 1000);
+
     server.addhandler(server.EVENTOS.FINALIZAR, this.finalizarPartidaHandler);
     server.addhandler(server.EVENTOS.PAUSAR, this.pausarEscena);
     server.addhandler(server.EVENTOS.DESPERTAR, this.despertarScena);
@@ -246,11 +303,13 @@ export class Game extends Phaser.Scene {
 
   finalizarPartidaHandler = (data) => {
     this.finalizar(data.ganador);
-  }
+      console.log('countfish');
+  };
 
-  public update() {
+  public update(timeElapsed: number, timeLastUpdate: number) {
     this.renderTexture.clear();
     let cantidadVivos = 0;
+
     this.jugadorLocal.vehiculos.forEach(
       (v) => {
         // si no se destruyó
@@ -270,16 +329,6 @@ export class Game extends Phaser.Scene {
     if (!cantidadVivos) {
       server.enviar(server.EVENTOS.FINALIZAR, { ganador: this.jugadorRemoto.nick });
       this.finalizar(this.jugadorRemoto.nick);
-    }
-  }
-
-  public agregarTexto = (texto) => {
-    let txt = null;
-    if (txt == null) {
-      txt = this.add.text(16, 16, texto);
-      txt.setScrollFactor(0);
-    } else {
-      txt.setText = texto;
     }
   }
 
