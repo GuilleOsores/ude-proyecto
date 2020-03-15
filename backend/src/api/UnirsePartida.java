@@ -27,7 +27,7 @@ public class UnirsePartida extends HttpServlet {
 
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String nickName = null;
 		nickName = request.getParameter("nickName");
@@ -45,7 +45,7 @@ public class UnirsePartida extends HttpServlet {
 			response.setStatus(500);
 		}
 		
-		response.addHeader("Access-Control-Allow-Origin", "*");
+		//response.addHeader("Access-Control-Allow-Origin", "*");
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");

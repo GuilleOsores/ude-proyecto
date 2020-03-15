@@ -38,7 +38,7 @@ public class GetPartida extends HttpServlet {
 			response.setStatus(500);
 		}
 		
-		response.addHeader("Access-Control-Allow-Origin", "*");
+		//response.addHeader("Access-Control-Allow-Origin", "*");
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");

@@ -1,16 +1,21 @@
+import axios from 'axios';
+
 import * as Phaser from 'phaser';
 import InputText from 'phaser3-rex-plugins/plugins/inputtext.js';
-import { startWebSocket } from '../server';
-
-const sceneConfig: SceneConfiguration = require('../../mock/scene1.json');
 
 export class Nick extends Phaser.Scene {
   goNick: any;
 
   btnContinuar: Phaser.GameObjects.Text;
 
+  crearPartida: Phaser.GameObjects.Text;
+
   constructor() {
     super('Nick');
+  }
+
+  public init(data: any) {
+    this.crearPartida = data.crearPartida;
   }
 
   public create() {
@@ -46,8 +51,20 @@ export class Nick extends Phaser.Scene {
 
   clickHandler = async (pointer, gameObject: Phaser.GameObjects.GameObject) => {
     if (gameObject === this.btnContinuar && this.goNick.text !== '') {
-      await startWebSocket();
-      this.scene.start('Game', { ...sceneConfig, nick: this.goNick.text });
+
+      if (gameObject === this.btnContinuar && this.goNick.text !== '') {
+        let res ;
+        if (this.crearPartida) {
+          // await axios('http://localhost:8080/backend/crearpartida', { method: 'POST', data: { nickName: this.goNick.text, bando: 'PATRULLA' } });
+           res = await axios(`http://localhost:8080/backend/crearpartida?nickName=${this.goNick.text}&bando=PATRULLA`);
+        } else {
+          // await axios('http://localhost:8080/backend/unirsepartida', { method: 'POST' });
+           res = await axios(`http://localhost:8080/backend/unirsepartida?nickName=${this.goNick.text}`);
+        }
+        // console.log(res);
+
+        this.scene.start('Espera', { nick: this.goNick.text });
+      }
     }
   }
 }
