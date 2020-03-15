@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 
-import logica.Fachada;
-
-import com.google.gson.JsonObject;
 
 import logica.Fachada;
 
@@ -33,6 +32,20 @@ public class GetPartida extends HttpServlet {
 	
 		try {
 			json = fachada.getPartida();
+			
+			JsonArray tormentas = new JsonArray();
+			JsonObject t1 = new JsonObject();
+			t1.addProperty("tormentaInicio", 5);
+			t1.addProperty("tormentaDuracion", 5);
+			t1.addProperty("sprite", "tormenta");
+			JsonObject t2 = new JsonObject();
+			t2.addProperty("tormentaInicio", 15);
+			t2.addProperty("tormentaDuracion", 40);
+			t2.addProperty("sprite", "tormenta");
+			tormentas.add(t1);
+			tormentas.add(t2);
+
+			json.add("tormentas", tormentas);
 		} catch (Exception e) {
 			json.addProperty("mensaje", e.getMessage());
 			response.setStatus(500);

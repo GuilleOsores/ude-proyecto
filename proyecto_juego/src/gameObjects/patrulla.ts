@@ -17,6 +17,7 @@ export class GOPatrulla extends GOVehiculo {
   barcosAuxiliares: Dron[] = [];
 
   armasHabilitadas: Boolean;
+  hayTormenta: Boolean
 
   constructor(scene: Phaser.Scene, vehicle: Patrulla, data: any) {
     super(scene, vehicle, data);
@@ -49,6 +50,7 @@ export class GOPatrulla extends GOVehiculo {
         this.scene, width / 2, height - 300, 5000, () => { this.armasHabilitadas = true; },
       );
     }
+    this.hayTormenta=false;
   }
 
   disparoHandler = (data) => {
@@ -85,6 +87,26 @@ export class GOPatrulla extends GOVehiculo {
       return;
     }
     super.preUpdate(timeElapsed, timeLastUpdate);
+
+    this.scene.events.on('inicioTormenta', () => {
+
+      if(this.getData('sprite') === 'policia2'){
+        //console.log('deshabilito policia chico');
+        this.hayTormenta=true;
+      }
+      
+      
+    });
+
+    this.scene.events.on('finTormenta', () => {
+
+      if(this.getData('sprite') === 'policia2'){
+        //console.log('habilito policia chico');
+        this.hayTormenta=false;
+      }
+      
+      
+    });
   }
 
   keyboardHandler = (event: KeyboardEvent) => {
@@ -95,7 +117,7 @@ export class GOPatrulla extends GOVehiculo {
   }
 
   dispararHandle = (pointer: Phaser.Input.Pointer) => {
-    if (this.getData('selected')) {
+    if (this.getData('selected') && !this.hayTormenta) {
       const armas = <Arma[]> this.getData('armas');
       const arma = armas[this.armaSeleccionada];
       if (this.armasHabilitadas && (!this.ultimoDisparo[this.armaSeleccionada] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[this.armaSeleccionada])))) {
