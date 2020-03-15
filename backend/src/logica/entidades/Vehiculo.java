@@ -1,19 +1,24 @@
 package logica.entidades;
 
+import com.google.gson.JsonParser;
+import com.google.gson.JsonElement;
+
 public abstract class Vehiculo {
 
 	private int id;
-	private float x;
-	private float y;
+	private int x;
+	private int y;
 	private float velocidad;
 	private float velocidadAngular;
 	private String spriteVivo;
+	private String spritesLaterales;
+	private float initialRotation;
 	
 	public Vehiculo() {
 		
 	}
 	
-	public Vehiculo(int id, float x, float y, float velocidad, float velocidadAngular, String spriteVivo) {
+	public Vehiculo(int id, int x, int y, float velocidad, float velocidadAngular, String spriteVivo, String spritesLaterales, float initialRotation) {
 		super();
 		this.id = id;
 		this.x = x;
@@ -21,6 +26,8 @@ public abstract class Vehiculo {
 		this.velocidad = velocidad;
 		this.velocidadAngular = velocidadAngular;
 		this.spriteVivo = spriteVivo;
+		this.spritesLaterales = spritesLaterales;
+		this.initialRotation = initialRotation;
 	}
 
 	public int getId() {
@@ -35,7 +42,7 @@ public abstract class Vehiculo {
 		return x;
 	}
 	
-	public void setX(float x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 	
@@ -43,7 +50,7 @@ public abstract class Vehiculo {
 		return y;
 	}
 	
-	public void setY(float y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 	
@@ -70,5 +77,21 @@ public abstract class Vehiculo {
 	public void setSpriteVivo(String spriteVivo) {
 		this.spriteVivo = spriteVivo;
 	}
+
+	public JsonElement getSpritesLaterales() {
+		return JsonParser.parseString(spritesLaterales);
+	}
+
+	public void setSpritesLaterales(String spritesLaterales) {
+		this.spritesLaterales = spritesLaterales;
+	}
+
+	public float getInitialRotation() {
+		return initialRotation;
+	}
+
+	public void setInitialRotation(float initialRotation) {
+		this.initialRotation = initialRotation;
+	}	
 		
 }

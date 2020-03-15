@@ -5,7 +5,9 @@ export const EVENTOS = {
   MOVER_BARCO: 'mb',
   DISPARO: 'd',
   FINALIZAR: 'f',
-  INICIAR_PARTIDA: 'iniciarPartida'
+  INICIAR_PARTIDA: 'iniciarPartida',
+  PAUSAR: 'p',
+  DESPERTAR: 'des',
 };
 
 const eventos = Object.values(EVENTOS).reduce(

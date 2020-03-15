@@ -1,6 +1,8 @@
 import * as Phaser from 'phaser';
 
 import * as server from '../server';
+// eslint-disable-next-line no-unused-vars
+import { Game } from '../scenes/game';
 
 export class GOVehiculo extends Phaser.GameObjects.Sprite {
   private id;
@@ -9,8 +11,22 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
 
   private vision: Phaser.GameObjects.Sprite;
 
+  private spriteLateral: Phaser.GameObjects.Sprite;
+
+  private vehiculo: Pesquero | Patrulla;
+
   constructor(scene: Phaser.Scene, vehicle: Pesquero | Patrulla, data: any) {
     super(scene, vehicle.x, vehicle.y, vehicle.sprite);
+
+    this.vehiculo = vehicle;
+
+    this.spriteLateral = new Phaser.GameObjects.Sprite(
+      scene, vehicle.x, vehicle.y, vehicle.spriteLateralInicial,
+    );
+    this.scene.add.existing(this.spriteLateral);
+    this.scene.cameras.main.ignore(this.spriteLateral);
+    this.scene.cameras.getCamera('camaraLateral').ignore(this);
+
     this.id = vehicle.id;
     // agrega las funcionalidades de matter al sprite comun de phaser
     const f = new Phaser.Physics.Matter.Factory(scene.matter.world);
@@ -65,6 +81,21 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
       this.initialRotationSet = true;
       this.setRotation(Phaser.Math.DegToRad(this.getData('initialRotation')));
     }
+
+    // actualizo el sprite lateral
+    this.spriteLateral.setTexture(this.vehiculo.spritesLaterales.u);
+    const ratioY = this.y / ((<Game> this.scene).sceneConfig.height - this.spriteLateral.height);
+    const ratioX = this.x / ((<Game> this.scene).sceneConfig.width - this.spriteLateral.width);
+    const spriteLateralY = (this.scene.cameras.getCamera('camaraLateral').height - this.spriteLateral.height) * ratioY + this.spriteLateral.height / 2;
+    const spriteLateralX = ((this.scene.cameras.getCamera('camaraLateral').width - this.spriteLateral.displayWidth) * ratioX) + (this.spriteLateral.displayWidth / 2);
+    this.spriteLateral.setX(spriteLateralX);
+    this.spriteLateral.setY(spriteLateralY);
+    const spriteLateralScale = 0.9 * ratioY;
+    this.spriteLateral.setScale(0.1 + spriteLateralScale, 0.1 + spriteLateralScale);
+    this.spriteLateral.setDepth(this.y);
+    // FALTA DIBUJAR EL SPRITE SEGUN LA ROTACION
+    // fin actualizo el sprite lateral
+
     if (!this.getData('selected')) return;
 
     const cursorKeys = this.scene.input.keyboard.createCursorKeys();
@@ -107,6 +138,7 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
       this.scene.cameras.main.stopFollow();
     }
     this.vision.destroy();
+    this.spriteLateral.destroy();
     super.destroy();
   }
 }

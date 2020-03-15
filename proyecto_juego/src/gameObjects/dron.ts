@@ -174,7 +174,9 @@ export class Dron extends Phaser.GameObjects.Sprite {
       this.sonido.stop();
     }
     this.scene.matter.world.remove(this.collisionHandler);
-    this.patruya.barcosAuxiliares = this.patruya.barcosAuxiliares.filter((va) => va !== this);
     super.destroy();
+    this.patruya.barcosAuxiliares[
+      this.patruya.barcosAuxiliares.find((va) => va === this).arma.id
+    ] = null;
   }
 }

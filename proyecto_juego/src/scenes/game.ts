@@ -11,6 +11,8 @@ import * as server from '../server';
 export class Game extends Phaser.Scene {
   minimap: Phaser.Cameras.Scene2D.Camera;
 
+  camaraLateral: Phaser.Cameras.Scene2D.Camera;
+
   sceneConfig: SceneConfiguration;
 
   txtPescadoTotal: Phaser.GameObjects.Text;
@@ -25,6 +27,10 @@ export class Game extends Phaser.Scene {
     pescados: number,
   } = { nick: 'player2', vehiculos: [], pescados: 0 };
 
+  jugadorRemoto: {
+    nick: string,
+  } = { nick: 'player2' };
+
   constructor() {
     super('Game');
   }
@@ -32,6 +38,7 @@ export class Game extends Phaser.Scene {
   public init(data: any) {
     this.sceneConfig = data;
     this.jugadorLocal.nick = data.nick;
+    this.jugadorRemoto.nick = this.sceneConfig.jugadores.find((j) => j.nick !== data.nick).nick;
   }
 
   public preload() {
@@ -96,19 +103,55 @@ export class Game extends Phaser.Scene {
 
   public create() {
     this.matter.world.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
-    this.cameras.main.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
-
-    const agua = agregarAgua(this, this.sceneConfig.width, this.sceneConfig.height);
+    this.cameras.main.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height)
+      .setSize(this.game.canvas.width, this.game.canvas.height - 200);
 
     // camara minimapa
-    this.minimap = this.cameras.add(0, 0, 210, this.sceneConfig.height * (210 / this.sceneConfig.width), false, 'minimap');
-    this.minimap.setZoom(200 / (this.sceneConfig.width * 2));
+    const minimapaWidth = 100;
+    const minimapaHeight = this.sceneConfig.height * (100 / this.sceneConfig.width);
+    this.minimap = this.cameras.add(30, 30, minimapaWidth, minimapaHeight, false, 'minimap');
+    this.minimap.setZoom(100 / this.sceneConfig.width).setOrigin(0, 0);
+    // bordes
+    this.add.line(
+      0, 0,
+      this.minimap.x - 1, this.minimap.y - 1,
+      this.minimap.x + this.minimap.width + 1, this.minimap.y - 1,
+      0x00FF00,
+    ).setScrollFactor(0, 0).setDepth(200).setOrigin(0, 0);
+    this.add.line(
+      0, 0,
+      this.minimap.x - 1, this.minimap.y - 1,
+      this.minimap.x - 1, this.minimap.y + this.minimap.height + 1,
+      0x00FF00,
+    ).setScrollFactor(0, 0).setDepth(200).setOrigin(0, 0);
+    this.add.line(
+      0, 0,
+      this.minimap.x + this.minimap.width + 1, this.minimap.y - 1,
+      this.minimap.x + this.minimap.width + 1, this.minimap.y + this.minimap.height + 1,
+      0x00FF00,
+    ).setScrollFactor(0, 0).setDepth(200).setOrigin(0, 0);
+    this.add.line(
+      0, 0,
+      this.minimap.x - 1, this.minimap.y + this.minimap.height + 1,
+      this.minimap.x + this.minimap.width + 1, this.minimap.y + this.minimap.height + 1,
+      0x00FF00,
+    ).setScrollFactor(0, 0).setDepth(200).setOrigin(0, 0);
+    // fin bordes
+
+    // camara lateral
+    this.camaraLateral = this.cameras.add(0, 0, this.sceneConfig.width, 200, false, 'camaraLateral');
+    this.camaraLateral.setSize(this.game.canvas.width, 200)
+      .setPosition(0, this.game.canvas.height - 200);
+
+    const agua = agregarAgua(this, this.sceneConfig.width, this.sceneConfig.height);
     this.minimap.ignore(agua);
+    this.camaraLateral.ignore(agua);
 
     // cosas locas para la niebla de guerra
     this.nieblaDeGuerra = this.add.rectangle(
       0, 0, this.sceneConfig.width, this.sceneConfig.height, 0x00000000,
     ).setOrigin(0, 0).setDepth(100);
+    this.camaraLateral.ignore(this.nieblaDeGuerra);
 
     this.renderTexture = new Phaser.GameObjects.RenderTexture(
       this, 0, 0, this.sceneConfig.width, this.sceneConfig.height,
@@ -130,9 +173,14 @@ export class Game extends Phaser.Scene {
     // eslint-disable-next-line no-new
     const muelle = new Muelle(this, this.sceneConfig.width / 2, this.sceneConfig.height, 'puerto');
 
-    this.txtPescadoTotal = this.add.text(600, 16, 'Total: 0', { fontSize: '28px', fill: '#FFF' });
-    this.txtPescadoTotal.setScrollFactor(0);
-    this.txtPescadoTotal.setDepth(150);
+    if (this.sceneConfig.jugadores.find((j) => j.nick === this.jugadorLocal.nick).vehiculos[0].tipo === 'pesquero') {
+      this.txtPescadoTotal = this.add.text(600, 16, 'Total: 0', { fontSize: '28px', fill: '#FFF' });
+      this.txtPescadoTotal.setScrollFactor(0);
+      this.txtPescadoTotal.setDepth(150);
+      this.minimap.ignore(this.txtPescadoTotal);
+      this.camaraLateral.ignore(this.txtPescadoTotal);
+    }
+
     this.sceneConfig.jugadores.forEach(
       (p) => {
         p.vehiculos.forEach(
@@ -140,6 +188,7 @@ export class Game extends Phaser.Scene {
             const data = {
               ...v,
               nick: p.nick,
+              jugadorLocal: this.jugadorLocal,
               sendToServer: p.nick === this.jugadorLocal.nick,
               canBeSelected: p.nick === this.jugadorLocal.nick,
               selected: i === 0 && p.nick === this.jugadorLocal.nick,
@@ -160,18 +209,18 @@ export class Game extends Phaser.Scene {
       },
     );
 
-    this.input.on('gameobjectdown', (pointer, gameObject: Phaser.GameObjects.GameObject) => {
-      const id = gameObject.getData('id');
-      this.seleccionarBarco(id);
-    });
+    this.input.on(
+      Phaser.Input.Events.GAMEOBJECT_DOWN,
+      (pointer, gameObject: Phaser.GameObjects.GameObject) => {
+        const id = gameObject.getData('id');
+        this.seleccionarBarco(id);
+      },
+    );
 
-    this.input.keyboard.on('keydown', this.keyboardHandler);
+    this.input.keyboard.on(Phaser.Input.Keyboard.Events.ANY_KEY_DOWN, this.keyboardHandler);
 
-    this.events.on('countfish', () => {
-      this.jugadorLocal.pescados = 0;
-      for (let i = 0; i < this.jugadorLocal.vehiculos.length; i++) {
-        this.jugadorLocal.pescados += (<GOPesquero> this.jugadorLocal.vehiculos[i]).cantPesca;
-      }
+    this.events.on('countfish', (cantidad) => {
+      this.jugadorLocal.pescados += cantidad;
       this.txtPescadoTotal.setText(`Total: ${this.jugadorLocal.pescados}`);
       if (this.jugadorLocal.pescados >= 100) { // parametrizar esto
         server.enviar(server.EVENTOS.FINALIZAR, { ganador: this.jugadorLocal.nick });
@@ -180,6 +229,19 @@ export class Game extends Phaser.Scene {
     });
 
     server.addhandler(server.EVENTOS.FINALIZAR, this.finalizarPartidaHandler);
+    server.addhandler(server.EVENTOS.PAUSAR, this.pausarEscena);
+    server.addhandler(server.EVENTOS.DESPERTAR, this.despertarScena);
+  }
+
+  pausarEscena = () => {
+    console.log('el otro pauso');
+    this.scene.pause();
+    this.scene.run('PopUp', {});
+  }
+
+  despertarScena = () => {
+    this.scene.stop('PopUp');
+    this.scene.wake();
   }
 
   finalizarPartidaHandler = (data) => {
@@ -188,21 +250,27 @@ export class Game extends Phaser.Scene {
 
   public update() {
     this.renderTexture.clear();
+    let cantidadVivos = 0;
     this.jugadorLocal.vehiculos.forEach(
       (v) => {
         // si no se destruyó
         if (v.scene) {
+          cantidadVivos += 1;
           this.renderTexture.draw(v.getVision(), v.x, v.y);
           if (v.barcosAuxiliares && v.barcosAuxiliares.length) {
             v.barcosAuxiliares.forEach(
               (va) => {
-                this.renderTexture.draw(va.getVision(), va.x, va.y);
+                if (va) this.renderTexture.draw(va.getVision(), va.x, va.y);
               },
             );
           }
         }
       },
     );
+    if (!cantidadVivos) {
+      server.enviar(server.EVENTOS.FINALIZAR, { ganador: this.jugadorRemoto.nick });
+      this.finalizar(this.jugadorRemoto.nick);
+    }
   }
 
   public agregarTexto = (texto) => {
@@ -218,7 +286,24 @@ export class Game extends Phaser.Scene {
   keyboardHandler = (event: KeyboardEvent) => {
     if (event.shiftKey && this.jugadorLocal.vehiculos[event.keyCode - 49]) {
       this.seleccionarBarco(event.keyCode - 49 + 1);
+    } else if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
+      server.enviar(server.EVENTOS.PAUSAR, {});
+      this.scene.pause();
+      this.scene.run('PopUp', {
+        guardarHandler: this.guardarHandler,
+        continuarHandler: this.continuarHandler,
+      });
     }
+  }
+
+  guardarHandler = () => {
+    console.log('guardarHandler');
+  }
+
+  continuarHandler = () => {
+    this.scene.stop('PopUp');
+    server.enviar(server.EVENTOS.DESPERTAR, {});
+    this.scene.wake();
   }
 
   seleccionarBarco = (id) => {

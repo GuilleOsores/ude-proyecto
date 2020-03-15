@@ -11,6 +11,13 @@
         {
           "id": 1,
           "sprite": "pesquero1",
+          "spriteLateralInicial": "pesquero1",
+          "spritesLaterales": {
+            "l": "pesquero1",
+            "r": "pesquero1",
+            "u": "pesquero1",
+            "d": "pesquero1"
+          },
           "x": 150,
           "y": 150,
           "initialRotation": 90,
@@ -26,6 +33,13 @@
         },        {
           "id": 2,
           "sprite": "pesquero2",
+          "spriteLateralInicial": "pesquero1",
+          "spritesLaterales": {
+            "l": "pesquero1",
+            "r": "pesquero1",
+            "u": "pesquero1",
+            "d": "pesquero1"
+          },
           "x": 750,
           "y": 150,
           "initialRotation": 90,
@@ -47,6 +61,13 @@
         {
           "id": 1,
           "sprite": "policia1",
+          "spriteLateralInicial": "policia1",
+          "spritesLaterales": {
+            "l": "policia1",
+            "r": "policia1",
+            "u": "policia1",
+            "d": "policia1"
+          },
           "x": 150,
           "y": 2050,
           "initialRotation": -90,
@@ -104,6 +125,13 @@
         {
           "id": 2,
           "sprite": "policia2",
+          "spriteLateralInicial": "policia2",
+          "spritesLaterales": {
+            "l": "policia2",
+            "r": "policia2",
+            "u": "policia2",
+            "d": "policia2"
+          },
           "x": 750,
           "y": 2050,
           "initialRotation": -90,

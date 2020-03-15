@@ -11,18 +11,23 @@ public class Partida {
 	private int tamanioEscenarioY;
 	private int millasPesca;
 	private int tiempo;
+	private int cantPeces;
+	private int fishFished;
 	
 	public Partida() {
 		jugadores = new Jugadores();
 	}
 	
-	public Partida(int id, Jugadores jugadores /*, Tormentas tormentas*/,int tamanioEscenarioX, int tamanioEscenarioY, int millasPesca, int tiempo) {
+	//ya no lo usamos.
+	public Partida(int id, Jugadores jugadores /*, Tormentas tormentas*/,int tamanioEscenarioX, int tamanioEscenarioY, int millasPesca, int tiempo, int cantPesca, int fishFished) {
 		this.id = id;
 		// this.tormentas = tormentas;
 		this.tamanioEscenarioX = tamanioEscenarioX;
 		this.tamanioEscenarioY = tamanioEscenarioY;
 		this.millasPesca = millasPesca;
 		this.tiempo = tiempo;
+		this.cantPeces = cantPeces;
+		this.fishFished = fishFished;
 	}
 
 	public int getId() {
@@ -71,6 +76,22 @@ public class Partida {
 
 	public void setTiempo(int tiempo) {
 		this.tiempo = tiempo;
+	}
+
+	public int getCantPeces() {
+		return cantPeces;
+	}
+
+	public void setCantPeces(int cantPeces) {
+		this.cantPeces = cantPeces;
+	}
+
+	public int getFishFished() {
+		return fishFished;
+	}
+
+	public void setFishFished(int fishFished) {
+		this.fishFished = fishFished;
 	}
 	
 	
