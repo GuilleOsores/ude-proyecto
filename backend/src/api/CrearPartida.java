@@ -52,14 +52,17 @@ public class CrearPartida extends HttpServlet {
 				if (bando.equals("PATRULLA") || bando.equals("PESQUERO")) { 								
 					Fachada fachada = Fachada.getInstanceFachada();
 					json = fachada.crearPartida(nickName, bando, width, height, millaLimite, time, cantPeces, 0);
-				}else 
-					json.addProperty("mensaje", "Debe elegir un Bando correcto.");	
-				
-			}else 
-				json.addProperty("mensaje", "Debe elegir un Nick de jugador y un Bando.");	
-			
+				}else{
+					json.addProperty("mensaje", "Debe elegir un Bando correcto.");
+					response.setStatus(500);
+				}
+			}else { 
+				json.addProperty("mensaje", "Debe elegir un Nick de jugador y un Bando.");
+				response.setStatus(500);
+			}
 		}catch(Exception e){
-			json.addProperty("mensaje", e.toString());
+			json.addProperty("mensaje", e.getMessage());
+			response.setStatus(500);
 		}
 		
 		response.addHeader("Access-Control-Allow-Origin", "*");

@@ -31,12 +31,11 @@ public class Fachada {
 		return fachada;	
 	}
 	
-	public JsonObject crearPartida(String nickName, String bando, int tamanioEscenarioX, int tamanioEscenarioY, int millasPesca, int tiempo, int cantPeces, int fishFished) {
+	public JsonObject crearPartida(String nickName, String bando, int tamanioEscenarioX, int tamanioEscenarioY, int millasPesca, int tiempo, int cantPeces, int fishFished) throws Exception {
 		JsonObject json = new JsonObject();
-		String mensaje;
 		
 		if (!partida.getJugadores().isEmpty()) {
-			mensaje = "Ya existe una partida en curso.";			
+			throw new Exception("Ya existe una partida en curso.");
 		}else {
 			Vehiculo v1 = null, v2 = null;
 			
@@ -72,28 +71,27 @@ public class Fachada {
 			bandoCreadorDePartida = bando;
 			nickCreadorDePartida = nickName;
 			
-			mensaje = "OK";
+			json.addProperty("mensaje", "OK");
 		}
 
-		json.addProperty("mensaje", mensaje);				
+						
 		return json;
 	}
 
-	public JsonObject unirsePartida(String nickName) {
+	public JsonObject unirsePartida(String nickName) throws Exception {
 		JsonObject json = new JsonObject();
-		String mensaje;
 		
 		if (partida.getJugadores().isEmpty()) {
 			
-			mensaje = "No hay una partida creada.";	
+			throw new Exception("No hay una partida creada.");	
 			
 		}else if(nickCreadorDePartida.equals(nickName)){
 			
-			mensaje = "El nombre de jugador ya existe.";
+			throw new Exception("El nombre de jugador ya existe.");
 			
 		}else if(partida.getJugadores().cantidadDeJugadores() == 2){
 			
-			mensaje = "La partida está completa.";
+			throw new Exception("La partida está completa.");
 			
 		}else {
 			
@@ -123,19 +121,17 @@ public class Fachada {
 			
 			partida.setJugadores(jugadores);
 				
-			mensaje = "OK";
+			json.addProperty("mensaje", "OK");
 		}
 		
-		json.addProperty("mensaje", mensaje);
 		return json;
 	}
 	
-	public JsonObject getPartida() {
+	public JsonObject getPartida() throws Exception {
 		JsonObject json = new JsonObject();
-		String mensaje = null;
 		
 		if (partida.getJugadores().isEmpty()) {
-			mensaje = "No hay una partida creada.";			
+			throw new Exception("No hay una partida creada.");			
 		}else {
 			
 			json.addProperty("width", partida.getTamanioEscenarioX());
@@ -147,11 +143,10 @@ public class Fachada {
 			
 			json.add("jugadores", partida.getJugadores().getJugadoresToJson());
 	
-			mensaje = "OK";
+			json.addProperty("mensaje", "OK");
 			
 		}
 		
-		json.addProperty("mensaje", mensaje);
 		return json;
 	}
 	

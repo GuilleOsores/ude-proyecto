@@ -31,7 +31,12 @@ public class GetPartida extends HttpServlet {
 		//no es necesario pasar parametros, devuelve la partida actual.	
 		Fachada fachada = Fachada.getInstanceFachada();
 	
-		json = fachada.getPartida();
+		try {
+			json = fachada.getPartida();
+		} catch (Exception e) {
+			json.addProperty("mensaje", e.getMessage());
+			response.setStatus(500);
+		}
 		
 		response.addHeader("Access-Control-Allow-Origin", "*");
 		

@@ -34,9 +34,15 @@ public class UnirsePartida extends HttpServlet {
 				
 		if (nickName != null) { 
 			Fachada fachada = Fachada.getInstanceFachada();
-			json = fachada.unirsePartida(nickName);
+			try {
+				json = fachada.unirsePartida(nickName);
+			} catch (Exception e) {
+				json.addProperty("mensaje", e.getMessage());
+				response.setStatus(500);
+			}
 		} else {
 			json.addProperty("mensaje", "Debe de elegir un nombre de jugador.");
+			response.setStatus(500);
 		}
 		
 		response.addHeader("Access-Control-Allow-Origin", "*");
