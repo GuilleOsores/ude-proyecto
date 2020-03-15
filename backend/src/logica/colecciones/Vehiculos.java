@@ -1,6 +1,8 @@
 package logica.colecciones;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -68,6 +70,15 @@ public class Vehiculos {
 		}
 		
 		return jsonArray;
+	}
+	
+	// Funcion auxiliar para convertir el map en lista
+	public List<Vehiculo> vehiculosToList() {
+		ArrayList<Vehiculo> lista = new ArrayList<>();
+			
+		diccionario.forEach((k, v) -> lista.add(v));
+			
+		return lista;
 	}
 	
 }
