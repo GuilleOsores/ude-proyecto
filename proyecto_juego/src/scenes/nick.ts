@@ -1,8 +1,6 @@
-import axios from 'axios';
-
 import * as Phaser from 'phaser';
 import InputText from 'phaser3-rex-plugins/plugins/inputtext.js';
-import * as config from '../config';
+import * as server from '../server';
 
 
 export class Nick extends Phaser.Scene {
@@ -84,9 +82,9 @@ export class Nick extends Phaser.Scene {
         if (this.crearPartida && !this.bando) throw new Error('Debe elegir un bando');
 
         if (this.crearPartida) {
-          await axios(config.endpoint.crearPartida(this.goNick.text, this.bando));
+          await server.crearPartida(this.goNick.text, this.bando);
         } else {
-          await axios(config.endpoint.unirsePartida(this.goNick.text));
+          await server.unirsePartida(this.goNick.text);
         }
 
         this.scene.start('Espera', { nick: this.goNick.text });
