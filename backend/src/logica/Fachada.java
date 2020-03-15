@@ -150,4 +150,8 @@ public class Fachada {
 		return json;
 	}
 	
+	public int getTiempoPartida() {
+		return partida.getTiempo();
+	}
+	
 }
