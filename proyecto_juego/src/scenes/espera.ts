@@ -1,7 +1,5 @@
-import axios from 'axios';
 import * as Phaser from 'phaser';
 import * as server from '../server';
-import * as config from '../config';
 
 export class Espera extends Phaser.Scene {
   conectando: Phaser.GameObjects.Text;
@@ -39,6 +37,8 @@ export class Espera extends Phaser.Scene {
     server.addhandler(server.EVENTOS.INICIAR_PARTIDA, this.iniciarPartidaHandler);
 
     await server.startWebSocket();
+    const getpartida = await server.getPartida();
+    this.scene.start('Game', { ...getpartida.data, nick: this.nick });
   }
 
   iniciarPartidaHandler = async () => {

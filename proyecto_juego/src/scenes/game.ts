@@ -8,7 +8,6 @@ import { Muelle } from '../gameObjects/muelle';
 import { agregarAgua } from '../gameObjects/agua';
 import * as server from '../server';
 import { GOTormenta } from '../gameObjects/tormenta';
-import * as config from '../config';
 
 export class Game extends Phaser.Scene {
   minimap: Phaser.Cameras.Scene2D.Camera;
@@ -264,22 +263,20 @@ export class Game extends Phaser.Scene {
     this.tormentas = this.sceneConfig.tormentas;
 
     setInterval(() => {
-      ++this.totalSeconds;
-      let torm = null;
+      this.totalSeconds += 1;
       let i = 0;
       let encontro = false;
       this.tormentaEnTiempo = true;
       while (i < this.tormentas.length && !encontro) {
         const fin = this.tormentas[i].tormentaDuracion + this.tormentas[i].tormentaInicio;
-        if (this.totalSeconds == this.tormentas[i].tormentaInicio) {
-          torm = this.tormentas[i];
+        if (this.totalSeconds === this.tormentas[i].tormentaInicio) {
           encontro = true;
         } else if (this.totalSeconds >= fin) {
           this.tormentaEnTiempo = false;
           this.tormentas.splice(i, 1);
         }
 
-        i++;
+        i += 1;
       }
 
       if (encontro) {
@@ -313,7 +310,7 @@ export class Game extends Phaser.Scene {
     this.finalizar(data.ganador);
   };
 
-  public update(timeElapsed: number, timeLastUpdate: number) {
+  public update() {
     this.renderTexture.clear();
     let cantidadVivos = 0;
 

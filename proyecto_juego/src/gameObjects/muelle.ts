@@ -11,7 +11,9 @@ export class Muelle extends Phaser.GameObjects.Sprite {
     const f = new Phaser.Physics.Matter.Factory(scene.matter.world);
     f.gameObject(this, { isStatic: true }, true);
     scene.add.existing(this);
-    this.sensor = new Phaser.GameObjects.Ellipse(scene, x - this.width / 2, y - this.height / 2, this.width + 100, this.height + 100);
+    this.sensor = new Phaser.GameObjects.Ellipse(
+      scene, x - this.width / 2, y - this.height / 2, this.width + 100, this.height + 100,
+    );
     f.gameObject(
       this.sensor,
       {
