@@ -43,7 +43,7 @@ export class Espera extends Phaser.Scene {
 
   iniciarPartidaHandler = async () => {
     try {
-      const getpartida = await axios(config.endpoint.getPartida());
+      const getpartida = await server.getPartida();
       this.scene.start('Game', { ...getpartida.data, nick: this.nick });
     } catch (error) {
       alert(error.response.data.mensaje);

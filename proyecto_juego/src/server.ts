@@ -1,3 +1,4 @@
+import axios from 'axios';
 import * as config from './config';
 
 export const EVENTOS = {
@@ -51,3 +52,8 @@ export const enviar = (evento, data) => {
     console.log('ws error (si no queres que te joda éste mensaje y no queres ' + 'conectarlo con el server, comentá el send de arriba): ', e);
   }
 };
+
+export const guardarPartida = () => axios(config.endpoint.guardarPartida());
+export const crearPartida = (nick, bando) => axios(config.endpoint.crearPartida(nick, bando));
+export const unirsePartida = (nick) => axios(config.endpoint.unirsePartida(nick));
+export const getPartida = () => axios(config.endpoint.getPartida());

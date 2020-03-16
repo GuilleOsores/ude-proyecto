@@ -8,7 +8,7 @@ import { Muelle } from '../gameObjects/muelle';
 import { agregarAgua } from '../gameObjects/agua';
 import * as server from '../server';
 import { GOTormenta } from '../gameObjects/tormenta';
-
+import * as config from '../config';
 
 export class Game extends Phaser.Scene {
   minimap: Phaser.Cameras.Scene2D.Camera;
@@ -28,7 +28,7 @@ export class Game extends Phaser.Scene {
   totalSeconds = 0;
 
   tormentas: Tormenta[];
-  
+
   jugadorLocal: {
     nick: string,
     vehiculos: GOPesquero[] | GOPatrulla[],
@@ -122,9 +122,7 @@ export class Game extends Phaser.Scene {
 
   tormentaEnTiempo=false
 
-  
-  public create() { 
-    
+  public create() {
     this.matter.world.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height);
     this.cameras.main.setBounds(0, 0, this.sceneConfig.width, this.sceneConfig.height)
       .setSize(this.game.canvas.width, this.game.canvas.height - 200);
@@ -252,37 +250,35 @@ export class Game extends Phaser.Scene {
     });
 
     this.tormentas = this.sceneConfig.tormentas;
-   
+
     setInterval(() => {
       ++this.totalSeconds;
-
       let torm=null;
-      let i=0;
-      let encontro=false;
-      this.tormentaEnTiempo=true;
-      while(i<this.tormentas.length && !encontro){
-        let fin =this.tormentas[i].tormentaDuracion+this.tormentas[i].tormentaInicio;
-        if(this.totalSeconds==this.tormentas[i].tormentaInicio){
+      let i = 0;
+      let encontro = false;
+      this.tormentaEnTiempo = true;
+      while (i < this.tormentas.length && !encontro) {
+        const fin = this.tormentas[i].tormentaDuracion + this.tormentas[i].tormentaInicio;
+        if (this.totalSeconds == this.tormentas[i].tormentaInicio) {
           torm = this.tormentas[i];
-          encontro=true;
-        }else if(this.totalSeconds>=fin){
-          this.tormentaEnTiempo=false;
+          encontro = true;
+        } else if (this.totalSeconds >= fin) {
+          this.tormentaEnTiempo = false;
           this.tormentas.splice(i, 1);
         }
 
         i++;
-        
       }
-    
-     if(encontro){
-      this.tormentaActiva = new GOTormenta(this, 'tormenta');
-      this.events.emit('inicioTormenta');
-      }else if(this.tormentaActiva && !this.tormentaEnTiempo){
+
+      if (encontro) {
+        this.tormentaActiva = new GOTormenta(this, 'tormenta');
+        this.events.emit('inicioTormenta');
+      } else if (this.tormentaActiva && !this.tormentaEnTiempo) {
         this.tormentaActiva.destroy();
-        this.tormentaActiva=null; 
+        this.tormentaActiva = null;
 
         this.events.emit('finTormenta');
-      } 
+      }
     }, 1000);
 
     server.addhandler(server.EVENTOS.FINALIZAR, this.finalizarPartidaHandler);
@@ -303,7 +299,6 @@ export class Game extends Phaser.Scene {
 
   finalizarPartidaHandler = (data) => {
     this.finalizar(data.ganador);
-      console.log('countfish');
   };
 
   public update(timeElapsed: number, timeLastUpdate: number) {
@@ -345,8 +340,8 @@ export class Game extends Phaser.Scene {
     }
   }
 
-  guardarHandler = () => {
-    console.log('guardarHandler');
+  guardarHandler = async () => {
+    await server.guardarPartida();
   }
 
   continuarHandler = () => {

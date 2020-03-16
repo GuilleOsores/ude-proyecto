@@ -4,6 +4,7 @@ import logica.colecciones.Vehiculos;
 
 public class Jugador {
 	
+	int id;
 	private String nick;
 	private Vehiculos vehiculos;
 	// private WebsocketSession session;
@@ -13,10 +14,19 @@ public class Jugador {
 		vehiculos = new Vehiculos();
 	}
 	
-	public Jugador(String nick, Vehiculos vehiculos, int cantidadPescados) {
+	public Jugador(int id, String nick, Vehiculos vehiculos, int cantidadPescados) {
+		this.id = id; 
 		this.nick = nick;
 		this.vehiculos = vehiculos;
 		this.cantidadPescados = cantidadPescados;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNick() {
@@ -41,6 +51,11 @@ public class Jugador {
 
 	public void setCantidadPescados(int cantidadPescados) {
 		this.cantidadPescados = cantidadPescados;
+	}
+	
+	@Override
+	public String toString() {
+		return String.valueOf(id) + ", " + nick;
 	}
 	
 }

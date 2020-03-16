@@ -1,5 +1,8 @@
 package logica.entidades;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 import logica.colecciones.Jugadores;
 
 public class Partida {
@@ -18,10 +21,33 @@ public class Partida {
 		jugadores = new Jugadores();
 	}
 	
+	// Constructor para usar cuando se recupera de la BD
+	public Partida(int id, int tiempo, int pecesRestantes) {
+		
+		try {
+			Properties p = new Properties();
+			p.load(new FileInputStream("config/config.properties"));	
+			
+			this.id = id;
+			this.jugadores = new Jugadores();
+			this.tamanioEscenarioX = Integer.parseInt(p.getProperty("width"));
+			this.tamanioEscenarioY = Integer.parseInt(p.getProperty("height"));
+			this.millasPesca = Integer.parseInt(p.getProperty("millaLimite"));
+			this.tiempo = tiempo;
+			this.cantPeces = Integer.parseInt(p.getProperty("cantPeces"));
+			this.fishFished = this.cantPeces - pecesRestantes;
+		
+		} catch (Exception e) {
+			System.out.println("Exception creando partida");
+			e.printStackTrace();
+		}		
+		
+	}
+	
 	//ya no lo usamos.
-	public Partida(int id, Jugadores jugadores /*, Tormentas tormentas*/,int tamanioEscenarioX, int tamanioEscenarioY, int millasPesca, int tiempo, int cantPesca, int fishFished) {
+	public Partida(int id, Jugadores jugadores, int tamanioEscenarioX, int tamanioEscenarioY, int millasPesca, int tiempo, int cantPeces, int fishFished) {
 		this.id = id;
-		// this.tormentas = tormentas;
+		this.jugadores = jugadores;
 		this.tamanioEscenarioX = tamanioEscenarioX;
 		this.tamanioEscenarioY = tamanioEscenarioY;
 		this.millasPesca = millasPesca;
