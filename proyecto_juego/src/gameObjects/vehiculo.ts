@@ -53,9 +53,6 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
   }
 
   public create() {
-
-  
-
     if (this.getData('canBeSelected')) {
       this.setInteractive();
       this.scene.events.on('changeBoat', (id) => {
@@ -126,8 +123,6 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
         nick: this.getData('nick'), id: this.id, x: this.x, y: this.y, rotacion: this.rotation,
       });
     }
-
-   
   }
 
   public getId = () => this.id;

@@ -35,10 +35,13 @@ export class GOPatrulla extends GOVehiculo {
     server.addhandler(server.EVENTOS.DISPARO, this.disparoHandler);
     this.scene.matter.world.on('collisionstart', this.collisionHandler);
 
-    
-    this.bateria=this.scene.add.text(this.x, this.y, ' ');
-    this.bateria.setOrigin(0.5, 0.5);
-    this.bateria.setVisible(false);
+
+    this.bateria = this.scene.add.text(this.x, this.y, '',
+      { font: 'bold 20px Arial', color: '#007f00' });
+    scene.add.existing(this.bateria);
+    this.bateria.setOrigin(0.5, -1.9);
+    this.scene.cameras.getCamera('camaraLateral').ignore(this.bateria);
+    this.scene.cameras.getCamera('minimap').ignore(this.bateria);
   }
 
   collisionHandler = (
@@ -58,7 +61,7 @@ export class GOPatrulla extends GOVehiculo {
         this.scene, width / 2, height - 300, 5000, () => { this.armasHabilitadas = true; },
       );
     }
-    this.hayTormenta=false;
+    this.hayTormenta = false;
   }
 
   disparoHandler = (data) => {
@@ -97,35 +100,25 @@ export class GOPatrulla extends GOVehiculo {
     super.preUpdate(timeElapsed, timeLastUpdate);
 
     this.scene.events.on('inicioTormenta', () => {
-
-      if(this.getData('sprite') === 'policia2'){
-        //console.log('deshabilito policia chico');
-        this.hayTormenta=true;
+      if (this.getData('sprite') === 'policia2') {
+        // console.log('deshabilito policia chico');
+        this.hayTormenta = true;
       }
-      
-      
     });
 
     this.scene.events.on('finTormenta', () => {
-
-      if(this.getData('sprite') === 'policia2'){
-        //console.log('habilito policia chico');
-        this.hayTormenta=false;
+      if (this.getData('sprite') === 'policia2') {
+        // console.log('habilito policia chico');
+        this.hayTormenta = false;
       }
-      
-      
     });
 
-    let maximo = this.getData('combustibleMaximo');
-    let porcentajeUno=maximo/100;
-    let porcentajeComb=this.getData('combustibleActual')/porcentajeUno;
-    let mostrar=porcentajeComb.toFixed(1);
-    mostrar = mostrar+'%'
-    this.bateria.setVisible(false);
-    this.bateria=this.scene.add.text(this.x, this.y, mostrar.toString(),
-    { font: "bold 30px Arial", color: '#007f00' });
-    this.bateria.setOrigin(0.5, -1.9);
-    this.scene.cameras.getCamera('camaraLateral').ignore(this.bateria);
+    const maximo = this.getData('combustibleMaximo');
+    const porcentajeUno = maximo / 100;
+    const porcentajeComb = this.getData('combustibleActual') / porcentajeUno;
+    const mostrar = `${porcentajeComb.toFixed(1)}%`;
+    this.bateria.setText(mostrar);
+    this.bateria.setPosition(this.x, this.y);
   }
 
   keyboardHandler = (event: KeyboardEvent) => {
