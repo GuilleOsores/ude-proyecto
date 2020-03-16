@@ -34,6 +34,12 @@ export class GOPesquero extends GOVehiculo {
   public preUpdate(timeElapsed: number, timeLastUpdate: number) {
     super.preUpdate(timeElapsed, timeLastUpdate);
     if (this.getData('vida') <= 0) {
+      const explosion = new Phaser.GameObjects.Sprite(this.scene, this.x, this.y, 'explosion').setDepth(900);
+      this.scene.add.existing(explosion);
+      this.scene.cameras.getCamera('camaraLateral').ignore(explosion);
+      this.scene.cameras.getCamera('minimap').ignore(explosion);
+      explosion.play('explosion');
+
       super.destroy();
       return;
     }

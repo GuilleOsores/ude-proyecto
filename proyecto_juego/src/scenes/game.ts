@@ -118,6 +118,18 @@ export class Game extends Phaser.Scene {
       yoyo: false,
       repeat: -1,
     });
+
+    this.anims.create({
+      key: 'explosion',
+      frames: this.anims.generateFrameNumbers('explosion', {
+        start: 6,
+        end: 11,
+      }),
+      frameRate: 10,
+      yoyo: false,
+      repeat: 1,
+      hideOnComplete: true,
+    });
   }
 
   tormentaEnTiempo=false
@@ -253,7 +265,7 @@ export class Game extends Phaser.Scene {
 
     setInterval(() => {
       ++this.totalSeconds;
-      let torm=null;
+      let torm = null;
       let i = 0;
       let encontro = false;
       this.tormentaEnTiempo = true;

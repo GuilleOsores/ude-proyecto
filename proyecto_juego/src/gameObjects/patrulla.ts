@@ -26,8 +26,6 @@ export class GOPatrulla extends GOVehiculo {
     super(scene, vehicle, data);
     this.setData('combustibleActual', data.combustibleMaximo);
 
-    if (vehicle.sprite === 'policia1') this.setScale(0.6);
-
     if (vehicle.armas && vehicle.armas.length) {
       this.scene.input.on(Phaser.Input.Events.POINTER_DOWN, this.dispararHandle);
       this.scene.input.keyboard.on('keydown', this.keyboardHandler);

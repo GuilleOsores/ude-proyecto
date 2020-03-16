@@ -74,6 +74,7 @@ export class Dron extends Phaser.GameObjects.Sprite {
 
     this.fechaCreacion = moment();
     this.scene.matter.world.on('collisionstart', this.collisionHandler);
+    this.scene.cameras.getCamera('camaraLateral').ignore(this);
   }
 
   preUpdate(timeElapsed: number, timeLastUpdate: number) {

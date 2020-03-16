@@ -25,6 +25,7 @@ export class Disparo extends Phaser.GameObjects.Sprite {
     this.setScale(this.arma.escala);
 
     this.scene.matter.world.on('collisionstart', this.collisionHandler);
+    this.scene.cameras.getCamera('camaraLateral').ignore(this);
   }
 
   getMatterSprite() {
