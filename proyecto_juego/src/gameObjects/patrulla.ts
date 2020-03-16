@@ -134,7 +134,7 @@ export class GOPatrulla extends GOVehiculo {
   }
 
   dispararHandle = (pointer: Phaser.Input.Pointer) => {
-    if (this.getData('selected') && !this.hayTormenta) {
+    if (this.getData('selected') && !this.hayTormenta && this.getData('millaLimite') < this.y) {
       const armas = <Arma[]> this.getData('armas');
       const arma = armas[this.armaSeleccionada];
       if (this.armasHabilitadas && (!this.ultimoDisparo[this.armaSeleccionada] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[this.armaSeleccionada])))) {
