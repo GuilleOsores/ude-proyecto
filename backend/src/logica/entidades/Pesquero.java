@@ -1,6 +1,7 @@
 package logica.entidades;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class Pesquero extends Vehiculo {
@@ -24,7 +25,10 @@ public class Pesquero extends Vehiculo {
 	public Pesquero(int id, int x, int y, float vida, String tipo, String tipoPesquero, int cantPesca, float initialRotation) {
 		try {
 			Properties p = new Properties();
-			p.load(new FileInputStream("config/config.properties"));
+			InputStream input = null;
+			
+			input = getClass().getClassLoader().getResourceAsStream("resources/config.properties");			
+			p.load(input);
 			
 			String prefijoProperties = "";
 			
@@ -67,7 +71,10 @@ public class Pesquero extends Vehiculo {
 				
 		try {
 			Properties p = new Properties();
-			p.load(new FileInputStream("config/config.properties"));
+			InputStream input = null;
+			
+			input = getClass().getClassLoader().getResourceAsStream("resources/config.properties");			
+			p.load(input);
 			
 			String prefijoProperties = "";
 			

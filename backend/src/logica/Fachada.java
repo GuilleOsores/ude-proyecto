@@ -3,6 +3,7 @@ package logica;
 import com.google.gson.JsonObject;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +31,13 @@ public class Fachada {
 	private DAOJugadores daoJugadores;
 	
 	private Fachada() {
-		
-		partida = null;
+		partida = new Partida();
+		Properties p = new Properties();
+		InputStream input = null;
 		
 		try {
-			Properties p = new Properties();
-			p.load(new FileInputStream("config/config.properties"));
+			input = getClass().getClassLoader().getResourceAsStream("resources/config.properties");			
+			p.load(input);
 		
 			String driver = p.getProperty("db_driver");
 			String host = p.getProperty("db_server");
@@ -51,7 +53,6 @@ public class Fachada {
 			daoBarcos = new DAOBarcos(url, user, password);
 			daoJugadores = new DAOJugadores(url, user, password);
 			daoPartidas = new DAOPartidas(url, user, password);
-			
 		} catch (Exception e) {
 			System.out.println("Exception creando fachada");
 			e.printStackTrace();

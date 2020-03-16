@@ -4,6 +4,7 @@ import logica.colecciones.Armas;
 
 import java.util.Properties;
 import java.io.FileInputStream;
+import java.io.InputStream;
 
 public class Patrulla extends Vehiculo {
 	
@@ -20,10 +21,12 @@ public class Patrulla extends Vehiculo {
 
 	// Constructor para usar cuando se recupera de la BD
 	public Patrulla(int id, int x, int y, String tipo, String tipoPatrulla, float initialRotation, float combustible) {
+		Properties p = new Properties();
+		InputStream input = null;
 		
 		try {
-			Properties p = new Properties();
-			p.load(new FileInputStream("config/config.properties"));
+			input = getClass().getClassLoader().getResourceAsStream("resources/config.properties");			
+			p.load(input);
 			
 			String prefijoProperties = "";
 			
@@ -61,11 +64,12 @@ public class Patrulla extends Vehiculo {
 	
 	// Constructor para usar cuando se crea partida
 	public Patrulla(String tipoPatrulla) {
+		Properties p = new Properties();
+		InputStream input = null;
 		
 		try {
-		
-			Properties p = new Properties();
-			p.load(new FileInputStream("config/config.properties"));
+			input = getClass().getClassLoader().getResourceAsStream("resources/config.properties");			
+			p.load(input);
 			
 			String prefijoProperties = "";
 			
