@@ -8,7 +8,11 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import logica.Fachada;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -39,6 +43,23 @@ public class ServerWebSocket {
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
 		//System.out.println("Sesion " + session.getId() + " dice: " + msg);
+				
+		String json = msg;
+		JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
+		Fachada fachada = Fachada.getInstanceFachada();
+		
+		if (jsonObject.get("evento").getAsString().equals("mb")) {
+			
+			String nickJugador = jsonObject.get("nick").getAsString();
+			int idVehiculo = jsonObject.get("id").getAsInt();
+			float x = jsonObject.get("x").getAsFloat();
+			float y = jsonObject.get("y").getAsFloat();
+			float rotacion = jsonObject.get("rotacion").getAsFloat(); 
+			
+			fachada.setPosicionBarco(nickJugador, idVehiculo, x, y, rotacion);				
+		}
+		 
+		
 		broadcast(msg, session);
 	}
 

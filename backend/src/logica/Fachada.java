@@ -215,6 +215,13 @@ public class Fachada {
 		nickCreadorDePartida = null;	
 	}
 	
+	public void setPosicionBarco(String nickJugador, int idVehiculo, float x, float y, float rotacion) {
+		
+		this.partida.getJugadores().get(nickJugador).getVehiculos().get(idVehiculo).setX(x);
+		this.partida.getJugadores().get(nickJugador).getVehiculos().get(idVehiculo).setX(y);
+		this.partida.getJugadores().get(nickJugador).getVehiculos().get(idVehiculo).setInitialRotation(rotacion);
+	}
+	
 	// Guarda la instancia de la partida en la BD (Jugadores, Barcos y Partida)
 	public void guardarPartida() throws SQLException {
 		
