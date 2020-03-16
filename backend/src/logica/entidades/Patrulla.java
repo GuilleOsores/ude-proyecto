@@ -33,12 +33,12 @@ public class Patrulla extends Vehiculo {
 			if (tipoPatrulla.equals("grande")) {
 				
 				prefijoProperties = "pat1_";
-				this.setSpritesLaterales("NO SE QUE VA ACA");
+				this.setSpritesLaterales("{\"l\": \"policia1\",\"r\": \"policia1\",\"u\": \"policia1\",\"d\": \"policia1\"}");
 				
 			} else if (tipoPatrulla.equals("chica")) {
 
 				prefijoProperties = "pat2_";
-				this.setSpritesLaterales("NO SE QUE VA ACA");			
+				this.setSpritesLaterales("{\"l\": \"policia2\",\"r\": \"policia2\",\"u\": \"policia2\",\"d\": \"policia2\"}");			
 			
 			}
 			
@@ -75,11 +75,11 @@ public class Patrulla extends Vehiculo {
 			
 			if (tipoPatrulla.equals("grande")) {
 				prefijoProperties = "pat1_";
-				this.setSpritesLaterales("NO SE QUE VA");
+				this.setSpritesLaterales("{\"l\": \"policia1\",\"r\": \"policia1\",\"u\": \"policia1\",\"d\": \"policia1\"}");
 				
 			} else if (tipoPatrulla.equals("chica")) {
 				prefijoProperties = "pat2_";
-				this.setSpritesLaterales("NO SE QUE VA");			
+				this.setSpritesLaterales("{\"l\": \"policia2\",\"r\": \"policia2\",\"u\": \"policia2\",\"d\": \"policia2\"}");			
 			}
 					
 			this.setId(Integer.parseInt(p.getProperty(prefijoProperties + "id"))); 
