@@ -16,7 +16,7 @@ export class GOPatrulla extends GOVehiculo {
 
   barcosAuxiliares: Dron[] = [];
 
-  armasHabilitadas: Boolean;
+  armasHabilitadas: Boolean = true;
 
   hayTormenta: Boolean
 
@@ -25,6 +25,8 @@ export class GOPatrulla extends GOVehiculo {
   constructor(scene: Phaser.Scene, vehicle: Patrulla, data: any) {
     super(scene, vehicle, data);
     this.setData('combustibleActual', data.combustibleMaximo);
+
+    if (vehicle.sprite === 'policia1') this.setScale(0.6);
 
     if (vehicle.armas && vehicle.armas.length) {
       this.scene.input.on(Phaser.Input.Events.POINTER_DOWN, this.dispararHandle);
@@ -150,8 +152,10 @@ export class GOPatrulla extends GOVehiculo {
     const rotacionPositiva = rotacionAntihoraria >= 0
       ? rotacionAntihoraria % (Math.PI * 2) : (Math.PI * 2) + (rotacionAntihoraria % (Math.PI * 2));
     const radianes = (rotacionPositiva) % (Math.PI * 2);
-    const posRelativaX = (this.displayWidth / 2 + 30) * Math.sin(radianes);
-    const posRelativaY = (this.displayHeight / 2 + 30) * Math.cos(radianes);
+    console.log(this.displayWidth);
+    console.log(this.displayHeight);
+    const posRelativaX = (this.displayWidth / 2 + 50) * Math.sin(radianes);
+    const posRelativaY = (this.displayHeight / 2 + 50) * Math.cos(radianes);
 
     if (arma.tipo === 'disparo') {
       // eslint-disable-next-line no-new
