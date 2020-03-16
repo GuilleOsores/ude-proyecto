@@ -22,7 +22,7 @@ public class Pesquero extends Vehiculo {
 	}
 	
 	// Constructor para usar cuando se recupera de la BD
-	public Pesquero(int id, int x, int y, float vida, String tipo, String tipoPesquero, int cantPesca, float initialRotation) {
+	public Pesquero(int id, float x, float y, float vida, String tipo, String tipoPesquero, int cantPesca, float initialRotation) {
 		try {
 			Properties p = new Properties();
 			InputStream input = null;
@@ -113,7 +113,7 @@ public class Pesquero extends Vehiculo {
 		}
 	}
 	
-	public Pesquero(int id, int x, int y, float velocidad, float velocidadAngular, String spriteVivo, String spritesLaterales, float vida, String spriteMuerto, String animacionExplosion, float multiplicadorDePesca, float initialRotation, String horaPesca, int cantPesca, int tiempoPesca, String tipo, String tipoPesquero, int restoPesca) {
+	public Pesquero(int id, float x, float y, float velocidad, float velocidadAngular, String spriteVivo, String spritesLaterales, float vida, String spriteMuerto, String animacionExplosion, float multiplicadorDePesca, float initialRotation, String horaPesca, int cantPesca, int tiempoPesca, String tipo, String tipoPesquero, int restoPesca) {
 		super(id, x, y, tipo, velocidad, velocidadAngular, spriteVivo, spritesLaterales, initialRotation);
 		this.vida = vida;
 		this.spriteMuerto = spriteMuerto;
