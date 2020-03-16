@@ -94,6 +94,13 @@ export class GOPatrulla extends GOVehiculo {
 
   preUpdate(timeElapsed: number, timeLastUpdate: number) {
     if (this.getData('combustibleActual') <= 0) {
+      if (this.yendoAlMuelle) {
+        if (this.getData('sendToServer')) {
+          server.enviar(server.EVENTOS.MOVER_BARCO, {
+            nick: this.getData('nick'), id: this.getVehiculo().id, x: this.x, y: this.y, rotacion: this.rotation,
+          });
+        }
+      }
       if (!this.yendoAlMuelle) this.irAlMuelle();
       return;
     }

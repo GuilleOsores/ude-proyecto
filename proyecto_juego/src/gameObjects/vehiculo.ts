@@ -142,4 +142,6 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
     this.spriteLateral.destroy();
     super.destroy();
   }
+
+  getVehiculo = () => this.vehiculo;
 }
