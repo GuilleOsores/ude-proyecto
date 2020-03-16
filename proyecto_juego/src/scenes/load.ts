@@ -63,6 +63,11 @@ export class Load extends Phaser.Scene {
       spacing: 0,
     });
 
+    this.load.image('policia01_atras', './assets/images/policia01_atras.png');
+    this.load.image('policia01_derecha', './assets/images/policia01_derecha.png');
+    this.load.image('policia01_izquierda', './assets/images/policia01_izquierda.png');
+    this.load.image('policia01_frente', './assets/images/policia01_frente.png');
+
     this.load.image('main', './assets/images/main.jpg');
     this.load.image('puerto', './assets/images/puerto.png');
     this.load.image('bala', './assets/images/bullet6.png');
