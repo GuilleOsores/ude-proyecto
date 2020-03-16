@@ -257,7 +257,10 @@ export class Game extends Phaser.Scene {
       let i = 0;
       let encontro = false;
       this.tormentaEnTiempo = true;
+      //console.log('Cantidad tormentas: ', this.tormentas.length);
       while (i < this.tormentas.length && !encontro) {
+        //console.log('Inicio tormentas: ', this.tormentas[i].tormentaInicio);
+        //console.log('Duracion tormentas: ', this.tormentas[i].tormentaDuracion);
         const fin = this.tormentas[i].tormentaDuracion + this.tormentas[i].tormentaInicio;
         if (this.totalSeconds == this.tormentas[i].tormentaInicio) {
           torm = this.tormentas[i];
