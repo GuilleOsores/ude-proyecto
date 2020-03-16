@@ -17,7 +17,10 @@ export class GOPatrulla extends GOVehiculo {
   barcosAuxiliares: Dron[] = [];
 
   armasHabilitadas: Boolean;
+
   hayTormenta: Boolean
+
+  private bateria: Phaser.GameObjects.Text;
 
   constructor(scene: Phaser.Scene, vehicle: Patrulla, data: any) {
     super(scene, vehicle, data);
@@ -31,6 +34,11 @@ export class GOPatrulla extends GOVehiculo {
     }
     server.addhandler(server.EVENTOS.DISPARO, this.disparoHandler);
     this.scene.matter.world.on('collisionstart', this.collisionHandler);
+
+    
+    this.bateria=this.scene.add.text(this.x, this.y, ' ');
+    this.bateria.setOrigin(0.5, 0.5);
+    this.bateria.setVisible(false);
   }
 
   collisionHandler = (
@@ -107,6 +115,17 @@ export class GOPatrulla extends GOVehiculo {
       
       
     });
+
+    let maximo = this.getData('combustibleMaximo');
+    let porcentajeUno=maximo/100;
+    let porcentajeComb=this.getData('combustibleActual')/porcentajeUno;
+    let mostrar=porcentajeComb.toFixed(1);
+    mostrar = mostrar+'%'
+    this.bateria.setVisible(false);
+    this.bateria=this.scene.add.text(this.x, this.y, mostrar.toString(),
+    { font: "bold 30px Arial", color: '#007f00' });
+    this.bateria.setOrigin(0.5, -1.9);
+    this.scene.cameras.getCamera('camaraLateral').ignore(this.bateria);
   }
 
   keyboardHandler = (event: KeyboardEvent) => {

@@ -25,28 +25,6 @@ export class GOTormenta extends Phaser.GameObjects.Container {
     this.scene.cameras.getCamera('minimap').ignore(this);
     this.scene.cameras.getCamera('camaraLateral').ignore(this);
 
-    /*this.scene.tweens.add({
-      targets: this,
-      duration: 6000,
-      yoyo: true,
-      repeat: -1
-  });*/
-    
-    
-    /*const f = new Phaser.Physics.Matter.Factory(scene.matter.world);
-    f.gameObject(this, { isStatic: true }, true);
-    scene.add.existing(this);
-
-    this.intervaloTormenta = this.sceneConfig.tormentaIntervalo;
-    this.duracionTormenta = this.sceneConfig.tormentaDuracion;
-
-    this.tween = this.scene.tweens.add({
-      targets: this.getMatterSprite(),
-      y: 300,
-      repeat: -1,
-      yoyo: true
-    });*/
-
   }
 
   public create(){
