@@ -52,6 +52,7 @@ export class GOPesquero extends GOVehiculo {
         this.scene.events.emit('countfish', this.cantPesca);
         this.cantPesca = 0;
         this.pasoMilla = false;
+        this.txtPesco.text = `\n Barco ${this.getData('id')} pescado:0 \n`;
         server.enviar(server.EVENTOS.PESCA_BARCO, {
           nick: this.getData('nick'),
           id: this.getVehiculo().id,

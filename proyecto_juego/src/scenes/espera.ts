@@ -37,8 +37,6 @@ export class Espera extends Phaser.Scene {
     server.addhandler(server.EVENTOS.INICIAR_PARTIDA, this.iniciarPartidaHandler);
 
     await server.startWebSocket();
-    const getpartida = await server.getPartida();
-    this.scene.start('Game', { ...getpartida.data, nick: this.nick });
   }
 
   iniciarPartidaHandler = async () => {
