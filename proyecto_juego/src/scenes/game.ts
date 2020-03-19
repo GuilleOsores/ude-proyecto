@@ -254,6 +254,9 @@ export class Game extends Phaser.Scene {
     this.events.on('countfish', (cantidad) => {
       this.jugadorLocal.pescados += cantidad;
       this.txtPescadoTotal.setText(`Total: ${this.jugadorLocal.pescados}`);
+      server.enviar(server.EVENTOS.PESCA_JUGADOR, {
+        nick: this.jugadorLocal.nick, pescados: this.jugadorLocal.pescados,
+      });
       if (this.jugadorLocal.pescados >= 100) { // parametrizar esto
         server.enviar(server.EVENTOS.FINALIZAR, { ganador: this.jugadorLocal.nick });
         this.finalizar(this.jugadorLocal.nick);
@@ -296,7 +299,6 @@ export class Game extends Phaser.Scene {
   }
 
   pausarEscena = () => {
-    console.log('el otro pauso');
     this.scene.pause();
     this.scene.run('PopUp', {});
   }

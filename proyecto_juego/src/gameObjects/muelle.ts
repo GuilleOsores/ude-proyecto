@@ -35,7 +35,7 @@ export class Muelle extends Phaser.GameObjects.Sprite {
     }
 
     if (go) {
-      go.recargarCombustible(0.1);
+      go.recargarCombustible(0.5);
     }
   }
 }

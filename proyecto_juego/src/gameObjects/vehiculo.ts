@@ -34,7 +34,7 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
     scene.add.existing(this);
     this.play(vehicle.sprite);
 
-    this.vision = new Phaser.GameObjects.Sprite(scene, 0, 0, 'vision');
+    this.vision = new Phaser.GameObjects.Sprite(scene, 0, 0, 'vision').setScale(1.5, 1.5);
     f.gameObject(this.vision, { isSensor: true, circleRadius: this.vision.width / 2 }, true);
 
     this.setDataEnabled();
@@ -122,10 +122,30 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
 
     if (cursorKeys.up.isDown) {
       this.getMatterSprite().thrust(this.getData('velocity'));
-      if (this.getData('combustibleActual')) this.setData('combustibleActual', this.getData('combustibleActual') - this.getData('gastoCombustible'));
+      if (this.getData('combustibleActual')) {
+        const combustible = this.getData('combustibleActual') - this.getData('gastoCombustible');
+        this.setData('combustibleActual', combustible);
+        if (this.getData('sendToServer')) {
+          server.enviar(server.EVENTOS.COMBUSTIBLE, {
+            nick: this.getData('nick'),
+            id: this.getVehiculo().id,
+            combustible,
+          });
+        }
+      }
     } else if (cursorKeys.down.isDown) {
       this.getMatterSprite().thrustBack(this.getData('velocity'));
-      if (this.getData('combustibleActual')) this.setData('combustibleActual', this.getData('combustibleActual') - this.getData('gastoCombustible'));
+      if (this.getData('combustibleActual')) {
+        const combustible = this.getData('combustibleActual') - this.getData('gastoCombustible');
+        this.setData('combustibleActual', combustible);
+        if (this.getData('sendToServer')) {
+          server.enviar(server.EVENTOS.COMBUSTIBLE, {
+            nick: this.getData('nick'),
+            id: this.getVehiculo().id,
+            combustible,
+          });
+        }
+      }
     }
 
     if (this.getData('sendToServer')) {

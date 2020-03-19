@@ -152,8 +152,6 @@ export class GOPatrulla extends GOVehiculo {
     const rotacionPositiva = rotacionAntihoraria >= 0
       ? rotacionAntihoraria % (Math.PI * 2) : (Math.PI * 2) + (rotacionAntihoraria % (Math.PI * 2));
     const radianes = (rotacionPositiva) % (Math.PI * 2);
-    console.log(this.displayWidth);
-    console.log(this.displayHeight);
     const posRelativaX = (this.displayWidth / 2 + 50) * Math.sin(radianes);
     const posRelativaY = (this.displayHeight / 2 + 50) * Math.cos(radianes);
 
@@ -205,6 +203,13 @@ export class GOPatrulla extends GOVehiculo {
     const combustibleActual = this.getData('combustibleActual');
     if (this.getData('combustibleMaximo') > combustibleActual) {
       this.setData('combustibleActual', combustibleActual + cantidad);
+      if (this.getData('sendToServer')) {
+        server.enviar(server.EVENTOS.COMBUSTIBLE, {
+          nick: this.getData('nick'),
+          id: this.getVehiculo().id,
+          combustible: combustibleActual + cantidad,
+        });
+      }
     }
   }
 

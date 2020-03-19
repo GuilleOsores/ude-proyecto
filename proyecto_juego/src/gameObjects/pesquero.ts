@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import * as Phaser from 'phaser';
 import * as moment from 'moment';
+import * as server from '../server';
 
 
 import { GOVehiculo } from './vehiculo';
@@ -51,6 +52,11 @@ export class GOPesquero extends GOVehiculo {
         this.scene.events.emit('countfish', this.cantPesca);
         this.cantPesca = 0;
         this.pasoMilla = false;
+        server.enviar(server.EVENTOS.PESCA_BARCO, {
+          nick: this.getData('nick'),
+          id: this.getVehiculo().id,
+          pescados: 0,
+        });
       }
     }
 
@@ -64,6 +70,13 @@ export class GOPesquero extends GOVehiculo {
         const pescado = `\n Barco ${this.getData('id')} pescado:${this.cantPesca} \n`;
         this.txtPesco.text = pescado;
         this.pasoMilla = true;
+        if (this.getData('sendToServer')) {
+          server.enviar(server.EVENTOS.PESCA_BARCO, {
+            nick: this.getData('nick'),
+            id: this.getVehiculo().id,
+            pescados: this.cantPesca,
+          });
+        }
       }
 
       this.scene.events.on('inicioTormenta', () => {

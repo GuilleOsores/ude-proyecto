@@ -8,6 +8,9 @@ export const EVENTOS = {
   INICIAR_PARTIDA: 'iniciarPartida',
   PAUSAR: 'p',
   DESPERTAR: 'des',
+  PESCA_JUGADOR: 'pj',
+  PESCA_BARCO: 'pb',
+  COMBUSTIBLE: 'c',
 };
 
 const eventos = Object.values(EVENTOS).reduce(
@@ -19,18 +22,18 @@ const eventos = Object.values(EVENTOS).reduce(
   {},
 );
 
-let ws:WebSocket = null;
+let ws: WebSocket = null;
 
 export const addhandler = (event, handler) => { eventos[event].add(handler); };
 
 export async function startWebSocket() {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     ws = new WebSocket(config.endpoint.ws());
-    ws.onopen = function () {
+    ws.onopen = () => {
       console.log('connected!');
       resolve();
     };
-    ws.onmessage = function (msg) {
+    ws.onmessage = (msg) => {
       try {
         const data = JSON.parse(msg.data);
         eventos[data.evento].forEach((h) => h(data));
@@ -38,7 +41,7 @@ export async function startWebSocket() {
         console.log(e);
       }
     };
-    ws.onclose = function () {
+    ws.onclose = () => {
       console.log('failed!');
       resolve(startWebSocket());
     };
@@ -49,7 +52,8 @@ export const enviar = (evento, data) => {
   try {
     ws.send(JSON.stringify({ evento, ...data }));
   } catch (e) {
-    console.log('ws error (si no queres que te joda éste mensaje y no queres ' + 'conectarlo con el server, comentá el send de arriba): ', e);
+    console.log('ws error (si no queres que te joda éste mensaje y no queres '
+    + 'conectarlo con el server, comentá el send de arriba): ', e);
   }
 };
 
