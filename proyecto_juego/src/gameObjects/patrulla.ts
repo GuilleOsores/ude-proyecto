@@ -119,13 +119,14 @@ export class GOPatrulla extends GOVehiculo {
         this.hayTormenta = false;
       }
     });
-
-    const maximo = this.getData('combustibleMaximo');
-    const porcentajeUno = maximo / 100;
-    const porcentajeComb = this.getData('combustibleActual') / porcentajeUno;
-    const mostrar = `${porcentajeComb.toFixed(1)}%`;
-    this.bateria.setText(mostrar);
-    this.bateria.setPosition(this.x, this.y);
+    if (this.getData('nick') === this.getData('jugadorLocal').nick){
+      const maximo = this.getData('combustibleMaximo');
+      const porcentajeUno = maximo / 100;
+      const porcentajeComb = this.getData('combustibleActual') / porcentajeUno;
+      const mostrar = `${porcentajeComb.toFixed(1)}%`;
+      this.bateria.setText(mostrar);
+      this.bateria.setPosition(this.x, this.y);
+    }
   }
 
   keyboardHandler = (event: KeyboardEvent) => {
