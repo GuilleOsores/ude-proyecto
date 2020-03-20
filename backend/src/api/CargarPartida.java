@@ -37,6 +37,7 @@ public class CargarPartida extends HttpServlet {
 			
 			fachada.cargarPartida(nickName, bando);
 			
+			
 //			int tiempoPartida = fachada.getTiempoPartida();
 //			
 //			Tormentas tormentas= new Tormentas();
