@@ -16,9 +16,9 @@ export class GOPatrulla extends GOVehiculo {
 
   barcosAuxiliares: Dron[] = [];
 
-  armasHabilitadas: Boolean = true;
+  armasHabilitadas: Boolean;
 
-  hayTormenta: Boolean
+  hayTormenta: Boolean;
 
   private bateria: Phaser.GameObjects.Text;
 
@@ -79,7 +79,7 @@ export class GOPatrulla extends GOVehiculo {
       this.scene.sound.play(data.arma.sonido);
     } else {
       // eslint-disable-next-line no-new
-      new Dron(
+      const d = new Dron(
         this.scene,
         data.x,
         data.y,
@@ -89,6 +89,7 @@ export class GOPatrulla extends GOVehiculo {
         this.rotation,
         this,
       );
+      this.barcosAuxiliares[data.arma.id] = d;
     }
   }
 
@@ -119,7 +120,7 @@ export class GOPatrulla extends GOVehiculo {
         this.hayTormenta = false;
       }
     });
-    if (this.getData('nick') === this.getData('jugadorLocal').nick){
+    if (this.getData('nick') === this.getData('jugadorLocal').nick) {
       const maximo = this.getData('combustibleMaximo');
       const porcentajeUno = maximo / 100;
       const porcentajeComb = this.getData('combustibleActual') / porcentajeUno;
