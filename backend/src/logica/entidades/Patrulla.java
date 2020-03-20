@@ -39,7 +39,7 @@ public class Patrulla extends Vehiculo {
 			} else if (tipoPatrulla.equals("chica")) {
 
 				prefijoProperties = "pat2_";
-				this.setSpritesLaterales("{\"l\": \"policia2\",\"r\": \"policia2\",\"u\": \"policia2\",\"d\": \"policia2\"}");			
+				this.setSpritesLaterales("{\"l\": \"policia02_izquierda\",\"r\": \"policia02_derecha\",\"u\": \"policia02_atras\",\"d\": \"policia02_frente\"}");			
 			
 			}
 			
@@ -110,7 +110,7 @@ public class Patrulla extends Vehiculo {
 				
 			} else if (tipoPatrulla.equals("chica")) {
 				prefijoProperties = "pat2_";
-				this.setSpritesLaterales("{\"l\": \"policia2\",\"r\": \"policia2\",\"u\": \"policia2\",\"d\": \"policia2\"}");
+				this.setSpritesLaterales("{\"l\": \"policia02_izquierda\",\"r\": \"policia02_derecha\",\"u\": \"policia02_atras\",\"d\": \"policia02_frente\"}");
 				this.setInitialRotation(rotation2);
 				
 				Arma ametralladora = new Arma(2, (float)400, (float)25, (float)0.5, "ametralladora", "bala", (float)0.03, "disparo", (float)0.4, 0, 0, "");
