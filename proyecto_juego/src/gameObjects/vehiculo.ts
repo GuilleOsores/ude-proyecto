@@ -52,17 +52,19 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
     return (<Phaser.Physics.Matter.Sprite> (<any> this));
   }
 
+  changeBoatHandler = (id) => {
+    if (this.getData('id') === id) {
+      this.setData('selected', true);
+    } else {
+      this.setData('selected', false);
+      this.getMatterSprite().setVelocity(0, 0);
+    }
+  }
+
   public create() {
     if (this.getData('canBeSelected')) {
       this.setInteractive();
-      this.scene.events.on('changeBoat', (id) => {
-        if (this.getData('id') === id) {
-          this.setData('selected', true);
-        } else {
-          this.setData('selected', false);
-          this.getMatterSprite().setVelocity(0, 0);
-        }
-      });
+      this.scene.events.on('changeBoat', this.changeBoatHandler);
     }
     this.setRotation(Phaser.Math.DegToRad(this.getData('initialRotation')));
   }
@@ -165,12 +167,16 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
   public getVision = () => this.vision;
 
   public destroy() {
-    if (this.getData('selected') && this.scene && this.scene.cameras && this.scene.cameras.main) {
-      this.scene.cameras.main.stopFollow();
-    }
     this.vision.destroy();
     this.spriteLateral.destroy();
-    super.destroy();
+    try {
+      if (this.scene) this.scene.events.removeListener('changeBoat', this.changeBoatHandler);
+      if (this.getData('selected') && this.scene && this.scene.cameras && this.scene.cameras.main) {
+        this.scene.cameras.main.stopFollow();
+      }
+    } finally {
+      super.destroy();
+    }
   }
 
   getVehiculo = () => this.vehiculo;

@@ -29,7 +29,7 @@ export class GOPatrulla extends GOVehiculo {
     if (vehicle.sprite === 'policia1') this.setScale(0.6);
 
     if (vehicle.armas && vehicle.armas.length) {
-      this.scene.input.on(Phaser.Input.Events.POINTER_DOWN, this.dispararHandle);
+      // this.scene.input.on(Phaser.Input.Events.POINTER_DOWN, this.dispararHandle);
       this.scene.input.keyboard.on('keydown', this.keyboardHandler);
     }
     server.addhandler(server.EVENTOS.DISPARO, this.disparoHandler);
@@ -106,26 +106,30 @@ export class GOPatrulla extends GOVehiculo {
     }
     super.preUpdate(timeElapsed, timeLastUpdate);
 
-    this.scene.events.on('inicioTormenta', () => {
-      if (this.getData('sprite') === 'policia2') {
-        // console.log('deshabilito policia chico');
-        this.hayTormenta = true;
-      }
-    });
+    this.scene.events.on('inicioTormenta', this.inicioTormentaHandler);
 
-    this.scene.events.on('finTormenta', () => {
-      if (this.getData('sprite') === 'policia2') {
-        // console.log('habilito policia chico');
-        this.hayTormenta = false;
-      }
-    });
-    if (this.getData('nick') === this.getData('jugadorLocal').nick){
+    this.scene.events.on('finTormenta', this.finTormentaHandler);
+    if (this.getData('nick') === this.getData('jugadorLocal').nick) {
       const maximo = this.getData('combustibleMaximo');
       const porcentajeUno = maximo / 100;
       const porcentajeComb = this.getData('combustibleActual') / porcentajeUno;
       const mostrar = `${porcentajeComb.toFixed(1)}%`;
       this.bateria.setText(mostrar);
       this.bateria.setPosition(this.x, this.y);
+    }
+  }
+
+  inicioTormentaHandler = () => {
+    if (this.getData('sprite') === 'policia2') {
+      // console.log('deshabilito policia chico');
+      this.hayTormenta = true;
+    }
+  }
+
+  finTormentaHandler = () => {
+    if (this.getData('sprite') === 'policia2') {
+      // console.log('habilito policia chico');
+      this.hayTormenta = false;
     }
   }
 
@@ -238,5 +242,16 @@ export class GOPatrulla extends GOVehiculo {
         onComplete: () => { this.yendoAlMuelle = false; },
       }),
     });
+  }
+
+  destroy() {
+    if (this.scene) {
+      this.scene.input.removeListener(Phaser.Input.Events.POINTER_DOWN, this.dispararHandle);
+      this.scene.input.keyboard.removeListener('keydown', this.keyboardHandler);
+      this.scene.matter.world.removeListener('collisionstart', this.collisionHandler);
+      this.scene.events.removeListener('inicioTormenta', this.inicioTormentaHandler);
+      this.scene.events.removeListener('finTormenta', this.finTormentaHandler);
+    }
+    super.destroy();
   }
 }

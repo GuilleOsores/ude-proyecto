@@ -24,7 +24,9 @@ export class Disparo extends Phaser.GameObjects.Sprite {
     this.setRotation(rotacion);
     this.setScale(this.arma.escala);
 
-    this.scene.matter.world.on('collisionstart', this.collisionHandler);
+    this.scene.matter.world.on(
+      Phaser.Physics.Matter.Events.COLLISION_START, this.collisionHandler,
+    );
     this.scene.cameras.getCamera('camaraLateral').ignore(this);
   }
 
@@ -46,7 +48,9 @@ export class Disparo extends Phaser.GameObjects.Sprite {
   }
 
   public destroy() {
-    this.scene.matter.world.removeListener('collisionstart', this.collisionHandler);
+    this.scene.matter.world.removeListener(
+      Phaser.Physics.Matter.Events.COLLISION_START, this.collisionHandler,
+    );
     super.destroy();
   }
 

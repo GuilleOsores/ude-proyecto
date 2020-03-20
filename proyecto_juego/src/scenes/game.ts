@@ -43,6 +43,15 @@ export class Game extends Phaser.Scene {
   }
 
   public init(data: any) {
+    // if (this.sceneConfig) {
+    //   console.log('hay cosas');
+    //   console.log(this.sceneConfig);
+    //   console.log(this.children);
+    // } else {
+    //   console.log('Noooo hay cosas');
+    //   console.log(data);
+    //   console.log(this.children);
+    // }
     this.sceneConfig = data;
     this.jugadorLocal.nick = data.nick;
     this.jugadorRemoto.nick = this.sceneConfig.jugadores.find((j) => j.nick !== data.nick).nick;
