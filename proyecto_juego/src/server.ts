@@ -13,20 +13,27 @@ export const EVENTOS = {
   COMBUSTIBLE: 'c',
 };
 
-const eventos = Object.values(EVENTOS).reduce(
-  (p: any, c: any) => {
-    // eslint-disable-next-line no-param-reassign
-    p[c] = new Set();
-    return p;
-  },
-  {},
-);
-
 let ws: WebSocket = null;
+let eventos;
+let autoReconectar = true;
+
+const inicializarListeners = () => {
+  eventos = Object.values(EVENTOS).reduce(
+    (p: any, c: any) => {
+    // eslint-disable-next-line no-param-reassign
+      p[c] = new Set();
+      return p;
+    },
+    {},
+  );
+};
+
+inicializarListeners();
 
 export const addhandler = (event, handler) => { eventos[event].add(handler); };
 
 export async function startWebSocket() {
+  autoReconectar = true;
   return new Promise((resolve) => {
     ws = new WebSocket(config.endpoint.ws());
     ws.onopen = () => {
@@ -38,15 +45,22 @@ export async function startWebSocket() {
         const data = JSON.parse(msg.data);
         eventos[data.evento].forEach((h) => h(data));
       } catch (e) {
-        console.log(e);
+        console.log(msg, e);
       }
     };
     ws.onclose = () => {
       console.log('failed!');
-      resolve(startWebSocket());
+      if (autoReconectar) {
+        resolve(startWebSocket());
+      }
     };
   });
 }
+
+export const desconectarWs = () => {
+  autoReconectar = false;
+  ws.close();
+};
 
 export const enviar = (evento, data) => {
   try {
@@ -61,3 +75,5 @@ export const guardarPartida = () => axios(config.endpoint.guardarPartida());
 export const crearPartida = (nick, bando) => axios(config.endpoint.crearPartida(nick, bando));
 export const unirsePartida = (nick) => axios(config.endpoint.unirsePartida(nick));
 export const getPartida = () => axios(config.endpoint.getPartida());
+export const finalizarPartida = () => axios(config.endpoint.finalizarPartida());
+export const removerListeners = inicializarListeners;

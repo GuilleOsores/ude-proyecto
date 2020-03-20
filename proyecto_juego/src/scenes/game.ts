@@ -368,6 +368,12 @@ export class Game extends Phaser.Scene {
   }
 
   finalizar(ganador) {
+    // this.events.destroy();
+    // this.registry.destroy();
+    // this.events.removeAllListeners();
+    // this.cache.destroy();
+    // this.scene.stop();
+    // this.scene.restart();
     this.scene.start('Resultado', { jugadorLocalNick: this.jugadorLocal.nick, ganador });
   }
 }

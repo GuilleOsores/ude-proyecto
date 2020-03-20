@@ -27,7 +27,6 @@ public class ServerWebSocket {
 	@OnOpen
 	public void onOpen(Session session) throws IOException {
 		sesiones.put(session.getId(), session);		
-		session.getBasicRemote().sendText("Sesion: " + session.getId());
 		
 		System.out.println("Conexion abierta id: " + session.getId());
 		System.out.println("Cant. sesiones: " + sesiones.size());
