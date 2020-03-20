@@ -34,7 +34,12 @@ public class CargarPartida extends HttpServlet {
 			
 			String nickName = request.getParameter("nickName");
 			String bando = request.getParameter("bando");
+
+			fachada.cargarPartida(nickName, bando);
 			
+			json.addProperty("mensaje", "OK");
+			response.setStatus(200);
+
 			if (nickName == null || nickName.isBlank()) {
 				json.addProperty("mensaje", "Debe elegir un nick");
 				response.setStatus(500);

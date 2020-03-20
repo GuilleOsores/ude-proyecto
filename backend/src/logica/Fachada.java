@@ -277,6 +277,9 @@ public class Fachada {
 	
 	public void cargarPartida(String nickCargar, String bandoCargar) throws Exception {
 	
+		this.nickCreadorDePartida = nickCargar;
+		this.bandoCreadorDePartida = bandoCargar;
+		
 		Partida partida = daoPartidas.getPartida();
 		Jugadores jugadoresAux = daoJugadores.getJugadores();
 		
