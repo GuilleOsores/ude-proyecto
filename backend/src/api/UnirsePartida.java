@@ -2,6 +2,7 @@ package api;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,9 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import logica.Fachada;
+import logica.colecciones.Tormentas;
+import logica.entidades.Tormenta;
 
 import com.google.gson.JsonObject;
 
@@ -36,6 +40,29 @@ public class UnirsePartida extends HttpServlet {
 			Fachada fachada = Fachada.getInstanceFachada();
 			try {
 				json = fachada.unirsePartida(nickName);
+				int tiempoPartida = fachada.getTiempoPartida();
+				
+				Tormentas tormentas= new Tormentas();
+				int randomNumTormentas = ThreadLocalRandom.current().nextInt(1, 6);
+				
+				for(int i=0; i<randomNumTormentas; i++) {
+					
+					Tormenta t = new Tormenta();
+					t.setSprite("tormenta");
+					t.setTormentaDuracion(ThreadLocalRandom.current().nextInt(1, 60));
+					t.setTormentaInicio(ThreadLocalRandom.current().nextInt(1, tiempoPartida));
+					
+					tormentas.add(t);
+					
+				}
+				
+				tormentas.removerRepetidas();
+				
+				System.out.println("Tormentas "+ tormentas.size());
+				
+				JsonArray jsonTormentas = tormentas.getTormentasToJson();
+
+				json.add("tormentas", jsonTormentas);
 			} catch (Exception e) {
 				json.addProperty("mensaje", e.getMessage());
 				response.setStatus(500);
