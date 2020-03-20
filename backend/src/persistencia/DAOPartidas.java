@@ -22,6 +22,20 @@ public class DAOPartidas {
 		this.password = password;
 	}
 	
+	public void borrarPartidas() throws SQLException {
+		
+		Connection con = DriverManager.getConnection(url, user, password);
+		
+		String query = "DELETE FROM partidas where id > 0";
+		
+		PreparedStatement pstmt = con.prepareStatement(query);
+
+		pstmt.executeUpdate();
+		
+		pstmt.close();
+		con.close();
+	}
+	
 	public void guardarPartida(Partida p) throws SQLException {
 		
 		Connection con = DriverManager.getConnection(url, user, password);

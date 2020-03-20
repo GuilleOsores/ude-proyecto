@@ -1,6 +1,7 @@
 package logica.entidades;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 import logica.colecciones.Jugadores;
@@ -26,7 +27,10 @@ public class Partida {
 		
 		try {
 			Properties p = new Properties();
-			p.load(new FileInputStream("config/config.properties"));	
+			InputStream input = null;
+			
+			input = getClass().getClassLoader().getResourceAsStream("resources/config.properties");			
+			p.load(input);	
 			
 			this.id = id;
 			this.jugadores = new Jugadores();

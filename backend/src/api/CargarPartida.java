@@ -32,27 +32,35 @@ public class CargarPartida extends HttpServlet {
 		
 		try {
 			
-			json = fachada.cargarPartida();
-			int tiempoPartida = fachada.getTiempoPartida();
+			String nickName = request.getParameter("nickName");
+			String bando = request.getParameter("bando");
 			
-			Tormentas tormentas= new Tormentas();
-			int randomNumTormentas = ThreadLocalRandom.current().nextInt(1, 6);
-			for(int i=0; i<randomNumTormentas; i++) {
-				
-				Tormenta t = new Tormenta();
-				t.setSprite("tormenta");
-				t.setTormentaDuracion(ThreadLocalRandom.current().nextInt(1, 60));
-				t.setTormentaInicio(ThreadLocalRandom.current().nextInt(1, tiempoPartida));
-				
-				tormentas.add(t);
-			}
+			fachada.cargarPartida(nickName, bando);
 			
-			tormentas.removerRepetidas();
+//			int tiempoPartida = fachada.getTiempoPartida();
+//			
+//			Tormentas tormentas= new Tormentas();
+//			int randomNumTormentas = ThreadLocalRandom.current().nextInt(1, 6);
+//			for(int i=0; i<randomNumTormentas; i++) {
+//				
+//				Tormenta t = new Tormenta();
+//				t.setSprite("tormenta");
+//				t.setTormentaDuracion(ThreadLocalRandom.current().nextInt(1, 60));
+//				t.setTormentaInicio(ThreadLocalRandom.current().nextInt(1, tiempoPartida));
+//				
+//				tormentas.add(t);
+//			}
+//			
+//			tormentas.removerRepetidas();
+//			
+//			JsonArray jsonTormentas = tormentas.getTormentasToJson();
+//
+//			json.add("tormentas", jsonTormentas);
 			
-			JsonArray jsonTormentas = tormentas.getTormentasToJson();
-
-			json.add("tormentas", jsonTormentas);
+			json.addProperty("mensaje", "OK");
+			response.setStatus(200);
 		} catch (Exception e) {
+			e.printStackTrace();
 			json.addProperty("mensaje", e.getMessage());
 			response.setStatus(500);
 		}

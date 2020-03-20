@@ -28,7 +28,6 @@ public class GetPartida extends HttpServlet {
 	
     public GetPartida() {
         super();
-
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -73,6 +72,4 @@ public class GetPartida extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.print(json);
 	}
-	
-	
 }
