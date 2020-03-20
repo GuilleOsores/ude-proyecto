@@ -24,7 +24,6 @@ export class GOPatrulla extends GOVehiculo {
 
   constructor(scene: Phaser.Scene, vehicle: Patrulla, data: any) {
     super(scene, vehicle, data);
-    this.setData('combustibleActual', data.combustibleMaximo);
 
     if (vehicle.sprite === 'policia1') this.setScale(0.6);
 
