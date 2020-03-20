@@ -52,6 +52,7 @@ public class Pesquero extends Vehiculo {
 			this.setVelocidadAngular(Integer.parseInt(p.getProperty(prefijoProperties + "angularVelocity")));
 			this.setSpriteVivo(p.getProperty(prefijoProperties + "sprite"));
 			this.setInitialRotation(initialRotation);
+			this.setRangoVision(Float.parseFloat(p.getProperty(prefijoProperties + "rangoVision")));
 
 			this.vida = vida;
 			this.horaPesca = p.getProperty(prefijoProperties + "horaPesca");
@@ -59,6 +60,8 @@ public class Pesquero extends Vehiculo {
 			this.tiempoPesca = Integer.parseInt(p.getProperty(prefijoProperties + "tiempoPesca"));
 			this.tipoPesquero = tipoPesquero;
 			this.restoPesca = Integer.parseInt(p.getProperty(prefijoProperties + "restoPesca"));
+			
+			this.setRangoVision(Float.parseFloat(p.getProperty(prefijoProperties + "rangoVision")));
 			
 		} catch (Exception e) {
 			System.out.println("Exception creando pesquero (BD)");
@@ -68,13 +71,20 @@ public class Pesquero extends Vehiculo {
 
 	// Constructor para usar cuando se crea partida
 	public Pesquero(String tipoPesquero) {
-				
-		try {
-			Properties p = new Properties();
-			InputStream input = null;
-			
+		Properties p = new Properties();
+		InputStream input = null;
+						
+		try {			
 			input = getClass().getClassLoader().getResourceAsStream("resources/config.properties");			
 			p.load(input);
+			
+			int width = Integer.parseInt(p.getProperty("width"));
+			int height = Integer.parseInt(p.getProperty("height"));
+			int millaLimite = Integer.parseInt(p.getProperty("millaLimite"));
+			int x = (int) (Math.random() * width);
+			int y = (int) (Math.random() * millaLimite);
+			int rotation1 = (int) (Math.random() * 180);
+			int rotation2 = (int) (Math.random() * 180);
 			
 			String prefijoProperties = "";
 			
@@ -82,22 +92,26 @@ public class Pesquero extends Vehiculo {
 				
 				prefijoProperties = "pes1_";
 				this.setSpritesLaterales("{\"l\": \"pesquero1\",\"r\": \"pesquero1\",\"u\": \"pesquero1\",\"d\": \"pesquero1\"}");
+				this.setInitialRotation(rotation1);
 				
 			} else if (tipoPesquero.equals("comun")) {
 
 				prefijoProperties = "pes2_";
 				this.setSpritesLaterales("{\"l\": \"pesquero2\",\"r\": \"pesquero2\",\"u\": \"pesquero2\",\"d\": \"pesquero2\"}");			
-			
+				this.setInitialRotation(rotation2);
 			}
 			
 			this.setId(Integer.parseInt(p.getProperty(prefijoProperties + "id"))); 
-			this.setX(Integer.parseInt(p.getProperty(prefijoProperties + "x")));
-			this.setY(Integer.parseInt(p.getProperty(prefijoProperties + "y")));
+			//this.setX(Integer.parseInt(p.getProperty(prefijoProperties + "x")));		
+			//this.setY(Integer.parseInt(p.getProperty(prefijoProperties + "y")));
+			this.setX(x);
+			this.setY(y);
 			this.setVelocidad(Float.parseFloat(p.getProperty(prefijoProperties + "initialRotation"))); 
 			this.setVelocidad(Float.parseFloat(p.getProperty(prefijoProperties + "velocity")));
 			this.setVelocidadAngular(Integer.parseInt(p.getProperty(prefijoProperties + "angularVelocity")));
 			this.setSpriteVivo(p.getProperty(prefijoProperties + "sprite"));
-			this.setInitialRotation(Integer.parseInt(p.getProperty(prefijoProperties + "initialRotation")));
+			//this.setInitialRotation(Integer.parseInt(p.getProperty(prefijoProperties + "initialRotation")));
+			this.setRangoVision(Float.parseFloat(p.getProperty(prefijoProperties + "rangoVision")));
 
 			this.vida = Integer.parseInt(p.getProperty(prefijoProperties + "vida"));
 			this.horaPesca = p.getProperty(prefijoProperties + "horaPesca");
@@ -106,6 +120,8 @@ public class Pesquero extends Vehiculo {
 			this.setTipo(p.getProperty(prefijoProperties + "tipo"));
 			this.tipoPesquero = tipoPesquero;
 			this.restoPesca = Integer.parseInt(p.getProperty(prefijoProperties + "restoPesca"));
+			
+			this.setRangoVision(Float.parseFloat(p.getProperty(prefijoProperties + "rangoVision")));
 			
 		} catch (Exception e) {
 			System.out.println("Excepcion creando pesquero (Properties)");

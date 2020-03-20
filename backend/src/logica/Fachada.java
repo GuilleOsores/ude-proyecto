@@ -133,7 +133,7 @@ public class Fachada {
 			
 		} else if (partida.getJugadores().cantidadDeJugadores() == 2) {
 			
-			throw new Exception("La partida est� completa.");
+			throw new Exception("La partida esta completa.");
 			
 		} else {
 			
@@ -180,6 +180,7 @@ public class Fachada {
 			json.addProperty("height", partida.getTamanioEscenarioY());
 			json.addProperty("millaLimite", partida.getMillasPesca());
 			json.addProperty("time", partida.getTiempo());
+			json.addProperty("cantPeces", partida.getCantPeces());
 			json.addProperty("fishFished", partida.getFishFished());
 			json.addProperty("time", partida.getTiempo());
 			
@@ -220,6 +221,28 @@ public class Fachada {
 		this.partida.getJugadores().get(nickJugador).getVehiculos().get(idVehiculo).setX(x);
 		this.partida.getJugadores().get(nickJugador).getVehiculos().get(idVehiculo).setX(y);
 		this.partida.getJugadores().get(nickJugador).getVehiculos().get(idVehiculo).setInitialRotation(rotacion);
+	}
+	
+	public void setCombustiblePatrulla(String nickJugador, int idVehiculo, float combustibleActual) {
+		
+		if (this.partida.getJugadores().get(nickJugador).getVehiculos().get(idVehiculo) instanceof Patrulla){
+			((Patrulla)(this.partida.getJugadores().get(nickJugador).getVehiculos().get(idVehiculo))).setCombustible(combustibleActual);
+		}
+		
+	}
+	
+	public void setPescaPesquero(String nickJugador, int idVehiculo, int cantPesca) {
+		
+		if (this.partida.getJugadores().get(nickJugador).getVehiculos().get(idVehiculo) instanceof Pesquero){
+			((Pesquero)(this.partida.getJugadores().get(nickJugador).getVehiculos().get(idVehiculo))).setCantPesca(cantPesca);
+		}
+		
+	}
+	
+	public void setPescaPartida(int cantPescado) {
+		
+		this.partida.setFishFished(cantPescado);
+		
 	}
 	
 	// Guarda la instancia de la partida en la BD (Jugadores, Barcos y Partida)

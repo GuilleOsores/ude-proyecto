@@ -14,6 +14,7 @@ public abstract class Vehiculo {
 	private String spriteVivo;
 	private String spritesLaterales;
 	private float initialRotation;
+	private float rangoVision;
 	
 	public Vehiculo() {
 		
@@ -101,6 +102,14 @@ public abstract class Vehiculo {
 
 	public void setInitialRotation(float initialRotation) {
 		this.initialRotation = initialRotation;
+	}
+
+	public float getRangoVision() {
+		return rangoVision;
+	}
+
+	public void setRangoVision(float rangoVision) {
+		this.rangoVision = rangoVision;
 	}	
 		
 }

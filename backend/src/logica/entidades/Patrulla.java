@@ -9,6 +9,7 @@ import java.io.InputStream;
 public class Patrulla extends Vehiculo {
 	
 	private float combustible;
+	private float combustibleMaximo;
 	private Armas armas;
 	
 	private String tipoPatrulla;
@@ -51,10 +52,16 @@ public class Patrulla extends Vehiculo {
 			this.setSpriteVivo(p.getProperty(prefijoProperties + "sprite"));
 			this.setInitialRotation(initialRotation);
 			
+			this.setRangoVision(Float.parseFloat(p.getProperty(prefijoProperties + "rangoVision")));
+			
 			this.combustible = combustible;
+			this.combustibleMaximo = Integer.parseInt(p.getProperty(prefijoProperties + "combustibleMaximo"));
+			
 			this.armas = new Armas();
 			this.tipoPatrulla = tipoPatrulla;
 			this.gastoCombustible = Integer.parseInt(p.getProperty(prefijoProperties + "gastoCombustible"));
+			
+			this.setRangoVision(Float.parseFloat(p.getProperty(prefijoProperties + "rangoVision")));
 		
 		} catch (Exception e) {
 			System.out.println("Exception creando patrulla (BD)");
@@ -71,11 +78,21 @@ public class Patrulla extends Vehiculo {
 			input = getClass().getClassLoader().getResourceAsStream("resources/config.properties");			
 			p.load(input);
 			
+			int width = Integer.parseInt(p.getProperty("width"));
+			int height = Integer.parseInt(p.getProperty("height"));
+			int millaLimite = Integer.parseInt(p.getProperty("millaLimite"));
+			int x = (int) (Math.random() * width);
+			int y = (int) (Math.random() * height/2) + millaLimite;
+			int rotation1 = (int) (Math.random() * -360) + 180;
+			int rotation2 = (int) (Math.random() * -360) + 180;
+			
 			String prefijoProperties = "";
 			
 			if (tipoPatrulla.equals("grande")) {
 				prefijoProperties = "pat1_";
 				this.setSpritesLaterales("{\"l\": \"policia1\",\"r\": \"policia1\",\"u\": \"policia1\",\"d\": \"policia1\"}");
+				this.setSpritesLaterales("{\"l\": \"policia01_izquierda\",\"r\": \"policia01_derecha\",\"u\": \"policia01_atras\",\"d\": \"policia01_frente\"}");
+				this.setInitialRotation(rotation1);
 				
 				Arma canion = new Arma(1, (float)800, (float)50, (float)2, "canion", "bala_canion", (float)0.03, "disparo", (float)1, 0, 0, "");
 				Arma ametralladora = new Arma(2, (float)400, (float)25, (float)0.5, "ametralladora", "bala", (float)0.03, "disparo", (float)0.4, 0, 0, "");
@@ -94,6 +111,7 @@ public class Patrulla extends Vehiculo {
 			} else if (tipoPatrulla.equals("chica")) {
 				prefijoProperties = "pat2_";
 				this.setSpritesLaterales("{\"l\": \"policia2\",\"r\": \"policia2\",\"u\": \"policia2\",\"d\": \"policia2\"}");
+				this.setInitialRotation(rotation2);
 				
 				Arma ametralladora = new Arma(2, (float)400, (float)25, (float)0.5, "ametralladora", "bala", (float)0.03, "disparo", (float)0.4, 0, 0, "");
 				
@@ -104,16 +122,20 @@ public class Patrulla extends Vehiculo {
 			}
 					
 			this.setId(Integer.parseInt(p.getProperty(prefijoProperties + "id"))); 
-			this.setX(Integer.parseInt(p.getProperty(prefijoProperties + "x")));
-			this.setY(Integer.parseInt(p.getProperty(prefijoProperties + "y")));
+			//this.setX(Integer.parseInt(p.getProperty(prefijoProperties + "x")));
+			//this.setY(Integer.parseInt(p.getProperty(prefijoProperties + "y")));
+			this.setX(x);
+			this.setY(y);
 			this.setTipo(p.getProperty(prefijoProperties + "tipo"));
 			this.setVelocidad(Float.parseFloat(p.getProperty(prefijoProperties + "initialRotation")));
 			this.setVelocidad(Float.parseFloat(p.getProperty(prefijoProperties + "velocity")));
 			this.setVelocidadAngular(Integer.parseInt(p.getProperty(prefijoProperties + "angularVelocity")));
 			this.setSpriteVivo(p.getProperty(prefijoProperties + "sprite"));
-			this.setInitialRotation(Integer.parseInt(p.getProperty(prefijoProperties + "initialRotation")));
+			//this.setInitialRotation(Integer.parseInt(p.getProperty(prefijoProperties + "initialRotation")));
+			this.setRangoVision(Float.parseFloat(p.getProperty(prefijoProperties + "rangoVision")));
 			
-			this.combustible = Integer.parseInt(p.getProperty(prefijoProperties + "combustibleMaximo"));
+			this.combustible = Float.parseFloat(p.getProperty(prefijoProperties + "combustibleMaximo"));
+			this.combustibleMaximo = Float.parseFloat(p.getProperty(prefijoProperties + "combustibleMaximo"));
 			this.tipoPatrulla = tipoPatrulla;
 			this.gastoCombustible = Integer.parseInt(p.getProperty(prefijoProperties + "gastoCombustible"));
 			
@@ -177,10 +199,18 @@ public class Patrulla extends Vehiculo {
 			String.valueOf(this.getVelocidadAngular()) + ", " + 
 			this.getSpriteVivo() + ", " + 
 			String.valueOf(this.getInitialRotation()) + ", " + 
-			String.valueOf(combustible) + ", " +  
+			String.valueOf(combustible) + ", " + 
 			this.getTipo() + ", " + 
 			tipoPatrulla + ", " + 
 			String.valueOf(gastoCombustible);
+	}
+
+	public float getCombustibleMaximo() {
+		return combustibleMaximo;
+	}
+
+	public void setCombustibleMaximo(float combustibleMaximo) {
+		this.combustibleMaximo = combustibleMaximo;
 	}
 	
 }
