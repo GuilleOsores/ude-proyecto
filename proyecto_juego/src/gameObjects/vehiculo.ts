@@ -34,8 +34,8 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
     scene.add.existing(this);
     this.play(vehicle.sprite);
 
-    this.vision = new Phaser.GameObjects.Sprite(scene, 0, 0, 'vision').setScale(1.5, 1.5);
-    f.gameObject(this.vision, { isSensor: true, circleRadius: this.vision.width / 2 }, true);
+    this.vision = new Phaser.GameObjects.Sprite(scene, 0, 0, 'vision').setScale(vehicle.rangoVision, vehicle.rangoVision);
+    f.gameObject(this.vision, { isSensor: true, circleRadius: this.vision.displayWidth / 2 }, true);
 
     this.setDataEnabled();
     Object.keys(data).forEach((k) => this.setData(k, data[k]));

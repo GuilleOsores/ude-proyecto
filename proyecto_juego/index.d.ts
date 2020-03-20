@@ -1,11 +1,10 @@
 
-
 declare interface SceneConfiguration {
   width: number,
   height: number,
   millaLimite: number,
   time: number,
-  fishFished: number,
+  cantPeces: number,
   jugadores: Jugador[],
   tormentas:Tormenta[]
 }
@@ -31,6 +30,7 @@ declare interface Vehiculo {
   angularVelocity: number,
   normalSprite: string,
   normalAnimation: string,
+  rangoVision: number,
   tipo: string,
   spriteLateralInicial: string,
   spritesLaterales: {
