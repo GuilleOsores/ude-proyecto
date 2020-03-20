@@ -9,5 +9,6 @@ export const endpoint = {
   guardarPartida: () => `${BACKEND_BASE_URL}/guardarpartida`,
   listarPartidas: () => `${BACKEND_BASE_URL}/listarpartidas`,
   cargarPartida: () => `${BACKEND_BASE_URL}/cargarpartida`,
+  finalizarPartida: () => `${BACKEND_BASE_URL}/finalizarpartida`,
   ws: () => BACKEND_WS,
 };
