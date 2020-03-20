@@ -1,11 +1,10 @@
 
-
 declare interface SceneConfiguration {
   width: number,
   height: number,
   millaLimite: number,
   time: number,
-  fishFished: number,
+  cantPeces: number,
   jugadores: Jugador[],
   tormentas:Tormenta[]
 }

@@ -257,7 +257,7 @@ export class Game extends Phaser.Scene {
       server.enviar(server.EVENTOS.PESCA_JUGADOR, {
         nick: this.jugadorLocal.nick, pescados: this.jugadorLocal.pescados,
       });
-      if (this.jugadorLocal.pescados >= 100) { // parametrizar esto
+      if (this.jugadorLocal.pescados >= this.sceneConfig.cantPeces) { // parametrizar esto
         server.enviar(server.EVENTOS.FINALIZAR, { ganador: this.jugadorLocal.nick });
         this.finalizar(this.jugadorLocal.nick);
       }
