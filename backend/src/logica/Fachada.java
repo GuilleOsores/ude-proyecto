@@ -133,8 +133,22 @@ public class Fachada {
 			
 		} else if (partida.getJugadores().cantidadDeJugadores() == 2) {
 			
-			throw new Exception("La partida esta completa.");
-			
+			if(partida.getJugadores().jugadoresToList().get(0).getNick().equals("") || partida.getJugadores().jugadoresToList().get(1).getNick().equals("")) {
+				Jugadores jugadores = partida.getJugadores();
+				Jugador j1 = new Jugador(1, nickCreadorDePartida, bandoCreadorDePartida, jugadores.get(nickCreadorDePartida).getVehiculos(), 0);
+				Jugador j2 = new Jugador(2, nickName, bandoCreadorDePartida == "PESQUERO" ? "PATRULLA" : "PESQUERO", jugadores.get("").getVehiculos(), 0);
+				
+				Jugadores jugadoresNuevos = new Jugadores();
+				jugadoresNuevos.put(j1);
+				jugadoresNuevos.put(j2);
+				
+				partida.setJugadores(jugadoresNuevos);
+				
+				json.addProperty("mensaje", "OK");
+			} else {
+				throw new Exception("La partida esta completa.");
+			}
+					
 		} else {
 			
 			Vehiculo v1 = null, v2 = null;
@@ -164,6 +178,7 @@ public class Fachada {
 			Jugador jugador2 = new Jugador(2, nickName, bandoUnirse, vehiculos, 0);			
 			
 			Jugadores jugadores = partida.getJugadores();
+		
 			jugadores.put(jugador2);
 			
 			partida.setJugadores(jugadores);
