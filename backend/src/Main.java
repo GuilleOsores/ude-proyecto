@@ -34,7 +34,9 @@ public class Main {
 			
 			Fachada fachada = Fachada.getInstanceFachada();
 			
+			String hola = null;
 			
+			System.out.println(hola.isBlank());
 //			=============PRUEBA GUARDAR PARTIDA COMPLETA===================
 			
 //			Vehiculo v11 = new Patrulla("grande");
