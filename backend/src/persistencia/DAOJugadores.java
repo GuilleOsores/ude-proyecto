@@ -23,9 +23,11 @@ public class DAOJugadores {
 	
 	public void borrarJugadores() throws SQLException {
 		
+		System.out.println("Borro jugadores");
+		
 		Connection con = DriverManager.getConnection(url, user, password);
 		
-		String query = "DELETE FROM jugadores where id > 0";
+		String query = "DELETE FROM jugadores";
 		
 		PreparedStatement pstmt = con.prepareStatement(query);
 

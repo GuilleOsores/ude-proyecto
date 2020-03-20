@@ -60,6 +60,13 @@ export class Disparo extends Phaser.GameObjects.Sprite {
       this.destroy();
     } else if (bodyA.gameObject && bodyB.gameObject
       && (
+        ((bodyA.gameObject.getData && bodyA.gameObject.getData('tipo') === 'patruya') || bodyA.gameObject === this)
+        && ((bodyB.gameObject.getData && bodyB.gameObject.getData('tipo') === 'patruya') || bodyB.gameObject === this)
+      )
+    ) {
+      this.destroy();
+    } else if (bodyA.gameObject && bodyB.gameObject
+      && (
         ((bodyA.gameObject.getData && bodyA.gameObject.getData('tipo') === 'pesquero') || bodyA.gameObject === this)
         && ((bodyB.gameObject.getData && bodyB.gameObject.getData('tipo') === 'pesquero') || bodyB.gameObject === this)
       )

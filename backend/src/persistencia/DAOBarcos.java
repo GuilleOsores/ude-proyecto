@@ -26,9 +26,11 @@ public class DAOBarcos {
 	
 	public void borrarBarcos() throws SQLException {
 		
+		System.out.println("Borro barcos");
+		
 		Connection con = DriverManager.getConnection(url, user, password);
 		
-		String query = "DELETE FROM barcos where id > 0";
+		String query = "DELETE FROM barcos";
 		
 		PreparedStatement pstmt = con.prepareStatement(query);
 
