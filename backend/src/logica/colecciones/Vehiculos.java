@@ -45,10 +45,12 @@ public class Vehiculos {
 				json.addProperty("initialRotation", this.get(vehiculo.getKey()).getInitialRotation());
 				json.addProperty("velocity", this.get(vehiculo.getKey()).getVelocidad());
 				json.addProperty("angularVelocity", this.get(vehiculo.getKey()).getVelocidadAngular());
+				json.addProperty("rangoVision", this.get(vehiculo.getKey()).getRangoVision());
 				
 				if (this.get(vehiculo.getKey()) instanceof Patrulla){
 					json.addProperty("tipo", ((Patrulla) this.get(vehiculo.getKey())).getTipo());
-					json.addProperty("combustibleMaximo", ((Patrulla) this.get(vehiculo.getKey())).getCombustible());
+					json.addProperty("combustibleActual", ((Patrulla) this.get(vehiculo.getKey())).getCombustible());
+					json.addProperty("combustibleMaximo", ((Patrulla) this.get(vehiculo.getKey())).getCombustibleMaximo());
 					json.addProperty("gastoCombustible", ((Patrulla) this.get(vehiculo.getKey())).getGastoCombustible());
 					json.add("armas", ((Patrulla) this.get(vehiculo.getKey())).getArmas().getArmasToJson());
 				}

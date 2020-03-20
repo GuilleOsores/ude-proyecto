@@ -41,6 +41,7 @@ public class ServerWebSocket {
 
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
+
 		//System.out.println("Sesion " + session.getId() + " dice: " + msg);
 				
 		String json = msg;
@@ -54,8 +55,31 @@ public class ServerWebSocket {
 			float x = jsonObject.get("x").getAsFloat();
 			float y = jsonObject.get("y").getAsFloat();
 			float rotacion = jsonObject.get("rotacion").getAsFloat(); 
+	
+			fachada.setPosicionBarco(nickJugador, idVehiculo, x, y, rotacion);	
 			
-			fachada.setPosicionBarco(nickJugador, idVehiculo, x, y, rotacion);				
+		}else if (jsonObject.get("evento").getAsString().equals("c")) {
+			
+			String nickJugador = jsonObject.get("nick").getAsString();
+			int idVehiculo = jsonObject.get("id").getAsInt();
+			float combustibleActual = jsonObject.get("combustible").getAsInt(); 
+			
+			fachada.setCombustiblePatrulla(nickJugador, idVehiculo, combustibleActual);	
+			
+		}else if (jsonObject.get("evento").getAsString().equals("pb")) {
+			
+			String nickJugador = jsonObject.get("nick").getAsString();
+			int idVehiculo = jsonObject.get("id").getAsInt();
+			int cantPesca = jsonObject.get("pescados").getAsInt(); 
+			
+			fachada.setPescaPesquero(nickJugador, idVehiculo, cantPesca);	
+			
+		}else if (jsonObject.get("evento").getAsString().equals("pj")) {
+			
+			//String nickJugador = jsonObject.get("nick").getAsString();
+			int cantPescado = jsonObject.get("pescados").getAsInt(); 
+			
+			fachada.setPescaPartida(cantPescado);				
 		}
 		 
 		
