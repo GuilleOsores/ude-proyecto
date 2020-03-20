@@ -25,6 +25,7 @@ export class Disparo extends Phaser.GameObjects.Sprite {
     this.setScale(this.arma.escala);
 
     this.scene.matter.world.on('collisionstart', this.collisionHandler);
+    this.scene.cameras.getCamera('camaraLateral').ignore(this);
   }
 
   getMatterSprite() {
@@ -54,7 +55,10 @@ export class Disparo extends Phaser.GameObjects.Sprite {
     bodyA: any,
     bodyB: any,
   ) => {
-    if (bodyA.gameObject && bodyB.gameObject
+    // al chocar con el borde del mapa
+    if (bodyA.density === Infinity || bodyB.density === Infinity) {
+      this.destroy();
+    } else if (bodyA.gameObject && bodyB.gameObject
       && (
         ((bodyA.gameObject.getData && bodyA.gameObject.getData('tipo') === 'pesquero') || bodyA.gameObject === this)
         && ((bodyB.gameObject.getData && bodyB.gameObject.getData('tipo') === 'pesquero') || bodyB.gameObject === this)

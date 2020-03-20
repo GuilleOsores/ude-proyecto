@@ -24,6 +24,20 @@ public class DAOBarcos {
 		this.password = password;
 	}
 	
+	public void borrarBarcos() throws SQLException {
+		
+		Connection con = DriverManager.getConnection(url, user, password);
+		
+		String query = "DELETE FROM barcos where id > 0";
+		
+		PreparedStatement pstmt = con.prepareStatement(query);
+
+		pstmt.executeUpdate();
+		
+		pstmt.close();
+		con.close();
+	}
+	
 	public void guardarVehiculo(Vehiculo v, int idJugador) throws SQLException {
 		
 		Connection con = DriverManager.getConnection(url, user, password);
@@ -76,7 +90,7 @@ public class DAOBarcos {
 			String tipoBarco = rs.getString("tipoBarco");
 			float initialRotation = rs.getFloat("initialRotation");
 			
-			if(tipo.equals("patrulla")) {
+			if(tipo.equals("patruya")) {
 				float combustible = rs.getFloat("combustible");		
 				v = new Patrulla(id, posicionX, posicionY, tipo, tipoBarco, initialRotation, combustible);
 			} else {

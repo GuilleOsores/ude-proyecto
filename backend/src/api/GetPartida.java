@@ -28,7 +28,6 @@ public class GetPartida extends HttpServlet {
 	
     public GetPartida() {
         super();
-
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,7 +41,7 @@ public class GetPartida extends HttpServlet {
 			
 			Tormentas tormentas= new Tormentas();
 			int randomNumTormentas = ThreadLocalRandom.current().nextInt(1, 6);
-			System.out.println("Tormentas "+ randomNumTormentas);
+			
 			for(int i=0; i<randomNumTormentas; i++) {
 				
 				Tormenta t = new Tormenta();
@@ -55,6 +54,8 @@ public class GetPartida extends HttpServlet {
 			}
 			
 			tormentas.removerRepetidas();
+			
+			System.out.println("Tormentas "+ tormentas.size());
 			
 			JsonArray jsonTormentas = tormentas.getTormentasToJson();
 
@@ -71,6 +72,4 @@ public class GetPartida extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.print(json);
 	}
-	
-	
 }

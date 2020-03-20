@@ -27,7 +27,6 @@ public class ServerWebSocket {
 	@OnOpen
 	public void onOpen(Session session) throws IOException {
 		sesiones.put(session.getId(), session);		
-		session.getBasicRemote().sendText("Sesion: " + session.getId());
 		
 		System.out.println("Conexion abierta id: " + session.getId());
 		System.out.println("Cant. sesiones: " + sesiones.size());
@@ -42,7 +41,8 @@ public class ServerWebSocket {
 
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
-		System.out.println("Sesion " + session.getId() + " dice: " + msg);
+
+		//System.out.println("Sesion " + session.getId() + " dice: " + msg);
 				
 		String json = msg;
 		JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
@@ -55,7 +55,7 @@ public class ServerWebSocket {
 			float x = jsonObject.get("x").getAsFloat();
 			float y = jsonObject.get("y").getAsFloat();
 			float rotacion = jsonObject.get("rotacion").getAsFloat(); 
-			
+	
 			fachada.setPosicionBarco(nickJugador, idVehiculo, x, y, rotacion);	
 			
 		}else if (jsonObject.get("evento").getAsString().equals("c")) {

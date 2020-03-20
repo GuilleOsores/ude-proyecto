@@ -8,7 +8,6 @@ import { Muelle } from '../gameObjects/muelle';
 import { agregarAgua } from '../gameObjects/agua';
 import * as server from '../server';
 import { GOTormenta } from '../gameObjects/tormenta';
-import * as config from '../config';
 
 export class Game extends Phaser.Scene {
   minimap: Phaser.Cameras.Scene2D.Camera;
@@ -117,6 +116,18 @@ export class Game extends Phaser.Scene {
       frameRate: 20,
       yoyo: false,
       repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'explosion',
+      frames: this.anims.generateFrameNumbers('explosion', {
+        start: 6,
+        end: 11,
+      }),
+      frameRate: 10,
+      yoyo: false,
+      repeat: 1,
+      hideOnComplete: true,
     });
   }
 
@@ -243,6 +254,9 @@ export class Game extends Phaser.Scene {
     this.events.on('countfish', (cantidad) => {
       this.jugadorLocal.pescados += cantidad;
       this.txtPescadoTotal.setText(`Total: ${this.jugadorLocal.pescados}`);
+      server.enviar(server.EVENTOS.PESCA_JUGADOR, {
+        nick: this.jugadorLocal.nick, pescados: this.jugadorLocal.pescados,
+      });
       if (this.jugadorLocal.pescados >= 100) { // parametrizar esto
         server.enviar(server.EVENTOS.FINALIZAR, { ganador: this.jugadorLocal.nick });
         this.finalizar(this.jugadorLocal.nick);
@@ -252,22 +266,20 @@ export class Game extends Phaser.Scene {
     this.tormentas = this.sceneConfig.tormentas;
 
     setInterval(() => {
-      ++this.totalSeconds;
-      let torm=null;
+      this.totalSeconds += 1;
       let i = 0;
       let encontro = false;
       this.tormentaEnTiempo = true;
       while (i < this.tormentas.length && !encontro) {
         const fin = this.tormentas[i].tormentaDuracion + this.tormentas[i].tormentaInicio;
-        if (this.totalSeconds == this.tormentas[i].tormentaInicio) {
-          torm = this.tormentas[i];
+        if (this.totalSeconds === this.tormentas[i].tormentaInicio) {
           encontro = true;
         } else if (this.totalSeconds >= fin) {
           this.tormentaEnTiempo = false;
           this.tormentas.splice(i, 1);
         }
 
-        i++;
+        i += 1;
       }
 
       if (encontro) {
@@ -287,7 +299,6 @@ export class Game extends Phaser.Scene {
   }
 
   pausarEscena = () => {
-    console.log('el otro pauso');
     this.scene.pause();
     this.scene.run('PopUp', {});
   }
@@ -301,7 +312,7 @@ export class Game extends Phaser.Scene {
     this.finalizar(data.ganador);
   };
 
-  public update(timeElapsed: number, timeLastUpdate: number) {
+  public update() {
     this.renderTexture.clear();
     let cantidadVivos = 0;
 
@@ -357,6 +368,12 @@ export class Game extends Phaser.Scene {
   }
 
   finalizar(ganador) {
+    // this.events.destroy();
+    // this.registry.destroy();
+    // this.events.removeAllListeners();
+    // this.cache.destroy();
+    // this.scene.stop();
+    // this.scene.restart();
     this.scene.start('Resultado', { jugadorLocalNick: this.jugadorLocal.nick, ganador });
   }
 }

@@ -18,7 +18,7 @@ export class GOPatrulla extends GOVehiculo {
 
   armasHabilitadas: Boolean;
 
-  hayTormenta: Boolean
+  hayTormenta: Boolean;
 
   private bateria: Phaser.GameObjects.Text;
 
@@ -79,7 +79,7 @@ export class GOPatrulla extends GOVehiculo {
       this.scene.sound.play(data.arma.sonido);
     } else {
       // eslint-disable-next-line no-new
-      new Dron(
+      const d = new Dron(
         this.scene,
         data.x,
         data.y,
@@ -89,6 +89,7 @@ export class GOPatrulla extends GOVehiculo {
         this.rotation,
         this,
       );
+      this.barcosAuxiliares[data.arma.id] = d;
     }
   }
 
@@ -119,13 +120,14 @@ export class GOPatrulla extends GOVehiculo {
         this.hayTormenta = false;
       }
     });
-
-    const maximo = this.getData('combustibleMaximo');
-    const porcentajeUno = maximo / 100;
-    const porcentajeComb = this.getData('combustibleActual') / porcentajeUno;
-    const mostrar = `${porcentajeComb.toFixed(1)}%`;
-    this.bateria.setText(mostrar);
-    this.bateria.setPosition(this.x, this.y);
+    if (this.getData('nick') === this.getData('jugadorLocal').nick) {
+      const maximo = this.getData('combustibleMaximo');
+      const porcentajeUno = maximo / 100;
+      const porcentajeComb = this.getData('combustibleActual') / porcentajeUno;
+      const mostrar = `${porcentajeComb.toFixed(1)}%`;
+      this.bateria.setText(mostrar);
+      this.bateria.setPosition(this.x, this.y);
+    }
   }
 
   keyboardHandler = (event: KeyboardEvent) => {
@@ -136,7 +138,7 @@ export class GOPatrulla extends GOVehiculo {
   }
 
   dispararHandle = (pointer: Phaser.Input.Pointer) => {
-    if (this.getData('selected') && !this.hayTormenta) {
+    if (this.getData('selected') && !this.hayTormenta && this.getData('millaLimite') < this.y) {
       const armas = <Arma[]> this.getData('armas');
       const arma = armas[this.armaSeleccionada];
       if (this.armasHabilitadas && (!this.ultimoDisparo[this.armaSeleccionada] || moment().add(-arma.cadencia, 'seconds').isAfter(moment(this.ultimoDisparo[this.armaSeleccionada])))) {
@@ -152,8 +154,8 @@ export class GOPatrulla extends GOVehiculo {
     const rotacionPositiva = rotacionAntihoraria >= 0
       ? rotacionAntihoraria % (Math.PI * 2) : (Math.PI * 2) + (rotacionAntihoraria % (Math.PI * 2));
     const radianes = (rotacionPositiva) % (Math.PI * 2);
-    const posRelativaX = (this.displayWidth / 2 + 30) * Math.sin(radianes);
-    const posRelativaY = (this.displayHeight / 2 + 30) * Math.cos(radianes);
+    const posRelativaX = (this.displayWidth / 2 + 50) * Math.sin(radianes);
+    const posRelativaY = (this.displayHeight / 2 + 50) * Math.cos(radianes);
 
     if (arma.tipo === 'disparo') {
       // eslint-disable-next-line no-new
@@ -203,6 +205,13 @@ export class GOPatrulla extends GOVehiculo {
     const combustibleActual = this.getData('combustibleActual');
     if (this.getData('combustibleMaximo') > combustibleActual) {
       this.setData('combustibleActual', combustibleActual + cantidad);
+      if (this.getData('sendToServer')) {
+        server.enviar(server.EVENTOS.COMBUSTIBLE, {
+          nick: this.getData('nick'),
+          id: this.getVehiculo().id,
+          combustible: combustibleActual + cantidad,
+        });
+      }
     }
   }
 

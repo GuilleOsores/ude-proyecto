@@ -34,7 +34,7 @@ public class Patrulla extends Vehiculo {
 			if (tipoPatrulla.equals("grande")) {
 				
 				prefijoProperties = "pat1_";
-				this.setSpritesLaterales("{\"l\": \"policia1\",\"r\": \"policia1\",\"u\": \"policia1\",\"d\": \"policia1\"}");
+				this.setSpritesLaterales("{\"l\": \"policia01_izquierda\",\"r\": \"policia01_derecha\",\"u\": \"policia01_atras\",\"d\": \"policia01_frente\"}");
 				
 			} else if (tipoPatrulla.equals("chica")) {
 
@@ -90,7 +90,7 @@ public class Patrulla extends Vehiculo {
 			
 			if (tipoPatrulla.equals("grande")) {
 				prefijoProperties = "pat1_";
-				this.setSpritesLaterales("{\"l\": \"policia1\",\"r\": \"policia1\",\"u\": \"policia1\",\"d\": \"policia1\"}");
+
 				this.setSpritesLaterales("{\"l\": \"policia01_izquierda\",\"r\": \"policia01_derecha\",\"u\": \"policia01_atras\",\"d\": \"policia01_frente\"}");
 				this.setInitialRotation(rotation1);
 				
@@ -134,8 +134,10 @@ public class Patrulla extends Vehiculo {
 			//this.setInitialRotation(Integer.parseInt(p.getProperty(prefijoProperties + "initialRotation")));
 			this.setRangoVision(Float.parseFloat(p.getProperty(prefijoProperties + "rangoVision")));
 			
+
 			this.combustible = Float.parseFloat(p.getProperty(prefijoProperties + "combustibleMaximo"));
 			this.combustibleMaximo = Float.parseFloat(p.getProperty(prefijoProperties + "combustibleMaximo"));
+
 			this.tipoPatrulla = tipoPatrulla;
 			this.gastoCombustible = Integer.parseInt(p.getProperty(prefijoProperties + "gastoCombustible"));
 			

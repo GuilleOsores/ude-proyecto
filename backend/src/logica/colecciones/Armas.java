@@ -42,7 +42,7 @@ public class Armas {
 			
 			json.addProperty("ttl", arma.getTtl());
 			json.addProperty("velocidadAngular", arma.getVelocidadAngular());
-			json.addProperty("velocidadAngular", arma.getPuedeNeutralizar());
+			json.addProperty("puedeNeutralizar", arma.getPuedeNeutralizar());
 			
 			jsonArray.add(json);
 			

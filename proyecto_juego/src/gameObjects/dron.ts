@@ -74,6 +74,7 @@ export class Dron extends Phaser.GameObjects.Sprite {
 
     this.fechaCreacion = moment();
     this.scene.matter.world.on('collisionstart', this.collisionHandler);
+    this.scene.cameras.getCamera('camaraLateral').ignore(this);
   }
 
   preUpdate(timeElapsed: number, timeLastUpdate: number) {
@@ -173,10 +174,12 @@ export class Dron extends Phaser.GameObjects.Sprite {
     if (this.sonido) {
       this.sonido.stop();
     }
+    const d = this.patruya.barcosAuxiliares.find((va) => va === this);
+    if (d) {
+      this.patruya.barcosAuxiliares[d.arma.id] = null;
+    }
+
     this.scene.matter.world.remove(this.collisionHandler);
     super.destroy();
-    this.patruya.barcosAuxiliares[
-      this.patruya.barcosAuxiliares.find((va) => va === this).arma.id
-    ] = null;
   }
 }

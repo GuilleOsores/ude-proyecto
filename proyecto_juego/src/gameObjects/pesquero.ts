@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import * as Phaser from 'phaser';
 import * as moment from 'moment';
+import * as server from '../server';
 
 
 import { GOVehiculo } from './vehiculo';
@@ -34,6 +35,12 @@ export class GOPesquero extends GOVehiculo {
   public preUpdate(timeElapsed: number, timeLastUpdate: number) {
     super.preUpdate(timeElapsed, timeLastUpdate);
     if (this.getData('vida') <= 0) {
+      const explosion = new Phaser.GameObjects.Sprite(this.scene, this.x, this.y, 'explosion').setDepth(900);
+      this.scene.add.existing(explosion);
+      this.scene.cameras.getCamera('camaraLateral').ignore(explosion);
+      this.scene.cameras.getCamera('minimap').ignore(explosion);
+      explosion.play('explosion');
+
       super.destroy();
       return;
     }
@@ -45,6 +52,12 @@ export class GOPesquero extends GOVehiculo {
         this.scene.events.emit('countfish', this.cantPesca);
         this.cantPesca = 0;
         this.pasoMilla = false;
+        this.txtPesco.text = `\n Barco ${this.getData('id')} pescado:0 \n`;
+        server.enviar(server.EVENTOS.PESCA_BARCO, {
+          nick: this.getData('nick'),
+          id: this.getVehiculo().id,
+          pescados: 0,
+        });
       }
     }
 
@@ -58,6 +71,13 @@ export class GOPesquero extends GOVehiculo {
         const pescado = `\n Barco ${this.getData('id')} pescado:${this.cantPesca} \n`;
         this.txtPesco.text = pescado;
         this.pasoMilla = true;
+        if (this.getData('sendToServer')) {
+          server.enviar(server.EVENTOS.PESCA_BARCO, {
+            nick: this.getData('nick'),
+            id: this.getVehiculo().id,
+            pescados: this.cantPesca,
+          });
+        }
       }
 
       this.scene.events.on('inicioTormenta', () => {

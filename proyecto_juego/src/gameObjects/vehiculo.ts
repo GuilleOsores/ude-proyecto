@@ -34,7 +34,7 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
     scene.add.existing(this);
     this.play(vehicle.sprite);
 
-    this.vision = new Phaser.GameObjects.Sprite(scene, 0, 0, 'vision');
+    this.vision = new Phaser.GameObjects.Sprite(scene, 0, 0, 'vision').setScale(1.5, 1.5);
     f.gameObject(this.vision, { isSensor: true, circleRadius: this.vision.width / 2 }, true);
 
     this.setDataEnabled();
@@ -94,7 +94,17 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
     const spriteLateralScale = 0.9 * ratioY;
     this.spriteLateral.setScale(0.1 + spriteLateralScale, 0.1 + spriteLateralScale);
     this.spriteLateral.setDepth(this.y);
-    // FALTA DIBUJAR EL SPRITE SEGUN LA ROTACION
+    // PI / 2 es arriba
+    const rotacion = Math.abs(this.rotation % (Math.PI * 2));
+    if (rotacion >= Math.PI / 4 && rotacion < (Math.PI / 4) * 3) {
+      this.spriteLateral.setTexture(this.vehiculo.spritesLaterales.u);
+    } else if (rotacion >= (Math.PI / 4) * 3 && rotacion < Math.PI + Math.PI / 4) {
+      this.spriteLateral.setTexture(this.vehiculo.spritesLaterales.l);
+    } else if (rotacion >= Math.PI + Math.PI / 4 && rotacion < (Math.PI / 4) * 3 + Math.PI) {
+      this.spriteLateral.setTexture(this.vehiculo.spritesLaterales.d);
+    } else if (rotacion >= (Math.PI / 4) * 3 + Math.PI || rotacion < Math.PI / 4) {
+      this.spriteLateral.setTexture(this.vehiculo.spritesLaterales.r);
+    }
     // fin actualizo el sprite lateral
 
     if (!this.getData('selected')) return;
@@ -112,10 +122,30 @@ export class GOVehiculo extends Phaser.GameObjects.Sprite {
 
     if (cursorKeys.up.isDown) {
       this.getMatterSprite().thrust(this.getData('velocity'));
-      if (this.getData('combustibleActual')) this.setData('combustibleActual', this.getData('combustibleActual') - this.getData('gastoCombustible'));
+      if (this.getData('combustibleActual')) {
+        const combustible = this.getData('combustibleActual') - this.getData('gastoCombustible');
+        this.setData('combustibleActual', combustible);
+        if (this.getData('sendToServer')) {
+          server.enviar(server.EVENTOS.COMBUSTIBLE, {
+            nick: this.getData('nick'),
+            id: this.getVehiculo().id,
+            combustible,
+          });
+        }
+      }
     } else if (cursorKeys.down.isDown) {
       this.getMatterSprite().thrustBack(this.getData('velocity'));
-      if (this.getData('combustibleActual')) this.setData('combustibleActual', this.getData('combustibleActual') - this.getData('gastoCombustible'));
+      if (this.getData('combustibleActual')) {
+        const combustible = this.getData('combustibleActual') - this.getData('gastoCombustible');
+        this.setData('combustibleActual', combustible);
+        if (this.getData('sendToServer')) {
+          server.enviar(server.EVENTOS.COMBUSTIBLE, {
+            nick: this.getData('nick'),
+            id: this.getVehiculo().id,
+            combustible,
+          });
+        }
+      }
     }
 
     if (this.getData('sendToServer')) {

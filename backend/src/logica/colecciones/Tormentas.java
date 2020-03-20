@@ -35,6 +35,9 @@ public class Tormentas {
 	}*/
 	
 	
+	public int size() {
+		return tormentas.size();
+	}
 	
 	public JsonArray getTormentasToJson() {	
 		JsonArray jsonArray = new JsonArray();
@@ -59,8 +62,12 @@ public class Tormentas {
 		ArrayList<Tormenta> remover = new ArrayList();
 		
 		for(int i=0; i<tormentas.size(); i++) {
-			for(int j=0; j<tormentas.size(); j++) {
+			for(int j=i+1; j<tormentas.size(); j++) {
 				if(tormentas.get(i).getTormentaInicio()==tormentas.get(j).getTormentaInicio()) {
+					System.out.println("Inicio i "+ tormentas.get(i).getTormentaInicio());
+					System.out.println("Inicio j "+ tormentas.get(j).getTormentaInicio());
+					remover.add(tormentas.get(i));
+				}else if(tormentas.get(i).getTormentaInicio()+tormentas.get(i).getTormentaDuracion()==tormentas.get(j).getTormentaInicio()){
 					remover.add(tormentas.get(i));
 				}
 			}

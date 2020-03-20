@@ -97,7 +97,7 @@ public class Fachada {
 			vehiculos.put(v1);	
 			vehiculos.put(v2);	
 			
-			Jugador jugador = new Jugador(1, nickName, vehiculos, 0);
+			Jugador jugador = new Jugador(1, nickName, bando, vehiculos, 0);
 			
 			Jugadores jugadores = partida.getJugadores();
 			jugadores.put(jugador);
@@ -139,13 +139,18 @@ public class Fachada {
 			
 			Vehiculo v1 = null, v2 = null;
 			
+			String bandoUnirse = "";
 		
 			if (bandoCreadorDePartida.equals("PESQUERO")) { 	
+				
+				bandoUnirse = "PATRULLA";
 				
 				v1 = new Patrulla("grande");
 				v2 = new Patrulla("chica");	
 				
 			} else {
+				
+				bandoUnirse = "PESQUERO";
 				
 				v1 = new Pesquero("fabrica");
 				v2 = new Pesquero("comun");
@@ -156,7 +161,7 @@ public class Fachada {
 			vehiculos.put(v1);	
 			vehiculos.put(v2);	
 			
-			Jugador jugador2 = new Jugador(2, nickName, vehiculos, 0);			
+			Jugador jugador2 = new Jugador(2, nickName, bandoUnirse, vehiculos, 0);			
 			
 			Jugadores jugadores = partida.getJugadores();
 			jugadores.put(jugador2);
@@ -248,6 +253,10 @@ public class Fachada {
 	// Guarda la instancia de la partida en la BD (Jugadores, Barcos y Partida)
 	public void guardarPartida() throws SQLException {
 		
+		daoPartidas.borrarPartidas();
+		daoBarcos.borrarBarcos();
+		daoJugadores.borrarJugadores();
+		
 		List<Jugador> jugadores = this.partida.getJugadores().jugadoresToList();
 		
 		for(Jugador j : jugadores) {
@@ -266,7 +275,7 @@ public class Fachada {
 		System.out.println("Partida guardada en BD");
 	}
 	
-	public JsonObject cargarPartida() throws Exception {
+	public void cargarPartida(String nickCargar, String bandoCargar) throws Exception {
 	
 		Partida partida = daoPartidas.getPartida();
 		Jugadores jugadoresAux = daoJugadores.getJugadores();
@@ -274,6 +283,15 @@ public class Fachada {
 		Jugadores jugadores = new Jugadores();
 		
 		for(Jugador j : jugadoresAux.jugadoresToList()) {
+			
+			if (j.getBando().equals(bandoCargar)) {
+				j.setBando(bandoCargar);
+				j.setNick(nickCargar);
+			} else {
+				j.setBando("");
+				j.setNick("");
+			}
+			
 			j.setVehiculos(daoBarcos.getVehiculosJugador(j.getId()));
 			jugadores.put(j);
 		}
@@ -281,8 +299,6 @@ public class Fachada {
 		partida.setJugadores(jugadores);
 		
 		this.partida = partida;
-		
-		return getPartida();
 	}
 	
 }
