@@ -1,5 +1,6 @@
-const BACKEND_BASE_URL = 'http://localhost:8080/backend';
-const BACKEND_WS = 'ws://localhost:8080/backend/endpoint';
+const { CONFIG: { HOST } } = <any>window;
+const BACKEND_BASE_URL = `http://${HOST}/backend`;
+const BACKEND_WS = `ws://${HOST}/backend/endpoint`;
 
 export const endpoint = {
   crearPartida: (nickName, bando) => `${BACKEND_BASE_URL}/crearpartida?nickName=${nickName}&bando=${bando}`,
