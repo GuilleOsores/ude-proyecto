@@ -122,8 +122,6 @@ public class Patrulla extends Vehiculo {
 			}
 					
 			this.setId(Integer.parseInt(p.getProperty(prefijoProperties + "id"))); 
-			//this.setX(Integer.parseInt(p.getProperty(prefijoProperties + "x")));
-			//this.setY(Integer.parseInt(p.getProperty(prefijoProperties + "y")));
 			this.setX(x);
 			this.setY(y);
 			this.setTipo(p.getProperty(prefijoProperties + "tipo"));
@@ -131,7 +129,6 @@ public class Patrulla extends Vehiculo {
 			this.setVelocidad(Float.parseFloat(p.getProperty(prefijoProperties + "velocity")));
 			this.setVelocidadAngular(Integer.parseInt(p.getProperty(prefijoProperties + "angularVelocity")));
 			this.setSpriteVivo(p.getProperty(prefijoProperties + "sprite"));
-			//this.setInitialRotation(Integer.parseInt(p.getProperty(prefijoProperties + "initialRotation")));
 			this.setRangoVision(Float.parseFloat(p.getProperty(prefijoProperties + "rangoVision")));
 			
 

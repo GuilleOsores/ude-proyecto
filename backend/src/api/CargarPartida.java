@@ -35,30 +35,18 @@ public class CargarPartida extends HttpServlet {
 			String nickName = request.getParameter("nickName");
 			String bando = request.getParameter("bando");
 			
-			fachada.cargarPartida(nickName, bando);
-			
-//			int tiempoPartida = fachada.getTiempoPartida();
-//			
-//			Tormentas tormentas= new Tormentas();
-//			int randomNumTormentas = ThreadLocalRandom.current().nextInt(1, 6);
-//			for(int i=0; i<randomNumTormentas; i++) {
-//				
-//				Tormenta t = new Tormenta();
-//				t.setSprite("tormenta");
-//				t.setTormentaDuracion(ThreadLocalRandom.current().nextInt(1, 60));
-//				t.setTormentaInicio(ThreadLocalRandom.current().nextInt(1, tiempoPartida));
-//				
-//				tormentas.add(t);
-//			}
-//			
-//			tormentas.removerRepetidas();
-//			
-//			JsonArray jsonTormentas = tormentas.getTormentasToJson();
-//
-//			json.add("tormentas", jsonTormentas);
-			
-			json.addProperty("mensaje", "OK");
-			response.setStatus(200);
+			if (nickName == null || nickName.isBlank()) {
+				json.addProperty("mensaje", "Debe elegir un nick");
+				response.setStatus(500);
+			} else if (bando == null || bando.isBlank()) {
+				json.addProperty("mensaje", "Debe elegir un bando");
+				response.setStatus(500);
+			} else {
+				fachada.cargarPartida(nickName, bando);
+				json.addProperty("mensaje", "OK");
+				response.setStatus(200);
+			}
+						
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.addProperty("mensaje", e.getMessage());

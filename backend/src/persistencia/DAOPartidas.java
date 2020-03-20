@@ -24,9 +24,11 @@ public class DAOPartidas {
 	
 	public void borrarPartidas() throws SQLException {
 		
+		System.out.println("Borro partidas");
+		
 		Connection con = DriverManager.getConnection(url, user, password);
 		
-		String query = "DELETE FROM partidas where id > 0";
+		String query = "DELETE FROM partidas";
 		
 		PreparedStatement pstmt = con.prepareStatement(query);
 
