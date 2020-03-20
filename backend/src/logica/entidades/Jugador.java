@@ -6,6 +6,7 @@ public class Jugador {
 	
 	int id;
 	private String nick;
+	private String bando;
 	private Vehiculos vehiculos;
 	// private WebsocketSession session;
 	private int cantidadPescados;
@@ -14,9 +15,10 @@ public class Jugador {
 		vehiculos = new Vehiculos();
 	}
 	
-	public Jugador(int id, String nick, Vehiculos vehiculos, int cantidadPescados) {
+	public Jugador(int id, String nick, String bando, Vehiculos vehiculos, int cantidadPescados) {
 		this.id = id; 
 		this.nick = nick;
+		this.bando = bando;
 		this.vehiculos = vehiculos;
 		this.cantidadPescados = cantidadPescados;
 	}
@@ -35,6 +37,14 @@ public class Jugador {
 
 	public void setNick(String nick) {
 		this.nick = nick;
+	}
+
+	public String getBando() {
+		return bando;
+	}
+
+	public void setBando(String bando) {
+		this.bando = bando;
 	}
 
 	public Vehiculos getVehiculos() {

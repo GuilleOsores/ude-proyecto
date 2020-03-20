@@ -21,17 +21,32 @@ public class DAOJugadores {
 		this.password = password;
 	}
 	
+	public void borrarJugadores() throws SQLException {
+		
+		Connection con = DriverManager.getConnection(url, user, password);
+		
+		String query = "DELETE FROM jugadores where id > 0";
+		
+		PreparedStatement pstmt = con.prepareStatement(query);
+
+		pstmt.executeUpdate();
+		
+		pstmt.close();
+		con.close();
+	}
+	
 	public void guardarJugador(Jugador j) throws SQLException {
 		
 		Connection con = DriverManager.getConnection(url, user, password);
 		
-		String query = "INSERT INTO jugadores (id, nick)" +
-					   "VALUES (?, ?)";
+		String query = "INSERT INTO jugadores (id, nick, bando)" +
+					   "VALUES (?, ?, ?)";
 		
 		PreparedStatement pstmt = con.prepareStatement(query);
 		
 		pstmt.setInt(1, j.getId());
 		pstmt.setString(2, j.getNick());
+		pstmt.setString(3, j.getBando());
 		
 		pstmt.executeUpdate();
 		
@@ -52,7 +67,7 @@ public class DAOJugadores {
 		Jugadores jugadores = new Jugadores();
 		
 		while(rs.next()) {
-			Jugador j = new Jugador(rs.getInt(1), rs.getString(2), null, 0);
+			Jugador j = new Jugador(rs.getInt(1), rs.getString(2), rs.getString(3), null, 0);
 			jugadores.put(j);
 		}
 
@@ -67,7 +82,7 @@ public class DAOJugadores {
 		
 		Connection con = DriverManager.getConnection(url, user, password);
 		
-		String query = "SELECT nick FROM jugadores WHERE id = ?";
+		String query = "SELECT nick, bando FROM jugadores WHERE id = ?";
 		
 		PreparedStatement pstmt = con.prepareStatement(query);
 		
@@ -77,7 +92,7 @@ public class DAOJugadores {
 		
 		rs.next();
 		
-		Jugador j = new Jugador(id, rs.getString(1), null, 0);
+		Jugador j = new Jugador(id, rs.getString(1), rs.getString(2), null, 0);
 		
 		rs.close();
 		pstmt.close();
