@@ -296,6 +296,19 @@ export class Game extends Phaser.Scene {
     server.addhandler(server.EVENTOS.FINALIZAR, this.finalizarPartidaHandler);
     server.addhandler(server.EVENTOS.PAUSAR, this.pausarEscena);
     server.addhandler(server.EVENTOS.DESPERTAR, this.despertarScena);
+    server.addhandler(server.EVENTOS.SALIR, this.salirPartidaHandler);
+  }
+
+  salirPartidaHandler = () => {
+    this.scene.stop('PopUp');
+    this.scene.start('Main');
+    server.desconectarWs();
+  }
+
+  salirPartida = () => {
+    server.enviar(server.EVENTOS.SALIR, {});
+    this.salirPartidaHandler();
+    server.finalizarPartida();
   }
 
   pausarEscena = () => {
@@ -347,6 +360,7 @@ export class Game extends Phaser.Scene {
       this.scene.run('PopUp', {
         guardarHandler: this.guardarHandler,
         continuarHandler: this.continuarHandler,
+        salirHandler: this.salirPartida,
       });
     }
   }

@@ -11,6 +11,7 @@ export const EVENTOS = {
   PESCA_JUGADOR: 'pj',
   PESCA_BARCO: 'pb',
   COMBUSTIBLE: 'c',
+  SALIR: 's',
 };
 
 let ws: WebSocket = null;
