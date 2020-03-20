@@ -30,6 +30,7 @@ declare interface Vehiculo {
   angularVelocity: number,
   normalSprite: string,
   normalAnimation: string,
+  rangoVision: number,
   tipo: string,
   spriteLateralInicial: string,
   spritesLaterales: {
