@@ -35,12 +35,12 @@ public class Pesquero extends Vehiculo {
 			if (tipoPesquero.equals("fabrica")) {
 				
 				prefijoProperties = "pes1_";
-				this.setSpritesLaterales("{\"l\": \"pesquero1\",\"r\": \"pesquero1\",\"u\": \"pesquero1\",\"d\": \"pesquero1\"}");
+				this.setSpritesLaterales("{\"l\": \"pesquero01_izquierda\",\"r\": \"pesquero01_derecha\",\"u\": \"pesquero01_atras\",\"d\": \"pesquero01_frente\"}");
 				
 			} else if (tipoPesquero.equals("comun")) {
 
 				prefijoProperties = "pes2_";
-				this.setSpritesLaterales("{\"l\": \"pesquero2\",\"r\": \"pesquero2\",\"u\": \"pesquero2\",\"d\": \"pesquero2\"}");			
+				this.setSpritesLaterales("{\"l\": \"pesquero02_izquierda\",\"r\": \"pesquero02_derecha\",\"u\": \"pesquero02_atras\",\"d\": \"pesquero02_frente\"}");			
 			
 			}
 			
@@ -91,13 +91,13 @@ public class Pesquero extends Vehiculo {
 			if (tipoPesquero.equals("fabrica")) {
 				
 				prefijoProperties = "pes1_";
-				this.setSpritesLaterales("{\"l\": \"pesquero1\",\"r\": \"pesquero1\",\"u\": \"pesquero1\",\"d\": \"pesquero1\"}");
+				this.setSpritesLaterales("{\"l\": \"pesquero01_izquierda\",\"r\": \"pesquero01_derecha\",\"u\": \"pesquero01_atras\",\"d\": \"pesquero01_frente\"}");
 				this.setInitialRotation(rotation1);
 				
 			} else if (tipoPesquero.equals("comun")) {
 
 				prefijoProperties = "pes2_";
-				this.setSpritesLaterales("{\"l\": \"pesquero2\",\"r\": \"pesquero2\",\"u\": \"pesquero2\",\"d\": \"pesquero2\"}");			
+				this.setSpritesLaterales("{\"l\": \"pesquero02_izquierda\",\"r\": \"pesquero02_derecha\",\"u\": \"pesquero02_atras\",\"d\": \"pesquero02_frente\"}");			
 				this.setInitialRotation(rotation2);
 			}
 			

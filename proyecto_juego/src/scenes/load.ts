@@ -15,8 +15,8 @@ export class Load extends Phaser.Scene {
     });
 
     this.load.spritesheet('policia1', './assets/images/policia01.png', {
-      frameWidth: 202,
-      frameHeight: 75,
+      frameWidth: 283,
+      frameHeight: 105,
       margin: 0,
       spacing: 0,
     });
@@ -74,6 +74,21 @@ export class Load extends Phaser.Scene {
     this.load.image('policia01_derecha', './assets/images/policia01_derecha.png');
     this.load.image('policia01_izquierda', './assets/images/policia01_izquierda.png');
     this.load.image('policia01_frente', './assets/images/policia01_frente.png');
+
+    this.load.image('policia02_atras', './assets/images/policia02_atras.png');
+    this.load.image('policia02_derecha', './assets/images/policia02_derecha.png');
+    this.load.image('policia02_izquierda', './assets/images/policia02_izquierda.png');
+    this.load.image('policia02_frente', './assets/images/policia02_frente.png');
+
+    this.load.image('pesquero01_atras', './assets/images/pesquero01_atras.png');
+    this.load.image('pesquero01_derecha', './assets/images/pesquero01_derecha.png');
+    this.load.image('pesquero01_izquierda', './assets/images/pesquero01_izquierda.png');
+    this.load.image('pesquero01_frente', './assets/images/pesquero01_frente.png');
+
+    this.load.image('pesquero02_atras', './assets/images/pesquero01_atras.png');
+    this.load.image('pesquero02_derecha', './assets/images/pesquero01_derecha.png');
+    this.load.image('pesquero02_izquierda', './assets/images/pesquero01_izquierda.png');
+    this.load.image('pesquero02_frente', './assets/images/pesquero01_frente.png');
 
     this.load.image('main', './assets/images/main.jpg');
     this.load.image('puerto', './assets/images/puerto.png');
