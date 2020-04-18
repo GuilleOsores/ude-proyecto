@@ -36,7 +36,7 @@ public class Main {
 			
 			String hola = null;
 			
-			System.out.println(hola.isBlank());
+			System.out.println(hola.isEmpty());
 //			=============PRUEBA GUARDAR PARTIDA COMPLETA===================
 			
 //			Vehiculo v11 = new Patrulla("grande");

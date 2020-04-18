@@ -37,29 +37,7 @@ public class GetPartida extends HttpServlet {
 		try {
 			
 			json = fachada.getPartida();
-			int tiempoPartida = fachada.getTiempoPartida();
-			
-			Tormentas tormentas= new Tormentas();
-			int randomNumTormentas = ThreadLocalRandom.current().nextInt(1, 6);
-			
-			for(int i=0; i<randomNumTormentas; i++) {
-				
-				Tormenta t = new Tormenta();
-				t.setSprite("tormenta");
-				t.setTormentaDuracion(ThreadLocalRandom.current().nextInt(1, 60));
-				t.setTormentaInicio(ThreadLocalRandom.current().nextInt(1, tiempoPartida));
-				
-				tormentas.add(t);
-				
-			}
-			
-			tormentas.removerRepetidas();
-			
-			System.out.println("Tormentas "+ tormentas.size());
-			
-			JsonArray jsonTormentas = tormentas.getTormentasToJson();
 
-			json.add("tormentas", jsonTormentas);
 		} catch (Exception e) {
 			json.addProperty("mensaje", e.getMessage());
 			response.setStatus(500);

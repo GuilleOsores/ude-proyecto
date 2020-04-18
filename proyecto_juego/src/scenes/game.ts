@@ -43,6 +43,7 @@ export class Game extends Phaser.Scene {
   }
 
   public init(data: any) {
+    console.log(data.tormentas)
     this.sceneConfig = data;
     this.jugadorLocal.nick = data.nick;
     this.jugadorRemoto.nick = this.sceneConfig.jugadores.find((j) => j.nick !== data.nick).nick;
