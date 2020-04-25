@@ -5,12 +5,13 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import logica.colecciones.Jugadores;
+import logica.colecciones.Tormentas;
 
 public class Partida {
 
 	private int id;
 	private Jugadores jugadores;
-	// private Tormentas tormentas;
+	private Tormentas tormentas;
 	private int tamanioEscenarioX;
 	private int tamanioEscenarioY;
 	private int millasPesca;
@@ -122,6 +123,14 @@ public class Partida {
 
 	public void setFishFished(int fishFished) {
 		this.fishFished = fishFished;
+	}
+
+	public Tormentas getTormentas() {
+		return tormentas;
+	}
+
+	public void setTormentas(Tormentas tormentas) {
+		this.tormentas = tormentas;
 	}
 	
 	

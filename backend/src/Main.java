@@ -33,10 +33,7 @@ public class Main {
 			Class.forName(driver);
 			
 			Fachada fachada = Fachada.getInstanceFachada();
-			
-			String hola = null;
-			
-			System.out.println(hola.isBlank());
+
 //			=============PRUEBA GUARDAR PARTIDA COMPLETA===================
 			
 //			Vehiculo v11 = new Patrulla("grande");
@@ -71,7 +68,7 @@ public class Main {
 			
 //			Partida p = new Partida();
 //			
-//			Jugador j = new Jugador(1, "ñaña", null, 0);
+//			Jugador j = new Jugador(1, "Ã±aÃ±a", null, 0);
 //			Jugador j2 = new Jugador(2, "lala", null, 0);
 //			
 //			Jugadores jug = new Jugadores();
