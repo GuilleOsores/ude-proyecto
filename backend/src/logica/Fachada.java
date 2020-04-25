@@ -1,5 +1,6 @@
 package logica;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.io.FileInputStream;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import logica.colecciones.Jugadores;
+import logica.colecciones.Tormentas;
 import logica.colecciones.Vehiculos;
 import logica.entidades.Jugador;
 import logica.entidades.Partida;
@@ -72,7 +74,7 @@ public class Fachada {
 		f.partida = p;
 	}
 	
-	public JsonObject crearPartida(String nickName, String bando, int tamanioEscenarioX, int tamanioEscenarioY, int millasPesca, int tiempo, int cantPeces, int fishFished) throws Exception {
+	public JsonObject crearPartida(String nickName, String bando, int tamanioEscenarioX, int tamanioEscenarioY, int millasPesca, int tiempo, int cantPeces, int fishFished, Tormentas tormentas) throws Exception {
 	
 		JsonObject json = new JsonObject();
 		
@@ -109,6 +111,7 @@ public class Fachada {
 			partida.setTiempo(tiempo);
 			partida.setCantPeces(cantPeces);
 			partida.setFishFished(fishFished);
+			partida.setTormentas(tormentas);
 			
 			bandoCreadorDePartida = bando;
 			nickCreadorDePartida = nickName;
@@ -204,6 +207,7 @@ public class Fachada {
 			json.addProperty("fishFished", partida.getFishFished());
 			json.addProperty("time", partida.getTiempo());
 			
+			json.add("tormentas", partida.getTormentas().getTormentasToJson());
 			json.add("jugadores", partida.getJugadores().getJugadoresToJson());
 	
 			json.addProperty("mensaje", "OK");
