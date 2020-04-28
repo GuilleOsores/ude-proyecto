@@ -14,14 +14,18 @@ export class Nick extends Phaser.Scene {
 
   btnContinuar: Phaser.GameObjects.Text;
 
-  crearPartida: Phaser.GameObjects.Text;
+  crearPartida: boolean;
+
+  cargarPartida: boolean;
 
   constructor() {
     super('Nick');
   }
 
   public init(data: any) {
-    this.crearPartida = data.crearPartida;
+    // parche
+    this.crearPartida = data.crearPartida || data.cargarPartida;
+    this.cargarPartida = data.cargarPartida;
   }
 
   public create() {
@@ -81,7 +85,9 @@ export class Nick extends Phaser.Scene {
         if (!this.goNick.text) throw new Error('Debe elegir un nombre');
         if (this.crearPartida && !this.bando) throw new Error('Debe elegir un bando');
 
-        if (this.crearPartida) {
+        if (this.cargarPartida) {
+          await server.cargarPartida(this.goNick.text, this.bando);
+        } else if (this.crearPartida) {
           await server.crearPartida(this.goNick.text, this.bando);
         } else {
           await server.unirsePartida(this.goNick.text);

@@ -74,6 +74,7 @@ export const enviar = (evento, data) => {
 
 export const guardarPartida = () => axios(config.endpoint.guardarPartida());
 export const crearPartida = (nick, bando) => axios(config.endpoint.crearPartida(nick, bando));
+export const cargarPartida = (nick, bando) => axios(config.endpoint.cargarPartida(nick, bando));
 export const unirsePartida = (nick) => axios(config.endpoint.unirsePartida(nick));
 export const getPartida = () => axios(config.endpoint.getPartida());
 export const finalizarPartida = () => axios(config.endpoint.finalizarPartida());
