@@ -8,7 +8,7 @@ export const endpoint = {
   unirsePartida: (nickName) => `${BACKEND_BASE_URL}/unirsepartida?nickName=${nickName}`,
   guardarPartida: () => `${BACKEND_BASE_URL}/guardarpartida`,
   listarPartidas: () => `${BACKEND_BASE_URL}/listarpartidas`,
-  cargarPartida: () => `${BACKEND_BASE_URL}/cargarpartida`,
+  cargarPartida: (nickName, bando) => `${BACKEND_BASE_URL}/cargarpartida?nickName=${nickName}&bando=${bando}`,
   finalizarPartida: () => `${BACKEND_BASE_URL}/finalizarpartida`,
   ws: () => BACKEND_WS,
 };

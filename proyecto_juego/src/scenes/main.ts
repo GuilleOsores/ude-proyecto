@@ -19,7 +19,7 @@ export class Main extends Phaser.Scene {
       .setOrigin(0, 0);
 
     this.btnNuevaPartida = new Phaser.GameObjects.Text(this, 0, 0, 'Nueva Partida', {});
-    this.btnNuevaPartida = new Phaser.GameObjects.Text(this, 0, 0, 'Cargar Partida', {});
+    this.btnCargarPartida = new Phaser.GameObjects.Text(this, 0, 0, 'Cargar Partida', {});
     this.btnUnirsePartida = new Phaser.GameObjects.Text(this, 0, 0, 'Unirse Partida', {});
 
     this.btnNuevaPartida.setPosition(
