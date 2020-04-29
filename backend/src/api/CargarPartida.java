@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 
 import logica.Fachada;
 import logica.colecciones.Tormentas;
+import logica.entidades.Partida;
 import logica.entidades.Tormenta;
 
 @WebServlet("/cargarpartida")
@@ -31,38 +32,17 @@ public class CargarPartida extends HttpServlet {
 		JsonObject json = new JsonObject();
 		
 		try {
-			
-			String nickName = request.getParameter("nickName");
-			String bando = request.getParameter("bando");
-			
-			int tiempoPartida = fachada.getTiempoPartida();
-			
-			Tormentas tormentas= new Tormentas();
-			int randomNumTormentas = ThreadLocalRandom.current().nextInt(1, 6);
-			
-			for(int i=0; i<randomNumTormentas; i++) {
-				
-				Tormenta t = new Tormenta();
-				t.setSprite("tormenta");
-				t.setTormentaDuracion(ThreadLocalRandom.current().nextInt(1, 60));
-				t.setTormentaInicio(ThreadLocalRandom.current().nextInt(1, tiempoPartida));
-				
-				tormentas.add(t);
-				
-			}
-			
-			tormentas.removerRepetidas();
-			
+						
 			//JsonArray jsonTormentas = tormentas.getTormentasToJson();
-
-			fachada.cargarPartida(nickName, bando);
 			
 			//json.add("tormentas", jsonTormentas);
-
 			
 			
 			json.addProperty("mensaje", "OK");
 			response.setStatus(200);
+			
+			String nickName = request.getParameter("nickName");
+			String bando = request.getParameter("bando");
 
 			if (nickName == null || nickName.isEmpty()) {
 				json.addProperty("mensaje", "Debe elegir un nick");
@@ -73,7 +53,30 @@ public class CargarPartida extends HttpServlet {
 			} else {
 				fachada.cargarPartida(nickName, bando);
 				json.addProperty("mensaje", "OK");
-				response.setStatus(200);
+				response.setStatus(200);				
+				
+				int tiempoPartida = fachada.getTiempoPartida();
+				
+				Tormentas tormentas= new Tormentas();
+				int randomNumTormentas = ThreadLocalRandom.current().nextInt(1, 6);
+				
+				for(int i=0; i<randomNumTormentas; i++) {
+					
+					Tormenta t = new Tormenta();
+					t.setSprite("tormenta");
+					t.setTormentaDuracion(ThreadLocalRandom.current().nextInt(1, 60));
+					t.setTormentaInicio(ThreadLocalRandom.current().nextInt(1, tiempoPartida));
+					
+					tormentas.add(t);
+					
+				}
+				
+				tormentas.removerRepetidas();
+			
+				Partida p = fachada.getPartidaCoso();
+				p.setTormentas(tormentas);
+				fachada.setPartida(p);
+				
 			}
 						
 		} catch (Exception e) {

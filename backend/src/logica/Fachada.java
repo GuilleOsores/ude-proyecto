@@ -46,7 +46,7 @@ public class Fachada {
 			String port = p.getProperty("db_port");
 			String database = p.getProperty("db_database");
 			
-			String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
+			String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?serverTimezone=UTC";
 			String user = p.getProperty("db_user");
 			String password = p.getProperty("db_password");
 			
@@ -121,6 +121,10 @@ public class Fachada {
 
 						
 		return json;
+	}
+	
+	public Partida getPartidaCoso() {
+		return this.partida;
 	}
 
 	public JsonObject unirsePartida(String nickName) throws Exception {
@@ -321,6 +325,7 @@ public class Fachada {
 		partida.setJugadores(jugadores);
 		
 		this.partida = partida;
+		System.out.println("Partida cargada");
 	}
 	
 }

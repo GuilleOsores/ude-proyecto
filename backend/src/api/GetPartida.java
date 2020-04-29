@@ -40,6 +40,7 @@ public class GetPartida extends HttpServlet {
 
 		} catch (Exception e) {
 			json.addProperty("mensaje", e.getMessage());
+			e.printStackTrace();
 			response.setStatus(500);
 		}
 		
